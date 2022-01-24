@@ -1,7 +1,22 @@
 'use strict';
 
+export {getInsertionSortAnimations};
+
+function getInsertionSortAnimations(array) {
+    const animationsArr = [];
+    const arr = [];
+
+    for (let i = 0; i < array.length; i++) {
+        arr.push(parseInt(array[i].getAttribute('value'), 10));
+    }
+
+    insertionSort(arr, animationsArr);
+
+    return animationsArr; 
+}
+
 function insertionSort(arr, animationsArr) {
-    var i, j, elemToSort;
+    let i, j, elemToSort;
 
     for (i = 1; i < arr.length; i++) {
         elemToSort = arr[i];
@@ -18,17 +33,4 @@ function insertionSort(arr, animationsArr) {
 
         arr[j] = elemToSort;
     }
-}
-
-function getInsertionSortAnimations(array) {
-    var animationsArr = [];
-    var arr = [];
-
-    for (var i = 0; i < array.length; i++) {
-        arr.push(parseInt(array[i].getAttribute('value'), 10));
-    }
-
-    insertionSort(arr, animationsArr);
-
-    return animationsArr; 
 }

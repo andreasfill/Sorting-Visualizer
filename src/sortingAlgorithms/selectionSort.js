@@ -1,7 +1,22 @@
 'use strict';
 
+export {getSelectionSortAnimations};
+
+function getSelectionSortAnimations(array) {
+    const animationsArr = [];
+    const arr = [];
+
+    for (let i = 0; i < array.length; i++) {
+        arr.push(parseInt(array[i].getAttribute('value'), 10));
+    }
+
+    selectionSort(arr, animationsArr);
+
+    return animationsArr;
+}
+
 function selectionSort(arr, animationsArr) {
-    var i, j, minPos;
+    let i, j, minPos;
 
     for (i = 0; i < (arr.length - 1); i++) {
         minPos = i;
@@ -17,21 +32,8 @@ function selectionSort(arr, animationsArr) {
 
         animationsArr.push([i, minPos, true, 'swapBars']);
 
-        var tempVal = arr[i];
+        let tempVal = arr[i];
         arr[i] = arr[minPos];
         arr[minPos] = tempVal;
     }
-}
-
-function getSelectionSortAnimations(array) {
-    var animationsArr = [];
-    var arr = [];
-
-    for (var i = 0; i < array.length; i++) {
-        arr.push(parseInt(array[i].getAttribute('value'), 10));
-    }
-
-    selectionSort(arr, animationsArr);
-
-    return animationsArr;
 }

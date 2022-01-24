@@ -1,10 +1,34 @@
 'use strict';
 
+export {getQuickSortAnimations};
+
+function getQuickSortAnimations(array) {
+    const animationsArr = [];
+    const arr = [];
+
+    for (let i = 0; i < array.length; i++) {
+        arr.push(parseInt(array[i].getAttribute('value'), 10));
+    }
+
+    quickSort(arr, 0, arr.length - 1, animationsArr);
+
+    return animationsArr;
+}
+
+function quickSort(arr, startInd, endInd, animationsArr) {
+    if (startInd < endInd) {
+        let i = partition(arr, startInd, endInd, animationsArr);
+
+        quickSort(arr, startInd, i - 1, animationsArr);
+        quickSort(arr, i + 1, endInd, animationsArr);
+    }
+}
+
 function partition(arr, startInd, endInd, animationsArr) {
-    var i = startInd, j = (endInd - 1);
+    let i = startInd, j = (endInd - 1);
     /* The pivot element is the first element that the quicksort algorithm puts in its
         final position */
-    var pivot = arr[endInd];
+    const pivot = arr[endInd];
 
     while (i < j) {
         /* Search an element beginning from the left that's larger than the pivot element */
@@ -29,7 +53,7 @@ function partition(arr, startInd, endInd, animationsArr) {
         if (i < j) {
             animationsArr.push([i, j, true, 'swapBars']);
 
-            var tempVal = arr[i];
+            let tempVal = arr[i];
             arr[i] = arr[j];
             arr[j] = tempVal;
         }
@@ -41,32 +65,10 @@ function partition(arr, startInd, endInd, animationsArr) {
     if (arr[i] > pivot) {
         animationsArr.push([i, endInd, true, 'finalSwap']);
 
-        var tempVal = arr[i];
+        let tempVal = arr[i];
         arr[i] = arr[endInd];
         arr[endInd] = tempVal;
     }
 
     return i;
-}
-
-function quickSort(arr, startInd, endInd, animationsArr) {
-    if (startInd < endInd) {
-        var i = partition(arr, startInd, endInd, animationsArr);
-
-        quickSort(arr, startInd, i - 1, animationsArr);
-        quickSort(arr, i + 1, endInd, animationsArr);
-    }
-}
-
-function getQuickSortAnimations(array) {
-    var animationsArr = [];
-    var arr = [];
-
-    for (var i = 0; i < array.length; i++) {
-        arr.push(parseInt(array[i].getAttribute('value'), 10));
-    }
-
-    quickSort(arr, 0, arr.length - 1, animationsArr);
-
-    return animationsArr;
 }

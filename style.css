@@ -15,7 +15,7 @@ div.menuBar {
     height: 100px;
     background-color: #ed7621;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 div#menuStyle {
@@ -51,6 +51,7 @@ input.numField {
     display: block;
     /* Center the element horizontally */
     margin: 0 auto;
+    cursor: pointer;
 }
 
 /* This indicates to the user that his input is incorrect (i.e. characters that
@@ -70,7 +71,8 @@ button.upperBarButtons {
     font-size: 1.1rem;
     border: 1px solid white;
     border-radius: 5px;
-    padding: 0 1vw 0 1vw;
+    padding: 0 1vw;
+    cursor: pointer;
 }
 
 button.upperBarButtons:hover {
@@ -88,15 +90,15 @@ div.radioButtonContainer {
 }
 
 div.radioButtonWrapper input {
-    width: 0;
-    visibility: hidden;
-    margin-left: 1vw;
+    display: none;
 }
 
 div.radioButtonWrapper label {
     color: white;
     font-size: 1.15rem;
     display: inline-block;
+    margin-left: 1vw;
+    cursor: pointer;
 }
 
 div.radioButtonWrapper label:hover {
@@ -140,9 +142,20 @@ div.arrayBar {
     float: left;
 }
 
+@media screen and (min-width: 951px) {
+    /* This changes the display of the menu items from block to flex if the browser
+        window's width is changed from less than 950px (mobile version) to something
+        larger so that the elements are displayed correctly */
+    div#menuStyle {
+        display: flex !important;
+        height: 100px !important;
+        position: inline;
+    }
+}
+
 /* Adjust font sizes and margins so that the design still looks good if the width
     of the browser window is smaller than 1200px */
-@media screen and (max-width: 1200px) {
+@media screen and (min-width: 951px) and (max-width: 1200px) {
     label.numFieldLabel {
         font-size: 0.8rem;
         margin-top: 5px;
@@ -161,21 +174,18 @@ div.arrayBar {
     div.radioButtonWrapper label {
         font-size: 1rem;
     }
-
-    /* This changes the display of the menu items from block to flex if the browser
-        window's width is changed from less than 950px (mobile version) to something
-        larger so that the elements are displayed correctly */
-    div.menuStyle {
-        display: flex;
-    }
 }
 
 /* Switch to mobile design */
 @media screen and (max-width: 950px) {
     div#menuStyle {
+        width: 100vw;
         height: 75vh;
         margin-top: 50px;
         display: none;
+        position: fixed;
+        /* Places the menu above the arrayContainer */
+        z-index: 1;
     }
 
     div#mobileMenuButton {

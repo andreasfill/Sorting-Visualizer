@@ -1,18 +1,22 @@
 'use strict';
 
-/* Informative video about Shell Sort by Robert Sedgewick: 
-    https://de.coursera.org/lecture/algorithms-part1/shellsort-zPYhF */
+export {getShellSortAnimations};
 
-function less(elemOne, elemTwo) {
-    if (elemOne < elemTwo) {
-        return true;
+function getShellSortAnimations(array) {
+    const animationsArr = [];
+    const arr = [];
+
+    for (let i = 0; i < array.length; i++) {
+        arr.push(parseInt(array[i].getAttribute('value'), 10));
     }
 
-    return false;
+    shellSort(arr, animationsArr);
+
+    return animationsArr;
 }
 
 function shellSort(arr, animationsArr) {
-    var i, j, indDiff = 1;
+    let i, j, indDiff = 1;
 
     /* Create a 3x + 1 increment sequence (e.g. 1, 4, 7, 10, 13, 19, 22, ...) */
     while (indDiff < Math.floor(arr.length / 3)) {
@@ -38,7 +42,7 @@ function shellSort(arr, animationsArr) {
                 if (less(arr[j], arr[j - indDiff]) === true) {
                     animationsArr.push([j - indDiff, j, true, 'swapBars']);
 
-                    var tempVal = arr[j];
+                    let tempVal = arr[j];
                     arr[j] = arr[j - indDiff];
                     arr[j - indDiff] = tempVal;
                 }
@@ -51,15 +55,10 @@ function shellSort(arr, animationsArr) {
     }
 }
 
-function getShellSortAnimations(array) {
-    var animationsArr = [];
-    var arr = [];
-
-    for (var i = 0; i < array.length; i++) {
-        arr.push(parseInt(array[i].getAttribute('value'), 10));
+function less(elemOne, elemTwo) {
+    if (elemOne < elemTwo) {
+        return true;
     }
 
-    shellSort(arr, animationsArr);
-
-    return animationsArr;
+    return false;
 }

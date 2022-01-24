@@ -41,7 +41,7 @@
                         </label>
                         <input type="number" id="numOfBars" class="numField" 
                             name="numOfBars" min="5" max="450" value="450" required="required">
-                        <label for="numOfBars" id="numOfBarLimits" class="numFieldLabel">
+                        <label for="numOfBars" id="numOfBarLimitsLabel" class="numFieldLabel">
                             5 ... 450
                         </label>
                     </div>
@@ -123,17 +123,8 @@
 
         </footer>
 
-        <script src="src/userInput.js"></script>
-        <script src="src/sortingAlgorithms/selectionSort.js"></script>
-        <script src="src/sortingAlgorithms/insertionSort.js"></script>
-        <script src="src/sortingAlgorithms/bubbleSort.js"></script>
-        <script src="src/sortingAlgorithms/shellSort.js"></script>
-        <script src="src/sortingAlgorithms/bucketSort.js"></script>
-        <script src="src/sortingAlgorithms/mergeSort.js"></script>
-        <script src="src/sortingAlgorithms/quickSort.js"></script>
-        <script src="src/sortingAlgorithms/heapSort.js"></script>
         <!-- Import display.js last so that it has access to all the functions from
             the scripts that are loaded before it -->
-        <script src="src/display.js"></script>
+        <script type="module" src="src/display.js"></script>
     </body>
 </html>

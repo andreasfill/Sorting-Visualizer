@@ -1,7 +1,39 @@
 'use strict';
 
-function separateMerge(startInd, midInd, endInd, arr, helperArr, animationsArr) {
-    var i = startInd, j = endInd, k = startInd;
+export {getMergeSortAnimations};
+
+function getMergeSortAnimations(array) {
+    if (array.length <= 1) {
+        return array;
+    }
+
+    const arr = [];
+
+    for (let i = 0; i < array.length; i++) {
+        arr.push(parseInt(array[i].getAttribute('value'), 10));
+    }
+
+    const animationsArr = [];
+    const helperArr = arr.slice();
+
+    mergeSort(0, array.length - 1, arr, helperArr, animationsArr);
+
+    return animationsArr;
+}
+
+function mergeSort(startInd, endInd, array, helperArr, animationsArr) {
+    if (startInd < endInd) {
+        let midInd = Math.floor((startInd + endInd) / 2);
+
+        mergeSort(startInd, midInd, array, helperArr, animationsArr);
+        mergeSort(midInd + 1, endInd, array, helperArr, animationsArr);
+
+        merge(startInd, midInd, endInd, array, helperArr, animationsArr);
+    }
+}
+
+function merge(startInd, midInd, endInd, arr, helperArr, animationsArr) {
+    let i = startInd, j = endInd, k = startInd;
 
     /* Copy the first half of the array into the helper array */
     while (i <= midInd) {
@@ -37,34 +69,4 @@ function separateMerge(startInd, midInd, endInd, arr, helperArr, animationsArr) 
             arr[k++] = helperArr[j--];
         }
     }
-}
-
-function separateMergeSort(startInd, endInd, array, helperArr, animationsArr) {
-    if (startInd < endInd) {
-        var midInd = Math.floor((startInd + endInd) / 2);
-
-        separateMergeSort(startInd, midInd, array, helperArr, animationsArr);
-        separateMergeSort(midInd + 1, endInd, array, helperArr, animationsArr);
-
-        separateMerge(startInd, midInd, endInd, array, helperArr, animationsArr);
-    }
-}
-
-function getMergeSortAnimations(array) {
-    if (array.length <= 1) {
-        return array;
-    }
-
-    var arr = [];
-
-    for (var i = 0; i < array.length; i++) {
-        arr.push(parseInt(array[i].getAttribute('value'), 10));
-    }
-
-    var animationsArr = [];
-    var helperArr = arr.slice();
-
-    separateMergeSort(0, array.length - 1, arr, helperArr, animationsArr);
-
-    return animationsArr;
 }
