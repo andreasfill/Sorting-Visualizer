@@ -76,6 +76,8 @@ function animateSelectionSort(allBars, ANIMATION_SPEED_MS) {
         for (let i = 0; i < allBars.length; i++) {
             allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
         }
+
+        enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
@@ -128,6 +130,8 @@ function animateInsertionSort(allBars, ANIMATION_SPEED_MS) {
         for (let i = 0; i < allBars.length; i++) {
             allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
         }
+
+        enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
@@ -184,6 +188,8 @@ function animateBubbleSort(allBars, ANIMATION_SPEED_MS) {
         for (let i = 0; i < allBars.length; i++) {
             allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
         }
+
+        enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
@@ -225,6 +231,8 @@ function animateShellSort(allBars, ANIMATION_SPEED_MS) {
         for (let i = 0; i < allBars.length; i++) {
             allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
         }
+
+        enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
@@ -265,6 +273,8 @@ function animateBucketSort(allBars, ANIMATION_SPEED_MS) {
         for (let i = 0; i < allBars.length; i++) {
             allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
         }
+
+        enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
@@ -305,6 +315,8 @@ function animateMergeSort(allBars, ANIMATION_SPEED_MS) {
         for (let i = 0; i < allBars.length; i++) {
             allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
         }
+
+        enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
@@ -355,6 +367,8 @@ function animateQuickSort(allBars, ANIMATION_SPEED_MS) {
         for (let i = 0; i < allBars.length; i++) {
             allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
         }
+
+        enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
@@ -405,5 +419,30 @@ function animateHeapSort(allBars, ANIMATION_SPEED_MS) {
         for (let i = 0; i < allBars.length; i++) {
             allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
         }
+
+        enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
+}
+
+function enableUI() {
+    const numFields = document.getElementsByClassName('numField');
+    const radioButtons = document.getElementsByClassName('algorithmRadioButtons');
+    const radioButtonLabels = document.getElementsByClassName('radioButtonLabel');
+    const buttons = document.getElementsByClassName('upperBarButtons');
+
+    for (const numField of numFields) {
+        numField.disabled = false;
+    }
+
+    for (const radioButton of radioButtons) {
+        radioButton.disabled = false;
+    }
+
+    for (const label of radioButtonLabels) {
+        label.style.textDecoration = '';
+    }
+
+    for (const button of buttons) {
+        button.disabled = false;
+    }
 }

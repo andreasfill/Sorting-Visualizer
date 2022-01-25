@@ -58,6 +58,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const selectedAlgorithm = 
                     document.querySelector('input[name="algorithmOption"]:checked');
         
+                if (selectedAlgorithm.value === null) {
+                    return;
+                }
+
+                disableUI();
+
                 switch (selectedAlgorithm.value) {
                     case 'selectionSort':
                         animateSelectionSort(allBars, ANIMATION_SPEED_MS);
@@ -86,6 +92,47 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+    }
+
+    function disableUI() {
+        const numFields = document.getElementsByClassName('numField');
+        const radioButtons = document.getElementsByClassName('algorithmRadioButtons');
+        const radioButtonLabels = document.getElementsByClassName('radioButtonLabel');
+        const buttons = document.getElementsByClassName('upperBarButtons');
+
+        for (const numField of numFields) {
+            numField.disabled = true;
+        }
+
+        for (const radioButton of radioButtons) {
+            radioButton.disabled = true;
+        }
+
+        for (const label of radioButtonLabels) {
+            label.style.textDecoration = 'line-through red solid 3px';
+        }
+
+        for (const button of buttons) {
+            button.disabled = true;
+        }
+    }
+
+    /* Enable the two buttons 'Create Array' and 'Sort' so no algorithm can run
+        while the menu's up in the mobile version */
+    function enableUpperBarButtons() {
+        const buttons = document.getElementsByClassName('upperBarButtons');
+
+        for (const button of buttons) {
+            button.disabled = false;
+        }
+    }
+
+    function disableUpperBarButtons() {
+        const buttons = document.getElementsByClassName('upperBarButtons');
+
+        for (const button of buttons) {
+            button.disabled = true;
+        }
     }
 
     function createNewArray() {
@@ -191,10 +238,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (menuStyle.style.display === 'block') {
             menuStyle.style.display = 'none';
+            enableUpperBarButtons(); 
         }
         
         else {
             menuStyle.style.display = 'block';
+            disableUpperBarButtons();
         }
     });
 });
