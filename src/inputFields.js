@@ -1,7 +1,7 @@
 'use strict';
 
 export {handleMinBarValue, handleMaxBarValue, handleNumOfBars, adjustLimitsAndLabels};
-import {MIN_BAR_WIDTH} from './display.js';
+import {MIN_BAR_WIDTH} from './index.js';
 
 let minBarValue = document.getElementById('minBarValue');
 let maxBarValue = document.getElementById('maxBarValue');

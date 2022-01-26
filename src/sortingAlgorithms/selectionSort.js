@@ -6,6 +6,7 @@ function getSelectionSortAnimations(array) {
     const animationsArr = [];
     const arr = [];
 
+    /* Get all the values from the Node-list */
     for (let i = 0; i < array.length; i++) {
         arr.push(parseInt(array[i].getAttribute('value'), 10));
     }
@@ -22,6 +23,8 @@ function selectionSort(arr, animationsArr) {
         minPos = i;
 
         for (j = (i + 1); j < arr.length; j++) {
+            /* Get the smallest value from the part of the array that
+                hasn't been sorted yet */
             if (arr[j] < arr[minPos]) {
                 minPos = j;
             }
@@ -32,6 +35,7 @@ function selectionSort(arr, animationsArr) {
 
         animationsArr.push([i, minPos, true, 'swapBars']);
 
+        /* Swap the current first element in the array with the smallest one */
         let tempVal = arr[i];
         arr[i] = arr[minPos];
         arr[minPos] = tempVal;

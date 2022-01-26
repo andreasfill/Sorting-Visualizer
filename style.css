@@ -156,7 +156,10 @@ div.arrayBar {
         larger so that the elements are displayed correctly */
     div#menuStyle {
         height: 100px;
-        display: flex;
+        /*  Overwrite the HTML style attribute of menuStyle with '!important' 
+            if the screen was in mobile design before and the menu was open 
+            and closed then menuStyle.style.display = 'none' would be set */
+        display: flex !important;
         position: inline;
     }
 }

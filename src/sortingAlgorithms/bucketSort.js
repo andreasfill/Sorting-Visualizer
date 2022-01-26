@@ -6,6 +6,7 @@ function getBucketSortAnimations(array) {
     const animationsArr = [];
     const arr = [];
 
+    /* Get all the values from the Node-list */
     for (let i = 0; i < array.length; i++) {
         arr.push(parseInt(array[i].getAttribute('value'), 10));
     }

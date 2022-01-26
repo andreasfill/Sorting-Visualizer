@@ -6,6 +6,7 @@ function getShellSortAnimations(array) {
     const animationsArr = [];
     const arr = [];
 
+    /* Get all the values from the Node-list */
     for (let i = 0; i < array.length; i++) {
         arr.push(parseInt(array[i].getAttribute('value'), 10));
     }
@@ -33,12 +34,14 @@ function shellSort(arr, animationsArr) {
                - Check if the element at the current index is smaller than the element
                 at the index to its left with the gap in between. If that's the case
                 then switch both elements 
-               - Got to the index of the left element (index = j - inDiff) and compare
-                this element to its left neighbor with the gap in between */
+               - Go to the index of the left element (index = j - inDiff) and compare
+                this element to its left neighbor with the gap in between. So bascially
+                start at the largest index and go through the array from right to left */
             for (j = i; j >= indDiff; j -= indDiff) {
                 animationsArr.push([j - indDiff, j, true, 'compareBars']);
                 animationsArr.push([j - indDiff, j, false, 'compareBars']);
 
+                /* Swap the elements in the left one is larger */
                 if (less(arr[j], arr[j - indDiff]) === true) {
                     animationsArr.push([j - indDiff, j, true, 'swapBars']);
 
