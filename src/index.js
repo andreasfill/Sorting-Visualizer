@@ -14,6 +14,7 @@ function enableUI() {
     const radioButtons = document.getElementsByClassName('algorithmRadioButtons');
     const radioButtonLabels = document.getElementsByClassName('radioButtonLabel');
     const buttons = document.getElementsByClassName('upperBarButtons');
+    const bars = document.getElementsByClassName('bar');
 
     for (const numField of numFields) {
         numField.disabled = false;
@@ -30,6 +31,13 @@ function enableUI() {
     for (const button of buttons) {
         button.disabled = false;
     }
+
+    /* Color the bars of the mobile menu button white again */
+    for (const bar of bars) {
+        bar.style.backgroundColor = 'white';
+    }
+
+    mobileMenuButton.style.pointerEvents = 'auto';
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -126,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const radioButtons = document.getElementsByClassName('algorithmRadioButtons');
         const radioButtonLabels = document.getElementsByClassName('radioButtonLabel');
         const buttons = document.getElementsByClassName('upperBarButtons');
+        const bars = document.getElementsByClassName('bar');
 
         for (const numField of numFields) {
             numField.disabled = true;
@@ -135,6 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
             radioButton.disabled = true;
         }
 
+        /* Create a red line through the labels */
         for (const label of radioButtonLabels) {
             label.style.textDecoration = 'line-through red solid 3px';
         }
@@ -142,6 +152,15 @@ document.addEventListener('DOMContentLoaded', function() {
         for (const button of buttons) {
             button.disabled = true;
         }
+
+        /* Color the bars of the mobile menu button red to signal that clicking
+            the button has no effect */
+        for (const bar of bars) {
+            bar.style.backgroundColor = 'red';
+        }
+
+        /* Disable the div for the button and all contents inside it */
+        mobileMenuButton.style.pointerEvents = 'none';
     }
 
     /* Enable the two buttons 'Create Array' and 'Sort' so no algorithm can run
@@ -268,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* Display the mobile version of the menu if the user clicks on the button
         with the three white bars and hide it on the next click */
-    mobileMenuButton.addEventListener('touchstart', function(ev) {
+    mobileMenuButton.addEventListener('click', function(ev) {
         /* Prevent mouse events from being triggered */
         ev.preventDefault();
 
