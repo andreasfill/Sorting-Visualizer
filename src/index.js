@@ -1,6 +1,6 @@
 'use strict';
 
-export {MIN_BAR_WIDTH, enableUI};
+export {MIN_BAR_WIDTH, enableUI, enableUpperBarButtons, disableUpperBarButtons};
 import {ORIGINAL_COLOR, animateSelectionSort, animateInsertionSort, animateBubbleSort,
         animateShellSort, animateBucketSort, animateMergeSort,
         animateQuickSort, animateHeapSort} from './animateAlgorithms.js';
@@ -38,6 +38,24 @@ function enableUI() {
     }
 
     mobileMenuButton.style.pointerEvents = 'auto';
+}
+
+/* Enable the two buttons 'Create Array' and 'Sort' so no algorithm can run
+    while the menu's up in the mobile version */
+function enableUpperBarButtons() {
+    const buttons = document.getElementsByClassName('upperBarButtons');
+
+    for (const button of buttons) {
+        button.disabled = false;
+    }
+}
+
+function disableUpperBarButtons() {
+    const buttons = document.getElementsByClassName('upperBarButtons');
+
+    for (const button of buttons) {
+        button.disabled = true;
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -161,24 +179,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         /* Disable the div for the button and all contents inside it */
         mobileMenuButton.style.pointerEvents = 'none';
-    }
-
-    /* Enable the two buttons 'Create Array' and 'Sort' so no algorithm can run
-        while the menu's up in the mobile version */
-    function enableUpperBarButtons() {
-        const buttons = document.getElementsByClassName('upperBarButtons');
-
-        for (const button of buttons) {
-            button.disabled = false;
-        }
-    }
-
-    function disableUpperBarButtons() {
-        const buttons = document.getElementsByClassName('upperBarButtons');
-
-        for (const button of buttons) {
-            button.disabled = true;
-        }
     }
 
     function createNewArray() {

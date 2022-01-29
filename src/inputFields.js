@@ -1,7 +1,8 @@
 'use strict';
 
 export {handleMinBarValue, handleMaxBarValue, handleNumOfBars, adjustLimitsAndLabels};
-import {MIN_BAR_WIDTH} from './index.js';
+import {MIN_BAR_WIDTH, enableUpperBarButtons, disableUpperBarButtons} 
+        from './index.js';
 
 let minBarValue = document.getElementById('minBarValue');
 let maxBarValue = document.getElementById('maxBarValue');
@@ -15,6 +16,21 @@ const minGap = 5;
 function handleMinBarValue() {
     const maxBarVal = parseInt(maxBarValue.value, 10);
     const minBarVal = parseInt(this.value, 10);
+
+    /* Disable the buttons for creating a new array and sorting if
+        the value in the input field isn't a number */
+    if (isNaN(minBarVal) === true) {
+        disableUpperBarButtons();
+
+        return;
+    }
+
+    else {
+        enableUpperBarButtons();
+    }
+
+    /* Round the input to the nearest integer if it's a float number */
+    this.value = `${Math.floor(minBarVal)}`;
 
     if (maxBarVal - minBarVal < minGap) {
         this.value = `${maxBarVal - minGap}`;
@@ -33,6 +49,18 @@ function handleMaxBarValue() {
     const maxBarVal = parseInt(this.value, 10);
     const minBarVal = parseInt(minBarValue.value, 10);
 
+    if (isNaN(maxBarVal) === true) {
+        disableUpperBarButtons();
+
+        return;
+    }
+
+    else {
+        enableUpperBarButtons();
+    }
+
+    this.value = `${Math.floor(maxBarVal)}`;
+
     if (maxBarVal - minBarVal < minGap) {
         this.value = `${minBarVal + minGap}`;
     }
@@ -47,11 +75,25 @@ function handleMaxBarValue() {
 }
 
 function handleNumOfBars() {
-    if (parseInt(this.value, 10) > parseInt(this.max, 10)) {
+    const numOfBars = parseInt(this.value, 10);
+
+    if (isNaN(numOfBars) === true) {
+        disableUpperBarButtons();
+
+        return;
+    }
+
+    else {
+        enableUpperBarButtons();
+    }
+
+    this.value = `${Math.floor(numOfBars)}`;
+
+    if (numOfBars > parseInt(this.max, 10)) {
         this.value = this.max;
     }
 
-    else if (parseInt(this.value, 10) < parseInt(this.min, 10)) {
+    else if (numOfBars < parseInt(this.min, 10)) {
         this.value = this.min;
     }
 }
