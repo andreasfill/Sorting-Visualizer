@@ -26,7 +26,7 @@ function insertionSort(arr, animationsArr) {
         /* Move to the left while the bar left of the one we currently want 
             to sort is larger */
         while ((j - 1 >= 0) && arr[j - 1] > elemToSort) {
-            animationsArr.push([j - 1, j, elemToSort, 'shiftValueToRight']);
+            animationsArr.push([j - 1, j, elemToSort, 'moveValueLeft']);
 
             arr[j] = arr[j - 1];
             j--;

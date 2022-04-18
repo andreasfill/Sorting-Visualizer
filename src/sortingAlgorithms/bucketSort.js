@@ -26,14 +26,7 @@ function bucketSort(arr, animationsArr) {
     const numOfElemsInBucket = [];
     let counter = 0;
 
-    /* '<=' is used instead of '<' because otherwise the largest element would have
-        no array to fit in because Math.floor((numOfBuckets * currElem) / maxElem) would
-        be 1 to large and cause an error (e.g. currElem = maxElem = 800, array.length = 450
-        => bucketSize = 21.21320... => numOfBuckets = 22 that means that buckets has 22
-        arrays with indices from 0 to 21, but Math.floor((22 * 800) / 800) would be
-        22 and therefore outside of the possible indices for the array and would cause
-        an error */
-    for (let i = 0; i <= numOfBuckets; i++) {
+    for (let i = 0; i < numOfBuckets; i++) {
         buckets.push([]);
     }
 
@@ -47,16 +40,15 @@ function bucketSort(arr, animationsArr) {
 
     for (let i = 0; i < arr.length; i++) {
         currElem = arr[i];
-        /* currElem / maxElem is a value between 0 and 1 (inclusive) (0 is exclusive here
+        /* currElem / (maxElem + 1) is a value between 0 and 1 (exclusive) (0 is exclusive here
             because the minimum value of a bar is 10) and this result multiplied with the
-            total number of buckets will return the correct index of the array that the
-            current element will be pushed into. All elements will be sorted after one
-            loop over all elements in the main array */
-        buckets[Math.floor((numOfBuckets * currElem) / maxElem)].push(currElem);
+            total number of buckets will return the correct bucket for the element to be placed
+            in */
+        buckets[Math.floor((numOfBuckets * currElem) / (maxElem + 1))].push(currElem);
     }
 
     /* The originally unordered array will now be replaced with the buckets (which are still
-        unordered), but the value of a bar will now be closer to its neighbors */
+        unordered), but the value of each bar will now be closer to its neighbors */
     for (let i = 0; i < buckets.length; i++) {
         for (let j = 0; j < buckets[i].length; j++) {
             arr[counter] = buckets[i][j];
@@ -66,7 +58,7 @@ function bucketSort(arr, animationsArr) {
     }
 
     /* The number of elements in each bucket is needed in order to replace the right bars
-        in the main array, because we need to keep track of where one bucket's elements start
+        in the main array, because we need to keep track of where one buckets elements start
         and end in the main array, so we use the number of elements in the previous buckets as
         offset */
     for (let i = 0; i < buckets.length; i++) {
@@ -83,11 +75,7 @@ function bucketSort(arr, animationsArr) {
         }
     }
 
-    /* The original array is now overwritten with the sorted one and it's now only one array
-        instead of a matrix where every bucket had its own array. The first '[]' is a placeholder
-        array where the values from sortedArr will be put into, the 'apply' method will take
-        the second parameter as an array and the first parameter is an empty array which will
-        be ignored by concat */
+    /* Flatten the bucket matrix, where every bucket has its own array to be a single array */
     arr = [].concat.apply([], sortedArr);
 }
 

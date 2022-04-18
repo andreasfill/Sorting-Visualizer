@@ -54,9 +54,7 @@ input.numField {
     cursor: pointer;
 }
 
-/* This indicates to the user that his input is incorrect (i.e. characters that
-    aren't numbers, values that are outside of the min and max boundaries of the
-    input field and empty input fields) */
+/* This indicates to the user that his input is incorrect */
 input.numField:invalid {
     background-color: red;
 }
@@ -125,12 +123,9 @@ button#sortArray {
 div#mobileMenuButton {
     width: 33px;
     height: 33px;
-    /* 8.5 is half the value of 50 - 33 (height of the menu bar minus height of 
-        a button) */
     top: 8.5px;
     right: 10px;
-    /* Element always stays in the same place even if page is being scrolled 
-        and the button is 8.5px from the top and 10px from the right of the screen */
+    /* Element always stays in the same place even if page is being scrolled */
     position: fixed;
     display: none;
 }
@@ -145,7 +140,7 @@ div#mobileMenuButton .bar {
     display: block;
 }
 
-/* Places the red bars next to each other instead of on top of each other*/
+/* Places the red bars (visualization of the array values) next to each other */
 div.arrayBar {
     float: left;
 }
@@ -164,8 +159,7 @@ div.arrayBar {
     }
 }
 
-/* Adjust font sizes and margins so that the design still looks good if the width
-    of the browser window is smaller than 1200px */
+/* Adjust font sizes and margins so that the design still looks good */
 @media screen and (min-width: 951px) and (max-width: 1200px) {
     label.numFieldLabel {
         font-size: 0.8rem;

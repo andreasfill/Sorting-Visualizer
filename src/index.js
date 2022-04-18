@@ -40,8 +40,6 @@ function enableUI() {
     mobileMenuButton.style.pointerEvents = 'auto';
 }
 
-/* Enable the two buttons 'Create Array' and 'Sort' so no algorithm can run
-    while the menu's up in the mobile version */
 function enableUpperBarButtons() {
     const buttons = document.getElementsByClassName('upperBarButtons');
 
@@ -89,24 +87,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 createNewArray();
                 displayBars();
         
-                /* Returns an array-like list (Node-list) of all HTML elements with the 
-                    class 'arrayBar' */
                 allBars = document.getElementsByClassName('arrayBar');
             });
         
             sortArrayButton.addEventListener(userEvent, function(ev) {
                 ev.preventDefault();
 
-                /* Display the old array before it was sorted if the user didn't
-                    create a new one */
+                /* Reset current array to how it looked before it was sorted if the
+                    user didn't create a new one */
                 displayBars();
         
                 const bars = parseInt(numOfBars.value, 10);
         
                 const ANIMATION_SPEED_MS = Math.floor(1000 / bars);
         
-                /* Get the radio button from the algorithms that's currently chosen and
-                    animate the sorting process */
+                /* Get the radio button from the algorithms that's currently chosen */
                 const selectedAlgorithm = 
                     document.querySelector('input[name="algorithmOption"]:checked');
         
@@ -184,10 +179,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function createNewArray() {
         barArray = [];
 
-        /* The number of bars is stored in an extra variable, because otherwise
-            parseInt(numOfBars.value, 10) would be calculated for every loop 
-            iteration to check if the value is still larger than i. The same thing
-            applies for maxBarValue and minBarValue */
+        /* Store values in extra variables so the values don't need to be
+            recalculated in every loop iteration */
         let barNum = parseInt(numOfBars.value, 10);
         let maxBarVal = parseInt(maxBarValue.value, 10);
         let minBarVal = parseInt(minBarValue.value, 10);
@@ -195,10 +188,8 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let i = 0; i < barNum; i++) {
             /* Create a random number between the lower and upper bound set by
                 the two input fields */
-            let randNum = Math.floor(((Math.random() * maxBarVal) - minBarVal + 1) + 
-                            minBarVal);
-            
-            barArray.push(randNum);
+            barArray.push(Math.floor(((Math.random() * maxBarVal) - minBarVal + 1) + 
+                            minBarVal));
         }
     }
 
@@ -209,15 +200,8 @@ document.addEventListener('DOMContentLoaded', function() {
         arrayBarDiv.setAttribute('value', `${val}`);
         arrayBarDiv.style.backgroundColor = ORIGINAL_COLOR;
         arrayBarDiv.style.height = `${val}px`;
-        /* The width of each bar is calculated by taking the width of the screen
-            and subtracting 100px and the remainder (e.g. 80 of 1080) which is used
-            as a border on the right and left side. The rest of the space is divided
-            into equally wide bars whose width is determined by the number of bars 
-            and then divided by 2 to leave space for the margin on the left and right
-            side of each bar, which are both half as wide as the bar itself. Minimum
-            width of a bar is 2px plus 1px for the left and right margin means that
-            every bar occupies 4px of space on the screen */
-        
+        /* Every bar's width is half of the width of the entire array container
+            divided by the number of bars */
         arrayBarDiv.style.width = `${Math.floor(((window.innerWidth - 100 - 
             (window.innerWidth % 100)) / numOfBars.value) / 2)}px`;
 
@@ -243,15 +227,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         /* The vertical margin can be calculated by first getting the width of all 
-            bars and their margins (left and right margin have the same value so it's
-            enough to only get one value and multiply it by 2) and subtracting it from 
+            bars and their margins (left and right are the same) and subtracting it from 
             the total width of the screen and then dividing it by 2 so that the left and 
             right margin of the container have the same value */
         arrayContainer.style.marginLeft = 
-        `${(parseInt(window.innerWidth, 10) - 
-        ((parseInt(allBars[0].style.width, 10) + 
-        (parseInt(allBars[0].style.marginLeft, 10) * 2))) * 
-        numOfBars.value) / 2}px`;
+            `${(parseInt(window.innerWidth, 10) - 
+            ((parseInt(allBars[0].style.width, 10) + 
+            (parseInt(allBars[0].style.marginLeft, 10) * 2))) * 
+            numOfBars.value) / 2}px`;
     }
 
     window.addEventListener('resize', function() {
@@ -260,13 +243,11 @@ document.addEventListener('DOMContentLoaded', function() {
         enableUI();
         adjustLimitsAndLabels();
         /* Create a new array so that if the user makes the screen smaller then
-            no bars with be placed under each other because there isn't enough
+            no bars will be placed under each other because there isn't enough
             space to display them in one row */
         createNewArray();
         displayBars();
 
-        /* Returns an array-like list (Node-list) of all HTML elements with the 
-            class 'arrayBar' */
         allBars = document.getElementsByClassName('arrayBar');
     });
 

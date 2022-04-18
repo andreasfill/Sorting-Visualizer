@@ -52,10 +52,7 @@ function heapSort(arr, animationsArr) {
 function heapify(arr, length, i, animationsArr) {
     /* Index of the parent */
     let max = i;
-    /* The heap is a binary tree, which means that the index of the left child 
-        is the index of the parent * 2 + 1 */
     const leftChild = (i * 2) + 1;
-    /* The right child is just the next element in the array */
     const rightChild = leftChild + 1;
 
     /* Check if the left child is still an element of the array and if it's 
@@ -88,7 +85,7 @@ function heapify(arr, length, i, animationsArr) {
         /* Recursively call this function so it goes down the heap after every 
             switch because  if we make changes to a parent child triplet it can 
             affect the triplets below it as their new parent node might be 
-            smaller than the children */
+            smaller than its children */
         heapify(arr, length, max, animationsArr);
     }
 }

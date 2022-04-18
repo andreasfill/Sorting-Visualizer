@@ -28,21 +28,14 @@ function shellSort(arr, animationsArr) {
         that the two elements with the index 2 and 3 will be compared to each other */
     while (indDiff >= 1) {
         /* Start at the largest possible index of the arr that's an element in the
-            3x + 1 sequence and then go to the end of the arr from there */
+            3x + 1 sequence and then go to the end of the array from there */
         for (i = indDiff; i < arr.length; i++) {
-            /* - j >= inDiff is always true for the first iteration of the for loop 
-               - Check if the element at the current index is smaller than the element
-                at the index to its left with the gap in between. If that's the case
-                then switch both elements 
-               - Go to the index of the left element (index = j - inDiff) and compare
-                this element to its left neighbor with the gap in between. So bascially
-                start at the largest index and go through the array from right to left */
             for (j = i; j >= indDiff; j -= indDiff) {
                 animationsArr.push([j - indDiff, j, true, 'compareBars']);
                 animationsArr.push([j - indDiff, j, false, 'compareBars']);
 
-                /* Swap the elements in the left one is larger */
-                if (less(arr[j], arr[j - indDiff]) === true) {
+                /* Swap the elements if the left one is larger */
+                if (arr[j] < arr[j - indDiff]) {
                     animationsArr.push([j - indDiff, j, true, 'swapBars']);
 
                     let tempVal = arr[j];
@@ -56,12 +49,4 @@ function shellSort(arr, animationsArr) {
             in each iteration */
         indDiff = Math.floor(indDiff / 3);
     }
-}
-
-function less(elemOne, elemTwo) {
-    if (elemOne < elemTwo) {
-        return true;
-    }
-
-    return false;
 }

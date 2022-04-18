@@ -20,25 +20,19 @@ const ALL_BARS_SORTED_COLOR = 'purple';
 function animateSelectionSort(allBars, ANIMATION_SPEED_MS) {
     const animationsArr = getSelectionSortAnimations(allBars);
 
-    /* Style the first bar blue because it's the first one that will be
-        compared to all other bars */
     allBars[0].style.backgroundColor = COMPARE_COLOR;
 
-    /* let is used instead of var because it generates a new instance of i for
-        every loop iteration so that the setTimeout functions can be each use
-        another value of i */
     for (let i = 0; i < animationsArr.length; i++) {
-        const [barOneInd, barTwoInd, compareColor, swapParam] = animationsArr[i];
+        const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
         const barOneStyle = allBars[barOneInd].style;
         const barTwoStyle = allBars[barTwoInd].style;
 
-        /* Switch the color between red and blue. Red is the normal color 
-            and blue is used when the bar is being compared to another bar */
-        if (swapParam === 'compareBars') {
+        if (action === 'compareBars') {
             let color;
 
-            /* The same bars are always pushed twice in selectionSort so that we
-                can color them blue first and then color them red afterwards */
+            /* The same bars are always pushed twice, once with compareColor set
+                to true and once set to false so that they can be reset to original
+                color once they have been compared */
             if (compareColor === true) {
                 color = COMPARE_COLOR;
             }
@@ -55,7 +49,7 @@ function animateSelectionSort(allBars, ANIMATION_SPEED_MS) {
             }, i * ANIMATION_SPEED_MS);
         }
 
-        else if (swapParam === 'swapBars') {
+        else if (action === 'swapBars') {
             setTimeout(function() {
                 /* Go through the array and swap the first bar's height with the
                     currently smallest one */
@@ -72,7 +66,7 @@ function animateSelectionSort(allBars, ANIMATION_SPEED_MS) {
         }
     }
 
-    /* Change the color of all bars to purple once they are sorted */
+    /* Change the color of all bars to purple once they are all sorted */
     setTimeout(function() {
         for (let i = 0; i < allBars.length; i++) {
             allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
@@ -87,17 +81,12 @@ function animateInsertionSort(allBars, ANIMATION_SPEED_MS) {
     const animationsArr = getInsertionSortAnimations(allBars);
 
     for (let i = 0; i < animationsArr.length; i++) {
-        const [barOneInd, barTwoInd, currElem, swapParam] = animationsArr[i];
+        const [barOneInd, barTwoInd, currElem, action] = animationsArr[i];
         const barOneStyle = allBars[barOneInd].style;
         const barTwoStyle = allBars[barTwoInd].style;
 
-        /* Shifts the value to the right by giving the current bar the height
-            property of the bar to its left */
-        if (swapParam === 'shiftValueToRight') {
+        if (action === 'moveValueLeft') {
             setTimeout(function() {
-                /* The bars are colored blue to distanicate them from the
-                    rest of the bars so that it's always clearly visible where
-                    changes are happening */
                 barOneStyle.backgroundColor = COMPARE_COLOR;
                 barTwoStyle.backgroundColor = COMPARE_COLOR;
                 barTwoStyle.height = barOneStyle.height;
@@ -110,13 +99,7 @@ function animateInsertionSort(allBars, ANIMATION_SPEED_MS) {
             }, (i + 1) * ANIMATION_SPEED_MS);
         }
 
-        /* Places the current element at the correct spot in the ordered part of 
-            the allBars-Array. This value has to be stored seperately because 
-            if we were to swap the current bar with another bar then that value 
-            wouldn't necessarily be the correct one and it would mess up the 
-            sorting because values would be overwritten and therefore all 
-            elements would eventually have the same value */
-        else if (swapParam === 'placeCurrentElement') {
+        else if (action === 'placeCurrentElement') {
             setTimeout(function() {
                 barOneStyle.height = `${currElem}px`;
             }, i * ANIMATION_SPEED_MS);
@@ -137,11 +120,11 @@ function animateBubbleSort(allBars, ANIMATION_SPEED_MS) {
     let lastIndToCheckFromRight = 0;
 
     for (let i = 0; i < animationsArr.length; i++) {
-        const [barOneInd, barTwoInd, compareColor, swapParam] = animationsArr[i];
+        const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
         const barOneStyle = allBars[barOneInd].style;
         const barTwoStyle = allBars[barTwoInd].style;
 
-        if (swapParam === 'compareBars') {
+        if (action === 'compareBars') {
             let color;
 
             if (compareColor === true) {
@@ -156,14 +139,8 @@ function animateBubbleSort(allBars, ANIMATION_SPEED_MS) {
                 barOneStyle.backgroundColor = color;
                 barTwoStyle.backgroundColor = color;
 
-                /* compareColor is false the second time that it's pushed into
-                    the animations array, so it's only necessary to color the 
-                    second bar at that point. At the end of each cycle through the
-                    array the largest value will be at the last spot from the back
-                    so if the index of the second bar equals the last index before
-                    the already ordered part begins then it can be colored in green
-                    because it's in its final spot and then the last index to check
-                    moves one to the left */
+                /* If the bar's at the current right most spot before the already
+                    sorted bars begin then it's the final position */
                 if (compareColor === false && 
                         barTwoInd === (allBars.length - 1 - lastIndToCheckFromRight)) {
                     barTwoStyle.backgroundColor = FINAL_POS_COLOR;
@@ -172,7 +149,7 @@ function animateBubbleSort(allBars, ANIMATION_SPEED_MS) {
             }, i * ANIMATION_SPEED_MS);
         }
 
-        else if (swapParam === 'swapBars') {
+        else if (action === 'swapBars') {
             setTimeout(function() {
                 let barOneHeight = parseInt(barOneStyle.height, 10);
                 barOneStyle.height = barTwoStyle.height;
@@ -194,11 +171,11 @@ function animateShellSort(allBars, ANIMATION_SPEED_MS) {
     const animationsArr = getShellSortAnimations(allBars);
 
     for (let i = 0; i < animationsArr.length; i++) {
-        const [barOneInd, barTwoInd, compareColor, swapParam] = animationsArr[i];
+        const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
         const barOneStyle = allBars[barOneInd].style;
         const barTwoStyle = allBars[barTwoInd].style;
 
-        if (swapParam === 'compareBars') {
+        if (action === 'compareBars') {
             let color;
 
             if (compareColor === true) {
@@ -215,7 +192,7 @@ function animateShellSort(allBars, ANIMATION_SPEED_MS) {
             }, i * ANIMATION_SPEED_MS);
         }
 
-        else if (swapParam === 'swapBars') {
+        else if (action === 'swapBars') {
             setTimeout(function() {
                 let barOneHeight = parseInt(barOneStyle.height, 10);
                 barOneStyle.height = barTwoStyle.height;
@@ -237,12 +214,12 @@ function animateBucketSort(allBars, ANIMATION_SPEED_MS) {
     const animationsArr = getBucketSortAnimations(allBars);
 
     for (let i = 0; i < animationsArr.length; i++) {
-        const [barOneInd, barTwoInd, newBarOneHeight, compareColor, swapParam] = 
+        const [barOneInd, barTwoInd, newBarOneHeight, compareColor, action] = 
             animationsArr[i];
         const barOneStyle = allBars[barOneInd].style;
         const barTwoStyle = allBars[barTwoInd].style;
 
-        if (swapParam === 'compareBars') {
+        if (action === 'compareBars') {
             let color;
 
             if (compareColor === true) {
@@ -259,7 +236,7 @@ function animateBucketSort(allBars, ANIMATION_SPEED_MS) {
             }, i * ANIMATION_SPEED_MS);
         }
 
-        else if (swapParam === 'swapBars') {
+        else if (action === 'swapBars') {
             setTimeout(function() {
                 barOneStyle.height = `${newBarOneHeight}px`;
             }, i * ANIMATION_SPEED_MS);
@@ -279,12 +256,12 @@ function animateMergeSort(allBars, ANIMATION_SPEED_MS) {
     const animationsArr = getMergeSortAnimations(allBars);
 
     for (let i = 0; i < animationsArr.length; i++) {
-        const [barOneInd, barTwoInd, newBarOneHeight, compareColor, swapParam] = 
+        const [barOneInd, barTwoInd, newBarOneHeight, compareColor, action] = 
             animationsArr[i];
         const barOneStyle = allBars[barOneInd].style;
         const barTwoStyle = allBars[barTwoInd].style;
 
-        if (swapParam === 'compareBars') {
+        if (action === 'compareBars') {
             let color;
 
             if (compareColor === true) {
@@ -301,7 +278,7 @@ function animateMergeSort(allBars, ANIMATION_SPEED_MS) {
             }, i * ANIMATION_SPEED_MS);
         }
 
-        else if (swapParam === 'swapBars') {
+        else if (action === 'swapBars') {
             setTimeout(function() {
                 barOneStyle.height = `${newBarOneHeight}px`;
             }, i * ANIMATION_SPEED_MS);
@@ -321,11 +298,11 @@ function animateQuickSort(allBars, ANIMATION_SPEED_MS) {
     const animationsArr = getQuickSortAnimations(allBars);
 
     for (let i = 0; i < animationsArr.length; i++) {
-        const [barOneInd, barTwoInd, compareColor, swapParam] = animationsArr[i];
+        const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
         const barOneStyle = allBars[barOneInd].style;
         const barTwoStyle = allBars[barTwoInd].style;
 
-        if (swapParam === 'compareBars') {
+        if (action === 'compareBars') {
             let color;
 
             if (compareColor === true) {
@@ -342,7 +319,7 @@ function animateQuickSort(allBars, ANIMATION_SPEED_MS) {
             }, i * ANIMATION_SPEED_MS);
         }
 
-        else if (swapParam === 'swapBars') {
+        else if (action === 'swapBars') {
             setTimeout(function() {
                 let barOneHeight = parseInt(barOneStyle.height, 10);
                 barOneStyle.height = barTwoStyle.height;
@@ -350,7 +327,7 @@ function animateQuickSort(allBars, ANIMATION_SPEED_MS) {
             }, i * ANIMATION_SPEED_MS);
         }
 
-        else if (swapParam === 'finalSwap') {
+        else if (action === 'finalSwap') {
             setTimeout(function() {
                 let barOneHeight = parseInt(barOneStyle.height, 10);
                 barOneStyle.height = barTwoStyle.height;
@@ -373,11 +350,11 @@ function animateHeapSort(allBars, ANIMATION_SPEED_MS) {
     const animationsArr = getHeapSortAnimations(allBars);
 
     for (let i = 0; i < animationsArr.length; i++) {
-        const [barOneInd, barTwoInd, compareColor, swapParam] = animationsArr[i];
+        const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
         const barOneStyle = allBars[barOneInd].style;
         const barTwoStyle = allBars[barTwoInd].style;
 
-        if (swapParam === 'compareBars') {
+        if (action === 'compareBars') {
             let color;
 
             if (compareColor === true) {
@@ -394,7 +371,7 @@ function animateHeapSort(allBars, ANIMATION_SPEED_MS) {
             }, i * ANIMATION_SPEED_MS);
         }
 
-        else if (swapParam === 'swapBars') {
+        else if (action === 'swapBars') {
             setTimeout(function() {
                 let barOneHeight = parseInt(barOneStyle.height, 10);
                 barOneStyle.height = barTwoStyle.height;
@@ -402,7 +379,7 @@ function animateHeapSort(allBars, ANIMATION_SPEED_MS) {
             }, i * ANIMATION_SPEED_MS);
         }
 
-        else if (swapParam === 'finalSwap') {
+        else if (action === 'finalSwap') {
             setTimeout(function() {
                 let barOneHeight = parseInt(barOneStyle.height, 10);
                 barOneStyle.height = barTwoStyle.height;

@@ -27,8 +27,7 @@ function mergeSort(startInd, endInd, array, helperArr, animationsArr) {
         let midInd = Math.floor((startInd + endInd) / 2);
 
         /* Split the array in a left and right half and sort them individually.
-            Continue splitting them up until start- and endindex are the same
-            so if the array only consists of one element */
+            Continue splitting them up until start- and endindex are the same */
         mergeSort(startInd, midInd, array, helperArr, animationsArr);
         mergeSort(midInd + 1, endInd, array, helperArr, animationsArr);
 

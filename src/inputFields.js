@@ -112,18 +112,14 @@ function adjustLimitsAndLabels() {
         spaceAtSides = 20;
     }
 
-    /* The maximum of bars has to be divided by 4 because the width of each bar
-        is twice as wide as the left and right margin (e.g. the width of the
-        browser window is 1920px this results in 1920 - 100 - (1920 % 100) =
-        1800 and this divided by 4 means 450 bars which all take up 4px of space
-        (2px for the bar itself and 1px each for the left and right margin) */
+    /* Each bar needs twice its width as space because of margins */
     numOfBars.value = numOfBars.max = 
         `${Math.floor((newWidth - spaceAtSides - (newWidth % 100)) / 
         (2 * MIN_BAR_WIDTH))}`;
 
     numOfBarLimitsLabel.innerHTML = numOfBars.min + ' ... ' + numOfBars.max;
 
-    /* Space between the the bottom of the largest bar (from the top of the
+    /* Space between the bottom of the largest bar (from the top of the
         page) and the bottom of the browser window */
     spaceAtSides = 100;
 
