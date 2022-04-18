@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sorting Algorithms</title>
+        <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <header>
+
+        </header>
+
+        <main>
+            <div class="menuBar">
+                <div id="menuStyle">
+                    <div class="numFieldContainer">
+                        <label for="minBarValue" class="numFieldLabel">
+                            Lower Limit
+                        </label>
+                        <input type="number" id="minBarValue" class="numField" 
+                            name="minBarValue" min="10" max="795" value="150" required="required">
+                        <label for="minBarValue" id="minBarLimitsLabel" class="numFieldLabel">
+                            10 ... 795
+                        </label>
+                    </div>
+                    <div class="numFieldContainer">
+                        <label for="maxBarValue" class="numFieldLabel">
+                            Upper Limit
+                        </label>
+                        <input type="number" id="maxBarValue" class="numField" 
+                            name="maxBarValue" min="15" max="800" value="650" required="required">
+                        <label for="maxBarValue" id="maxBarLimitsLabel" class="numFieldLabel">
+                            15 ... 800
+                        </label>
+                    </div>
+                    <div class="numFieldContainer">
+                        <label for="numOfBars" class="numFieldLabel">
+                            # Of Bars
+                        </label>
+                        <input type="number" id="numOfBars" class="numField" 
+                            name="numOfBars" min="5" max="450" value="450" required="required">
+                        <label for="numOfBars" id="numOfBarLimitsLabel" class="numFieldLabel">
+                            5 ... 450
+                        </label>
+                    </div>
+                    <div class="radioButtonContainer">
+                        <div class="radioButtonWrapper">
+                            <input type="radio" id="selectionSortRadio" name="algorithmOption" 
+                                class="algorithmRadioButtons" value="selectionSort" checked>
+                            <label for="selectionSortRadio" class="radioButtonLabel">
+                                Selection Sort
+                            </label>
+                        </div>
+                        <div class="radioButtonWrapper">
+                            <input type="radio" id="insertionSortRadio" name="algorithmOption" 
+                                class="algorithmRadioButtons" value="insertionSort">
+                            <label for="insertionSortRadio" class="radioButtonLabel">
+                                Insertion Sort
+                            </label>
+                        </div>
+                        <div class="radioButtonWrapper">
+                            <input type="radio" id="bubbleSortRadio" name="algorithmOption" 
+                                class="algorithmRadioButtons" value="bubbleSort">
+                            <label for="bubbleSortRadio" class="radioButtonLabel">
+                                Bubble Sort
+                            </label>
+                        </div>
+                        <div class="radioButtonWrapper">
+                            <input type="radio" id="shellSortRadio" name="algorithmOption" 
+                                class="algorithmRadioButtons" value="shellSort">
+                            <label for="shellSortRadio" class="radioButtonLabel">
+                                Shell Sort
+                            </label>
+                        </div>
+                        <div class="radioButtonWrapper">
+                            <input type="radio" id="bucketSortRadio" name="algorithmOption" 
+                                class="algorithmRadioButtons" value="bucketSort">
+                            <label for="bucketSortRadio" class="radioButtonLabel">
+                                Bucket Sort
+                            </label>
+                        </div>
+                        <div class="radioButtonWrapper">
+                            <input type="radio" id="mergeSortRadio" name="algorithmOption" 
+                                class="algorithmRadioButtons" value="mergeSort">
+                            <label for="mergeSortRadio" class="radioButtonLabel">
+                                Merge Sort
+                            </label>
+                        </div>
+                        <div class="radioButtonWrapper">
+                            <input type="radio" id="quickSortRadio" name="algorithmOption" 
+                                class="algorithmRadioButtons" value="quickSort">
+                            <label for="quickSortRadio" class="radioButtonLabel">
+                                Quick Sort
+                            </label>
+                        </div>
+                        <div class="radioButtonWrapper">
+                            <input type="radio" id="heapSortRadio" name="algorithmOption" 
+                                class="algorithmRadioButtons" value="heapSort">
+                            <label for="heapSortRadio" class="radioButtonLabel">
+                                Heap Sort
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <button id="createArray" name="createArray" class="upperBarButtons">
+                    Create Array
+                </button>
+                <button id="sortArray" name="sortArray" class="upperBarButtons">
+                    Sort
+                </button>
+                <div id="mobileMenuButton">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+            <div id="arrayContainer"></div>
+        </main>
+
+        <footer>
+
+        </footer>
+
+        <script type="module" src="src/index.js"></script>
+    </body>
+</html>
