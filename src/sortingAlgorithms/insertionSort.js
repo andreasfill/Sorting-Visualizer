@@ -1,8 +1,6 @@
 'use strict';
 
-export {getInsertionSortAnimations};
-
-function getInsertionSortAnimations(array) {
+export default function getInsertionSortAnimations(array) {
     const animationsArr = [];
     const arr = [];
 

@@ -1,8 +1,6 @@
 'use strict';
 
-export {getBubbleSortAnimations};
-
-function getBubbleSortAnimations(array) {
+export default function getBubbleSortAnimations(array) {
     const animationsArr = [];
     const arr = [];
 

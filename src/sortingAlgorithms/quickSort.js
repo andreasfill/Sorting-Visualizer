@@ -1,8 +1,6 @@
 'use strict';
 
-export {getQuickSortAnimations};
-
-function getQuickSortAnimations(array) {
+export default function getQuickSortAnimations(array) {
     const animationsArr = [];
     const arr = [];
 

@@ -1,15 +1,17 @@
-'use strict';
+ 'use strict';
+
 export {ORIGINAL_COLOR, animateSelectionSort, animateInsertionSort, 
         animateBubbleSort, animateShellSort, animateBucketSort, animateMergeSort,
         animateQuickSort, animateHeapSort};
-import {getSelectionSortAnimations} from './sortingAlgorithms/selectionSort.js';
-import {getInsertionSortAnimations} from './sortingAlgorithms/insertionSort.js';
-import {getBubbleSortAnimations} from './sortingAlgorithms/bubbleSort.js';
-import {getShellSortAnimations} from './sortingAlgorithms/shellSort.js';
-import {getBucketSortAnimations} from './sortingAlgorithms/bucketSort.js';
-import {getMergeSortAnimations} from './sortingAlgorithms/mergeSort.js';
-import {getQuickSortAnimations} from './sortingAlgorithms/quickSort.js';
-import {getHeapSortAnimations} from './sortingAlgorithms/heapSort.js';
+    
+import getSelectionSortAnimations from './sortingAlgorithms/selectionSort.js';
+import getInsertionSortAnimations from './sortingAlgorithms/insertionSort.js';
+import getBubbleSortAnimations from './sortingAlgorithms/bubbleSort.js';
+import getShellSortAnimations from './sortingAlgorithms/shellSort.js';
+import getBucketSortAnimations from './sortingAlgorithms/bucketSort.js';
+import getMergeSortAnimations from './sortingAlgorithms/mergeSort.js';
+import getQuickSortAnimations from './sortingAlgorithms/quickSort.js';
+import getHeapSortAnimations from './sortingAlgorithms/heapSort.js';
 import {enableUI} from './index.js';
 
 const ORIGINAL_COLOR = 'red';

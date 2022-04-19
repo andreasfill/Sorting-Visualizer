@@ -1,8 +1,6 @@
 'use strict';
 
-export {getSelectionSortAnimations};
-
-function getSelectionSortAnimations(array) {
+export default function getSelectionSortAnimations(array) {
     const animationsArr = [];
     const arr = [];
 

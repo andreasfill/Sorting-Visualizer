@@ -1,8 +1,6 @@
 'use strict';
 
-export {getHeapSortAnimations};
-
-function getHeapSortAnimations(array) {
+export default function getHeapSortAnimations(array) {
     const animationsArr = [];
     const arr = [];
 

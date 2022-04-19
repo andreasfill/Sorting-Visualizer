@@ -1,8 +1,6 @@
 'use strict';
 
-export {getShellSortAnimations};
-
-function getShellSortAnimations(array) {
+export default function getShellSortAnimations(array) {
     const animationsArr = [];
     const arr = [];
 

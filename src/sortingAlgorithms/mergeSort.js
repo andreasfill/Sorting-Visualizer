@@ -1,8 +1,6 @@
 'use strict';
 
-export {getMergeSortAnimations};
-
-function getMergeSortAnimations(array) {
+export default function getMergeSortAnimations(array) {
     if (array.length <= 1) {
         return array;
     }

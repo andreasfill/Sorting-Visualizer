@@ -1,6 +1,7 @@
 'use strict';
 
 export {handleMinBarValue, handleMaxBarValue, handleNumOfBars, adjustLimitsAndLabels};
+
 import {MIN_BAR_WIDTH, enableUpperBarButtons, disableUpperBarButtons} 
         from './index.js';
 

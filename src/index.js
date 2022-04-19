@@ -1,6 +1,7 @@
 'use strict';
 
 export {MIN_BAR_WIDTH, enableUI, enableUpperBarButtons, disableUpperBarButtons};
+
 import {ORIGINAL_COLOR, animateSelectionSort, animateInsertionSort, animateBubbleSort,
         animateShellSort, animateBucketSort, animateMergeSort,
         animateQuickSort, animateHeapSort} from './animateAlgorithms.js';
