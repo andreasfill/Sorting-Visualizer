@@ -2,23 +2,17 @@
 
 export default function getBucketSortAnimations(array) {
     const animationsArr = [];
-    const arr = [];
 
-    /* Get all the values from the Node-list */
-    for (let i = 0; i < array.length; i++) {
-        arr.push(parseInt(array[i].getAttribute('value'), 10));
-    }
-
-    bucketSort(arr, animationsArr);
+    bucketSort(array, animationsArr);
 
     return animationsArr;
 }
 
-function bucketSort(arr, animationsArr) {
+function bucketSort(array, animationsArr) {
     const buckets = [];
-    const bucketSize = Math.sqrt(arr.length);
+    const bucketSize = Math.sqrt(array.length);
     const numOfBuckets = Math.ceil(bucketSize);
-    let maxElem = 0;
+    let maxElem = Math.max(...array);
     let currElem = 0;
     const sortedArr = [];
     const numOfElemsInBucket = [];
@@ -28,16 +22,8 @@ function bucketSort(arr, animationsArr) {
         buckets.push([]);
     }
 
-    for (let i = 0; i < arr.length; i++) {
-        currElem = arr[i];
-
-        if (currElem > maxElem) {
-            maxElem = currElem;
-        }
-    }
-
-    for (let i = 0; i < arr.length; i++) {
-        currElem = arr[i];
+    for (let i = 0; i < array.length; i++) {
+        currElem = array[i];
         /* currElem / (maxElem + 1) is a value between 0 and 1 (exclusive) (0 is exclusive here
             because the minimum value of a bar is 10) and this result multiplied with the
             total number of buckets will return the correct bucket for the element to be placed
@@ -49,7 +35,7 @@ function bucketSort(arr, animationsArr) {
         unordered), but the value of each bar will now be closer to its neighbors */
     for (let i = 0; i < buckets.length; i++) {
         for (let j = 0; j < buckets[i].length; j++) {
-            arr[counter] = buckets[i][j];
+            array[counter] = buckets[i][j];
             animationsArr.push([counter, 0, buckets[i][j], true, 'swapBars']);
             counter++;
         }
@@ -73,17 +59,16 @@ function bucketSort(arr, animationsArr) {
         }
     }
 
-    /* Flatten the bucket matrix, where every bucket has its own array to be a single array */
-    arr = [].concat.apply([], sortedArr);
+    /* Flatten the bucket matrix, so that instead of every bucket being in its own array
+        they are all in a single array */
+    array = sortedArr.flat();
 }
 
 function startMergeSort(array, bucketNum, numOfElemsInBucket, animationsArr) {
-    /* Arrays with only one element are always sorted */
     if (array.length <= 1) {
         return array;
     }
 
-    const helperArr = array.slice();
     /* Keeps track of where the current bucket begins in the main array */
     let mainArrStartInd = 0;
 
@@ -91,40 +76,28 @@ function startMergeSort(array, bucketNum, numOfElemsInBucket, animationsArr) {
         mainArrStartInd += numOfElemsInBucket[i];
     }
     
-    return mergeSort(mainArrStartInd, 0, array.length - 1, array, helperArr, animationsArr);
+    return mergeSort(mainArrStartInd, 0, array.length - 1, array, animationsArr);
 }
 
-function mergeSort(mainArrStartInd, bucketStartInd, bucketEndInd, array, helperArr, animationsArr) {
+function mergeSort(mainArrStartInd, bucketStartInd, bucketEndInd, array, animationsArr) {
     if (bucketStartInd < bucketEndInd) {
         let bucketMidInd = Math.floor((bucketStartInd + bucketEndInd) / 2);
 
-        /* Left part of the original array from the beginning to the middle. It will be divided recursively
-            into smaller arrays and then these arrays will be sorted and merged together into the 
-            bigger arrays that they orginated from */
-        mergeSort(mainArrStartInd, bucketStartInd, bucketMidInd, array, helperArr, animationsArr);
-        /* Right part of the original array from the middle to its end */
-        mergeSort(mainArrStartInd, bucketMidInd + 1, bucketEndInd, array, helperArr, animationsArr);
+        /* Split the array in a left and right half and sort them individually and then.
+            Continue splitting them up until start- and endindex are the same
+            (i.e. only one element to sort) */
+        mergeSort(mainArrStartInd, bucketStartInd, bucketMidInd, array, animationsArr);
+        mergeSort(mainArrStartInd, bucketMidInd + 1, bucketEndInd, array, animationsArr);
 
-        return merge(mainArrStartInd, bucketStartInd, bucketMidInd, bucketEndInd, array, helperArr, animationsArr);
+        return merge(mainArrStartInd, bucketStartInd, bucketMidInd, bucketEndInd, array, animationsArr);
     }
 }
 
-function merge(mainArrStartInd, bucketStartInd, bucketMidInd, bucketEndInd, array, helperArr, animationsArr) {
-    let i = bucketStartInd, j = bucketEndInd, k = bucketStartInd;
+function merge(mainArrStartInd, bucketStartInd, bucketMidInd, bucketEndInd, array, animationsArr) {
+    const helperArr = array.slice();
+    let i = bucketStartInd, j = bucketMidInd + 1, k = bucketStartInd;
 
-    /* Copy the first half of the array into the helper array */
-    while (i <= bucketMidInd) {
-        helperArr[k++] = array[i++];
-    }
-
-    /* Copy the second half the array into the helper array backwards */
-    while (j > bucketMidInd) {
-        helperArr[k++] = array[j--];
-    }
-
-    i = bucketStartInd, j = bucketEndInd, k = bucketStartInd;
-
-    while (i <= j) {
+    while (i <= bucketMidInd && j <= bucketEndInd) {
         animationsArr.push([mainArrStartInd + i, mainArrStartInd + j, 0, true, 'compareBars']);
         animationsArr.push([mainArrStartInd + i, mainArrStartInd + j, 0, false, 'compareBars']);
 
@@ -143,8 +116,26 @@ function merge(mainArrStartInd, bucketStartInd, bucketMidInd, bucketEndInd, arra
         else {
             animationsArr.push([mainArrStartInd + k, mainArrStartInd + j, helperArr[j], true, 'swapBars']);
 
-            array[k++] = helperArr[j--];
+            array[k++] = helperArr[j++];
         }
+    }
+
+    /* Left array stil has elements in them which are all larger than the
+        max value in the right array */
+    while (i <= bucketMidInd) {
+        animationsArr.push([mainArrStartInd + i, mainArrStartInd + i, 0, true, 'compareBars']);
+        animationsArr.push([mainArrStartInd + i, mainArrStartInd + i, 0, false, 'compareBars']);
+        animationsArr.push([mainArrStartInd + k, mainArrStartInd + i, helperArr[i], true, 'swapBars']);
+        
+        array[k++] = helperArr[i++];
+    }
+
+    while (j <= bucketEndInd) {
+        animationsArr.push([mainArrStartInd + j, mainArrStartInd + j, 0, true, 'compareBars']);
+        animationsArr.push([mainArrStartInd + j, mainArrStartInd + j, 0, false, 'compareBars']);
+        animationsArr.push([mainArrStartInd + k, mainArrStartInd + j, helperArr[j], true, 'swapBars']);
+
+        array[k++] = helperArr[j++];
     }
 
     return array;

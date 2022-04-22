@@ -1,8 +1,6 @@
  'use strict';
 
-export {ORIGINAL_COLOR, animateSelectionSort, animateInsertionSort, 
-        animateBubbleSort, animateShellSort, animateBucketSort, animateMergeSort,
-        animateQuickSort, animateHeapSort};
+export {ORIGINAL_COLOR, animateAlgorithm};
     
 import getSelectionSortAnimations from './sortingAlgorithms/selectionSort.js';
 import getInsertionSortAnimations from './sortingAlgorithms/insertionSort.js';
@@ -19,8 +17,47 @@ const COMPARE_COLOR = 'blue';
 const FINAL_POS_COLOR = 'green';
 const ALL_BARS_SORTED_COLOR = 'purple';
 
-function animateSelectionSort(allBars, ANIMATION_SPEED_MS) {
-    const animationsArr = getSelectionSortAnimations(allBars);
+function animateAlgorithm(selectedAlgorithm, allBars) {
+    const ANIMATION_SPEED_MS = Math.floor(1000 / allBars.length);
+    const valuesArr = [];
+
+    /* Get all the values from the Node-list */
+    for (const bar of allBars) {
+        valuesArr.push(parseInt(bar.getAttribute('value'), 10));
+    }
+
+    switch (selectedAlgorithm) {
+        case 'selectionSort':
+            animateSelectionSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            break;
+        case 'insertionSort':
+            animateInsertionSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            break;
+        case 'bubbleSort':
+            animateBubbleSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            break;
+        case 'shellSort':
+            animateShellSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            break;
+        case 'bucketSort':
+            animateBucketSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            break;
+        case 'mergeSort':
+            animateMergeSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            break;
+        case 'quickSort':
+            animateQuickSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            break;
+        case 'heapSort':
+            animateHeapSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            break;
+        default:
+            break;
+    }
+}
+
+function animateSelectionSort(allBars, valuesArr, ANIMATION_SPEED_MS) {
+    const animationsArr = getSelectionSortAnimations(valuesArr);
 
     allBars[0].style.backgroundColor = COMPARE_COLOR;
 
@@ -79,8 +116,8 @@ function animateSelectionSort(allBars, ANIMATION_SPEED_MS) {
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateInsertionSort(allBars, ANIMATION_SPEED_MS) {
-    const animationsArr = getInsertionSortAnimations(allBars);
+function animateInsertionSort(allBars, valuesArr, ANIMATION_SPEED_MS) {
+    const animationsArr = getInsertionSortAnimations(valuesArr);
 
     for (let i = 0; i < animationsArr.length; i++) {
         const [barOneInd, barTwoInd, currElem, action] = animationsArr[i];
@@ -117,8 +154,9 @@ function animateInsertionSort(allBars, ANIMATION_SPEED_MS) {
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateBubbleSort(allBars, ANIMATION_SPEED_MS) {
-    const animationsArr = getBubbleSortAnimations(allBars);
+function animateBubbleSort(allBars, valuesArr, ANIMATION_SPEED_MS) {
+
+    const animationsArr = getBubbleSortAnimations(valuesArr);
     let lastIndToCheckFromRight = 0;
 
     for (let i = 0; i < animationsArr.length; i++) {
@@ -169,8 +207,8 @@ function animateBubbleSort(allBars, ANIMATION_SPEED_MS) {
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateShellSort(allBars, ANIMATION_SPEED_MS) {
-    const animationsArr = getShellSortAnimations(allBars);
+function animateShellSort(allBars, valuesArr, ANIMATION_SPEED_MS) {
+    const animationsArr = getShellSortAnimations(valuesArr);
 
     for (let i = 0; i < animationsArr.length; i++) {
         const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
@@ -212,8 +250,8 @@ function animateShellSort(allBars, ANIMATION_SPEED_MS) {
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateBucketSort(allBars, ANIMATION_SPEED_MS) {
-    const animationsArr = getBucketSortAnimations(allBars);
+function animateBucketSort(allBars, valuesArr, ANIMATION_SPEED_MS) {
+    const animationsArr = getBucketSortAnimations(valuesArr);
 
     for (let i = 0; i < animationsArr.length; i++) {
         const [barOneInd, barTwoInd, newBarOneHeight, compareColor, action] = 
@@ -254,8 +292,8 @@ function animateBucketSort(allBars, ANIMATION_SPEED_MS) {
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateMergeSort(allBars, ANIMATION_SPEED_MS) {
-    const animationsArr = getMergeSortAnimations(allBars);
+function animateMergeSort(allBars, valuesArr, ANIMATION_SPEED_MS) {
+    const animationsArr = getMergeSortAnimations(valuesArr);
 
     for (let i = 0; i < animationsArr.length; i++) {
         const [barOneInd, barTwoInd, newBarOneHeight, compareColor, action] = 
@@ -296,8 +334,8 @@ function animateMergeSort(allBars, ANIMATION_SPEED_MS) {
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateQuickSort(allBars, ANIMATION_SPEED_MS) {
-    const animationsArr = getQuickSortAnimations(allBars);
+function animateQuickSort(allBars, valuesArr, ANIMATION_SPEED_MS) {
+    const animationsArr = getQuickSortAnimations(valuesArr);
 
     for (let i = 0; i < animationsArr.length; i++) {
         const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
@@ -348,8 +386,8 @@ function animateQuickSort(allBars, ANIMATION_SPEED_MS) {
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateHeapSort(allBars, ANIMATION_SPEED_MS) {
-    const animationsArr = getHeapSortAnimations(allBars);
+function animateHeapSort(allBars, valuesArr, ANIMATION_SPEED_MS) {
+    const animationsArr = getHeapSortAnimations(valuesArr);
 
     for (let i = 0; i < animationsArr.length; i++) {
         const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];

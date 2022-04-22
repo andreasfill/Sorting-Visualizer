@@ -2,13 +2,11 @@
 
 export {MIN_BAR_WIDTH, enableUI, enableUpperBarButtons, disableUpperBarButtons};
 
-import {ORIGINAL_COLOR, animateSelectionSort, animateInsertionSort, animateBubbleSort,
-        animateShellSort, animateBucketSort, animateMergeSort,
-        animateQuickSort, animateHeapSort} from './animateAlgorithms.js';
+import {ORIGINAL_COLOR, animateAlgorithm} from './animateAlgorithms.js';
 import {handleMinBarValue, handleMaxBarValue, handleNumOfBars,
         adjustLimitsAndLabels} from './inputFields.js';
 
-const MIN_BAR_WIDTH = 4;
+const MIN_BAR_WIDTH = 2;
 
 function enableUI() {
     const numFields = document.getElementsByClassName('numField');
@@ -58,7 +56,7 @@ function disableUpperBarButtons() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    let barArray = [];
+    const barArray = [];
     let createArrayButton = document.getElementById('createArray');
     let sortArrayButton = document.getElementById('sortArray');
     let arrayContainer = document.getElementById('arrayContainer');
@@ -67,14 +65,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let numOfBars = document.getElementById('numOfBars');
     let allBars = document.getElementsByClassName('arrayBar');
 
-    function setup() {
+    (function() {
         setupMouseAndTouchInteractions();
         adjustLimitsAndLabels();
         createNewArray();
         displayBars();
-    }
-
-    setup();
+    })();
 
     /* Add an event listener for both mouse click and touch to both
         buttons */
@@ -100,8 +96,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
                 const bars = parseInt(numOfBars.value, 10);
         
-                const ANIMATION_SPEED_MS = Math.floor(1000 / bars);
-        
                 /* Get the radio button from the algorithms that's currently chosen */
                 const selectedAlgorithm = 
                     document.querySelector('input[name="algorithmOption"]:checked');
@@ -113,32 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 /* Disable the ui while the algorithm's running */
                 disableUI();
 
-                switch (selectedAlgorithm.value) {
-                    case 'selectionSort':
-                        animateSelectionSort(allBars, ANIMATION_SPEED_MS);
-                        break;
-                    case 'insertionSort':
-                        animateInsertionSort(allBars, ANIMATION_SPEED_MS);
-                        break;
-                    case 'bubbleSort':
-                        animateBubbleSort(allBars, ANIMATION_SPEED_MS);
-                        break;
-                    case 'shellSort':
-                        animateShellSort(allBars, ANIMATION_SPEED_MS);
-                        break;
-                    case 'bucketSort':
-                        animateBucketSort(allBars, ANIMATION_SPEED_MS);
-                        break;
-                    case 'mergeSort':
-                        animateMergeSort(allBars, ANIMATION_SPEED_MS);
-                        break;
-                    case 'quickSort':
-                        animateQuickSort(allBars, ANIMATION_SPEED_MS);
-                        break;
-                    case 'heapSort':
-                        animateHeapSort(allBars, ANIMATION_SPEED_MS);
-                        break;
-                }
+                animateAlgorithm(selectedAlgorithm.value, allBars);
             });
         });
     }
@@ -170,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
         /* Color the bars of the mobile menu button red to signal that clicking
             the button has no effect */
         for (const bar of bars) {
-            bar.style.backgroundColor = 'red';
+            bar.style.backgroundColor = ORIGINAL_COLOR;
         }
 
         /* Disable the div for the button and all contents inside it */
@@ -178,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function createNewArray() {
-        barArray = [];
+        barArray.length = 0;
 
         /* Store values in extra variables so the values don't need to be
             recalculated in every loop iteration */
@@ -221,6 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displayBars() {
+        /* Remove previous bars */
         arrayContainer.innerHTML = '';
 
         for (let i = 0; i < barArray.length; i++) {

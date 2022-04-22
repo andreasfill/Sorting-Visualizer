@@ -2,31 +2,24 @@
 
 export default function getHeapSortAnimations(array) {
     const animationsArr = [];
-    const arr = [];
 
-    /* Get all the values from the Node-list */
-    for (let i = 0; i < array.length; i++) {
-        arr.push(parseInt(array[i].getAttribute('value'), 10));
-    }
-
-    heapSort(arr, animationsArr);
+    heapSort(array, animationsArr);
 
     return animationsArr;
 }
 
-function heapSort(arr, animationsArr) {
-    const length = arr.length;
+function heapSort(array, animationsArr) {
     /* Index of the last parent node */
-    let i = Math.floor((length / 2) - 1);
+    let i = Math.floor((array.length / 2) - 1);
     /* Index of the last element in the array */
-    let k = length - 1;
+    let k = array.length - 1;
 
     /* Bring every parent child triplet in the correct starting position, which 
         means that the largest element will be at index 0 in the array because 
         we are starting from the last parent node and move our way up the heap, 
         where the last parent node will be at index 0 */
     while (i >= 0) {
-        heapify(arr, length, i, animationsArr);
+        heapify(array, array.length, i, animationsArr);
         i--;
     }
 
@@ -36,18 +29,18 @@ function heapSort(arr, animationsArr) {
     while (k >= 0) {
         animationsArr.push([0, k, true, 'finalSwap']);
 
-        let tempVal = arr[0];
-        arr[0] = arr[k];
-        arr[k] = tempVal;
+        let tempVal = array[0];
+        array[0] = array[k];
+        array[k] = tempVal;
 
         /* k is the current last element so it can be used as the length 
             argument for the array */
-        heapify(arr, k, 0, animationsArr);
+        heapify(array, k, 0, animationsArr);
         k--;
     }
 }
 
-function heapify(arr, length, i, animationsArr) {
+function heapify(array, length, i, animationsArr) {
     /* Index of the parent */
     let max = i;
     const leftChild = (i * 2) + 1;
@@ -56,7 +49,7 @@ function heapify(arr, length, i, animationsArr) {
     /* Check if the left child is still an element of the array and if it's 
         value is larger than its parents'. If that's the case then mark its 
         index as that of the max element */
-    if (leftChild < length && arr[leftChild] > arr[max]) {
+    if (leftChild < length && array[leftChild] > array[max]) {
         animationsArr.push([i, leftChild, true, 'compareBars']);
         animationsArr.push([i, leftChild, false, 'compareBars']);
 
@@ -64,7 +57,7 @@ function heapify(arr, length, i, animationsArr) {
     }
 
     /* Same thing for the right child */
-    if (rightChild < length && arr[rightChild] > arr[max]) {
+    if (rightChild < length && array[rightChild] > array[max]) {
         animationsArr.push([i, rightChild, true, 'compareBars']);
         animationsArr.push([i, rightChild, false, 'compareBars']);
 
@@ -76,14 +69,14 @@ function heapify(arr, length, i, animationsArr) {
     if (max != i) {
         animationsArr.push([max, i, true, 'swapBars']);
 
-        let tempVal = arr[i];
-        arr[i] = arr[max];
-        arr[max] = tempVal;
+        const tempVal = array[i];
+        array[i] = array[max];
+        array[max] = tempVal;
 
         /* Recursively call this function so it goes down the heap after every 
             switch because  if we make changes to a parent child triplet it can 
             affect the triplets below it as their new parent node might be 
             smaller than its children */
-        heapify(arr, length, max, animationsArr);
+        heapify(array, length, max, animationsArr);
     }
 }

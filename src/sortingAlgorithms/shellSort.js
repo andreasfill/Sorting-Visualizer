@@ -2,43 +2,42 @@
 
 export default function getShellSortAnimations(array) {
     const animationsArr = [];
-    const arr = [];
 
-    /* Get all the values from the Node-list */
-    for (let i = 0; i < array.length; i++) {
-        arr.push(parseInt(array[i].getAttribute('value'), 10));
-    }
-
-    shellSort(arr, animationsArr);
+    shellSort(array, animationsArr);
 
     return animationsArr;
 }
 
-function shellSort(arr, animationsArr) {
+function shellSort(array, animationsArr) {
     let i, j, indDiff = 1;
 
-    /* Create a 3x + 1 increment sequence (e.g. 1, 4, 7, 10, 13, 19, 22, ...) */
-    while (indDiff < Math.floor(arr.length / 3)) {
+    /* Get the largest possible gap between two indices in the array that is still
+        within the length of the array (3 * x + 1 where x is the previous
+        result produces the following sequence: 4 (x = 0), 13 (x = 4), 40 (x = 13), 
+        121 (x = 40), ...) */
+    while (indDiff < array.length - 1) {
         indDiff = 3 * indDiff + 1;
     }
 
-    /* indDiff refers to the difference in indices between two elements (e.g. indDiff = 1 means
-        that the two elements with the index 2 and 3 will be compared to each other */
+    /* indDiff refers to the difference in indices between two elements 
+        (e.g. indDiff = 1 means that the two elements with the index 2 and 3 will 
+        be compared to each other */
     while (indDiff >= 1) {
-        /* Start at the largest possible index of the arr that's an element in the
-            3x + 1 sequence and then go to the end of the array from there */
-        for (i = indDiff; i < arr.length; i++) {
+        for (i = indDiff; i < array.length; i++) {
+            /* Go through the array from right to left and always compare elements
+                whose indices are indDiff apart. The left bar that's being compared
+                in the current iteration will the right bar of the next iteration */
             for (j = i; j >= indDiff; j -= indDiff) {
                 animationsArr.push([j - indDiff, j, true, 'compareBars']);
                 animationsArr.push([j - indDiff, j, false, 'compareBars']);
 
                 /* Swap the elements if the left one is larger */
-                if (arr[j] < arr[j - indDiff]) {
+                if (array[j - indDiff] > array[j]) {
                     animationsArr.push([j - indDiff, j, true, 'swapBars']);
 
-                    let tempVal = arr[j];
-                    arr[j] = arr[j - indDiff];
-                    arr[j - indDiff] = tempVal;
+                    const tempVal = array[j];
+                    array[j] = array[j - indDiff];
+                    array[j - indDiff] = tempVal;
                 }
             }
         }

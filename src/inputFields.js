@@ -105,6 +105,7 @@ function adjustLimitsAndLabels() {
     /* Space between the leftmost bar and the left border of the browser window */
     let spaceAtSides = 100;
 
+    /* Half this value for the mobile version */
     if (newWidth <= 950) {
         spaceAtSides = 50;
     }
@@ -113,12 +114,13 @@ function adjustLimitsAndLabels() {
         spaceAtSides = 20;
     }
 
-    /* Each bar needs twice its width as space because of margins */
+    /* Each bar needs twice its width as space because of its left and right margin
+        that each are half the size of the bar */
     numOfBars.value = numOfBars.max = 
         `${Math.floor((newWidth - spaceAtSides - (newWidth % 100)) / 
         (2 * MIN_BAR_WIDTH))}`;
 
-    numOfBarLimitsLabel.innerHTML = numOfBars.min + ' ... ' + numOfBars.max;
+    numOfBarLimitsLabel.innerHTML = `${numOfBars.min} ... ${numOfBars.max}`;
 
     /* Space between the bottom of the largest bar (from the top of the
         page) and the bottom of the browser window */
@@ -141,6 +143,6 @@ function adjustLimitsAndLabels() {
         minBarValue.value = minBarValue.max;
     }
 
-    minBarLimitsLabel.innerHTML = minBarValue.min + ' ... ' + minBarValue.max;
-    maxBarLimitsLabel.innerHTML = maxBarValue.min + ' ... ' + maxBarValue.max;
+    minBarLimitsLabel.innerHTML = `${minBarValue.min} ... ${minBarValue.max}`;
+    maxBarLimitsLabel.innerHTML = `${maxBarValue.min} ... ${maxBarValue.max}`;
 }

@@ -1,54 +1,40 @@
 'use strict';
 
 export default function getMergeSortAnimations(array) {
-    if (array.length <= 1) {
-        return array;
-    }
-
-    const arr = [];
-
-    /* Get all the values from the Node-list */
-    for (let i = 0; i < array.length; i++) {
-        arr.push(parseInt(array[i].getAttribute('value'), 10));
-    }
 
     const animationsArr = [];
-    const helperArr = arr.slice();
 
-    mergeSort(0, array.length - 1, arr, helperArr, animationsArr);
+    mergeSort(0, array.length - 1, array, animationsArr);
 
     return animationsArr;
 }
 
-function mergeSort(startInd, endInd, array, helperArr, animationsArr) {
+function mergeSort(startInd, endInd, array, animationsArr) {
+    if (array.length <= 1) {
+        return array;
+    }
+
     if (startInd < endInd) {
         let midInd = Math.floor((startInd + endInd) / 2);
 
         /* Split the array in a left and right half and sort them individually.
-            Continue splitting them up until start- and endindex are the same */
-        mergeSort(startInd, midInd, array, helperArr, animationsArr);
-        mergeSort(midInd + 1, endInd, array, helperArr, animationsArr);
+            Continue splitting them up until start- and endindex are the same
+            (i.e. only one element to sort) */
+        mergeSort(startInd, midInd, array, animationsArr);
+        mergeSort(midInd + 1, endInd, array, animationsArr);
 
-        merge(startInd, midInd, endInd, array, helperArr, animationsArr);
+        merge(startInd, midInd, endInd, array, animationsArr);
     }
 }
 
-function merge(startInd, midInd, endInd, arr, helperArr, animationsArr) {
-    let i = startInd, j = endInd, k = startInd;
+function merge(startInd, midInd, endInd, array, animationsArr) {
+    /* Create a deep copy of the original array, which is independent
+        so that changes in one array don't affect the other one */
+    const helperArr = array.slice();
+    let i = startInd, j = midInd + 1, k = startInd;
 
-    /* Copy the first half of the array into the helper array */
-    while (i <= midInd) {
-        helperArr[k++] = arr[i++];
-    }
-
-    /* Copy the second half of the array into the helper array backwards */
-    while (j > midInd) {
-        helperArr[k++] = arr[j--];
-    }
-
-    i = startInd, j = endInd, k = startInd;
-
-    while (i <= j) {
+    /* Array is separated into a left and right half */
+    while (i <= midInd && j <= endInd) {
         animationsArr.push([i, j, 0, true, 'compareBars']);
         animationsArr.push([i, j, 0, false, 'compareBars']);
 
@@ -56,9 +42,9 @@ function merge(startInd, midInd, endInd, arr, helperArr, animationsArr) {
             in the array then push the current first element into the main array 
             and compare the next first element to the current last one */
         if (helperArr[i] <= helperArr[j]) {
-            animationsArr.push([k, j, helperArr[i], true, 'swapBars']);
+            animationsArr.push([k, i, helperArr[i], true, 'swapBars']);
 
-            arr[k++] = helperArr[i++];
+            array[k++] = helperArr[i++];
         }
 
         /* If the current last element is smaller than the current first element 
@@ -68,7 +54,25 @@ function merge(startInd, midInd, endInd, arr, helperArr, animationsArr) {
         else {
             animationsArr.push([k, j, helperArr[j], true, 'swapBars']);
 
-            arr[k++] = helperArr[j--];
+            array[k++] = helperArr[j++];
         }
+    }
+
+    /* Left array stil has elements in them which are all larger than the
+        max value in the right array */
+    while (i <= midInd) {
+        animationsArr.push([i, i, 0, true, 'compareBars']);
+        animationsArr.push([i, i, 0, false, 'compareBars']);
+        animationsArr.push([k, i, helperArr[i], true, 'swapBars']);
+
+        array[k++] = helperArr[i++];
+    }
+
+    while (j <= endInd) {
+        animationsArr.push([j, j, 0, true, 'compareBars']);
+        animationsArr.push([j, j, 0, false, 'compareBars']);
+        animationsArr.push([k, j, helperArr[j], true, 'swapBars']);
+
+        array[k++] = helperArr[j++];
     }
 }
