@@ -1,5 +1,7 @@
 'use strict';
 
+import {Action} from '../animateAlgorithms.js';
+
 export default function getSelectionSortAnimations(array) {
     const animationsArr = [];
 
@@ -21,11 +23,11 @@ function selectionSort(array, animationsArr) {
                 minPos = j;
             }
 
-            animationsArr.push([i, j, true, 'compareBars']);
-            animationsArr.push([i, j, false, 'compareBars']);
+            animationsArr.push([i, j, true, Action.compare]);
+            animationsArr.push([i, j, false, Action.compare]);
         }
 
-        animationsArr.push([i, minPos, true, 'swapBars']);
+        animationsArr.push([i, minPos, true, Action.swap]);
 
         /* Swap the first element in the unordered part of the array 
             with the smallest one */

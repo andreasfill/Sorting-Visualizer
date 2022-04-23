@@ -5,12 +5,12 @@ export {handleMinBarValue, handleMaxBarValue, handleNumOfBars, adjustLimitsAndLa
 import {MIN_BAR_WIDTH, enableUpperBarButtons, disableUpperBarButtons} 
         from './index.js';
 
-let minBarValue = document.getElementById('minBarValue');
-let maxBarValue = document.getElementById('maxBarValue');
-let numOfBars = document.getElementById('numOfBars');
-let minBarLimitsLabel = document.getElementById('minBarLimitsLabel');
-let maxBarLimitsLabel = document.getElementById('maxBarLimitsLabel');
-let numOfBarLimitsLabel = document.getElementById('numOfBarLimitsLabel');
+const minBarValue = document.getElementById('minBarValue');
+const maxBarValue = document.getElementById('maxBarValue');
+const numOfBars = document.getElementById('numOfBars');
+const minBarLimitsLabel = document.getElementById('minBarLimitsLabel');
+const maxBarLimitsLabel = document.getElementById('maxBarLimitsLabel');
+const numOfBarLimitsLabel = document.getElementById('numOfBarLimitsLabel');
 
 const minGap = 5;
 

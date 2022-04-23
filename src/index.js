@@ -57,12 +57,12 @@ function disableUpperBarButtons() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const barArray = [];
-    let createArrayButton = document.getElementById('createArray');
-    let sortArrayButton = document.getElementById('sortArray');
-    let arrayContainer = document.getElementById('arrayContainer');
-    let minBarValue = document.getElementById('minBarValue');
-    let maxBarValue = document.getElementById('maxBarValue');
-    let numOfBars = document.getElementById('numOfBars');
+    const createArrayButton = document.getElementById('createArray');
+    const sortArrayButton = document.getElementById('sortArray');
+    const arrayContainer = document.getElementById('arrayContainer');
+    const minBarValue = document.getElementById('minBarValue');
+    const maxBarValue = document.getElementById('maxBarValue');
+    const numOfBars = document.getElementById('numOfBars');
     let allBars = document.getElementsByClassName('arrayBar');
 
     (function() {
@@ -93,8 +93,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 /* Reset current array to how it looked before it was sorted if the
                     user didn't create a new one */
                 displayBars();
-        
-                const bars = parseInt(numOfBars.value, 10);
         
                 /* Get the radio button from the algorithms that's currently chosen */
                 const selectedAlgorithm = 
@@ -151,9 +149,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         /* Store values in extra variables so the values don't need to be
             recalculated in every loop iteration */
-        let barNum = parseInt(numOfBars.value, 10);
-        let maxBarVal = parseInt(maxBarValue.value, 10);
-        let minBarVal = parseInt(minBarValue.value, 10);
+        const barNum = parseInt(numOfBars.value, 10);
+        const maxBarVal = parseInt(maxBarValue.value, 10);
+        const minBarVal = parseInt(minBarValue.value, 10);
 
         for (let i = 0; i < barNum; i++) {
             /* Create a random number between the lower and upper bound set by
@@ -164,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function createBarDiv(val, ind) {
-        let arrayBarDiv = document.createElement('div');
+        const arrayBarDiv = document.createElement('div');
         arrayBarDiv.setAttribute('id', `${ind}`);
         arrayBarDiv.setAttribute('class', 'arrayBar');
         arrayBarDiv.setAttribute('value', `${val}`);

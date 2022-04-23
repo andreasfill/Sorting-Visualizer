@@ -1,5 +1,7 @@
 'use strict';
 
+import {Action} from '../animateAlgorithms.js';
+
 export default function getHeapSortAnimations(array) {
     const animationsArr = [];
 
@@ -27,7 +29,7 @@ function heapSort(array, animationsArr) {
         (largest one) after the array has been heapified and hereby sort 
         the array from the back from largest to smallest value */
     while (k >= 0) {
-        animationsArr.push([0, k, true, 'finalSwap']);
+        animationsArr.push([0, k, true, Action.finalSwap]);
 
         let tempVal = array[0];
         array[0] = array[k];
@@ -50,16 +52,16 @@ function heapify(array, length, i, animationsArr) {
         value is larger than its parents'. If that's the case then mark its 
         index as that of the max element */
     if (leftChild < length && array[leftChild] > array[max]) {
-        animationsArr.push([i, leftChild, true, 'compareBars']);
-        animationsArr.push([i, leftChild, false, 'compareBars']);
+        animationsArr.push([i, leftChild, true, Action.compare]);
+        animationsArr.push([i, leftChild, false, Action.compare]);
 
         max = leftChild;
     }
 
     /* Same thing for the right child */
     if (rightChild < length && array[rightChild] > array[max]) {
-        animationsArr.push([i, rightChild, true, 'compareBars']);
-        animationsArr.push([i, rightChild, false, 'compareBars']);
+        animationsArr.push([i, rightChild, true, Action.compare]);
+        animationsArr.push([i, rightChild, false, Action.compare]);
 
         max = rightChild;
     }
@@ -67,7 +69,7 @@ function heapify(array, length, i, animationsArr) {
     /* If the parent node was smaller than either it's left or right child 
         then swap the value so that the largest one is the parent */
     if (max != i) {
-        animationsArr.push([max, i, true, 'swapBars']);
+        animationsArr.push([max, i, true, Action.swap]);
 
         const tempVal = array[i];
         array[i] = array[max];

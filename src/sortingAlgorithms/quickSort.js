@@ -1,5 +1,7 @@
 'use strict';
 
+import {Action} from '../animateAlgorithms.js';
+
 export default function getQuickSortAnimations(array) {
     const animationsArr = [];
 
@@ -28,8 +30,8 @@ function partition(array, startInd, endInd, animationsArr) {
         /* Search an element beginning from the left that's larger than the 
             pivot element */
         while (i < endInd && array[i] < pivot) {
-            animationsArr.push([i, endInd, true, 'compareBars']);
-            animationsArr.push([i, endInd, false, 'compareBars']);
+            animationsArr.push([i, endInd, true, Action.compare]);
+            animationsArr.push([i, endInd, false, Action.compare]);
 
             i++;
         }
@@ -37,8 +39,8 @@ function partition(array, startInd, endInd, animationsArr) {
         /* Search an element beginning from the right that's smaller 
             than or equal to the pivot element */
         while (j > startInd && array[j] >= pivot) {
-            animationsArr.push([j, endInd, true, 'compareBars']);
-            animationsArr.push([j, endInd, false, 'compareBars']);
+            animationsArr.push([j, endInd, true, Action.compare]);
+            animationsArr.push([j, endInd, false, Action.compare]);
 
             j--;
         }
@@ -47,7 +49,7 @@ function partition(array, startInd, endInd, animationsArr) {
             than the pivot element is to the left of the smaller element) then 
             swap their position */
         if (i < j) {
-            animationsArr.push([i, j, true, 'swapBars']);
+            animationsArr.push([i, j, true, Action.swap]);
 
             let tempVal = array[i];
             array[i] = array[j];
@@ -59,7 +61,7 @@ function partition(array, startInd, endInd, animationsArr) {
         smaller than the pivot element and all elements right of index i are 
         larger or equal so the final position of the pivot element is index i */
     if (array[i] > pivot) {
-        animationsArr.push([i, endInd, true, 'finalSwap']);
+        animationsArr.push([i, endInd, true, Action.swap]);
 
         let tempVal = array[i];
         array[i] = array[endInd];

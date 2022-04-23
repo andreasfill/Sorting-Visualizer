@@ -1,5 +1,7 @@
 'use strict';
 
+import {Action} from '../animateAlgorithms.js';
+
 export default function getBucketSortAnimations(array) {
     const animationsArr = [];
 
@@ -36,7 +38,7 @@ function bucketSort(array, animationsArr) {
     for (let i = 0; i < buckets.length; i++) {
         for (let j = 0; j < buckets[i].length; j++) {
             array[counter] = buckets[i][j];
-            animationsArr.push([counter, 0, buckets[i][j], true, 'swapBars']);
+            animationsArr.push([counter, 0, buckets[i][j], true, Action.swap]);
             counter++;
         }
     }
@@ -98,14 +100,14 @@ function merge(mainArrStartInd, bucketStartInd, bucketMidInd, bucketEndInd, arra
     let i = bucketStartInd, j = bucketMidInd + 1, k = bucketStartInd;
 
     while (i <= bucketMidInd && j <= bucketEndInd) {
-        animationsArr.push([mainArrStartInd + i, mainArrStartInd + j, 0, true, 'compareBars']);
-        animationsArr.push([mainArrStartInd + i, mainArrStartInd + j, 0, false, 'compareBars']);
+        animationsArr.push([mainArrStartInd + i, mainArrStartInd + j, 0, true, Action.compare]);
+        animationsArr.push([mainArrStartInd + i, mainArrStartInd + j, 0, false, Action.compare]);
 
         /* If the current first element is smaller than the current last element in the array 
             then push the current first element into the main array and compare the next first 
             element to the current last one */
         if (helperArr[i] <= helperArr[j]) {
-            animationsArr.push([mainArrStartInd + k, mainArrStartInd + j, helperArr[i], true, 'swapBars']);
+            animationsArr.push([mainArrStartInd + k, mainArrStartInd + j, helperArr[i], true, Action.swap]);
 
             array[k++] = helperArr[i++];
         }
@@ -114,7 +116,7 @@ function merge(mainArrStartInd, bucketStartInd, bucketMidInd, bucketEndInd, arra
             current last element and go the the next element left of the current last one and
             compare it to the current first one */
         else {
-            animationsArr.push([mainArrStartInd + k, mainArrStartInd + j, helperArr[j], true, 'swapBars']);
+            animationsArr.push([mainArrStartInd + k, mainArrStartInd + j, helperArr[j], true, Action.swap]);
 
             array[k++] = helperArr[j++];
         }
@@ -123,17 +125,17 @@ function merge(mainArrStartInd, bucketStartInd, bucketMidInd, bucketEndInd, arra
     /* Left array stil has elements in them which are all larger than the
         max value in the right array */
     while (i <= bucketMidInd) {
-        animationsArr.push([mainArrStartInd + i, mainArrStartInd + i, 0, true, 'compareBars']);
-        animationsArr.push([mainArrStartInd + i, mainArrStartInd + i, 0, false, 'compareBars']);
-        animationsArr.push([mainArrStartInd + k, mainArrStartInd + i, helperArr[i], true, 'swapBars']);
+        animationsArr.push([mainArrStartInd + i, mainArrStartInd + i, 0, true, Action.compare]);
+        animationsArr.push([mainArrStartInd + i, mainArrStartInd + i, 0, false, Action.compare]);
+        animationsArr.push([mainArrStartInd + k, mainArrStartInd + i, helperArr[i], true, Action.swap]);
         
         array[k++] = helperArr[i++];
     }
 
     while (j <= bucketEndInd) {
-        animationsArr.push([mainArrStartInd + j, mainArrStartInd + j, 0, true, 'compareBars']);
-        animationsArr.push([mainArrStartInd + j, mainArrStartInd + j, 0, false, 'compareBars']);
-        animationsArr.push([mainArrStartInd + k, mainArrStartInd + j, helperArr[j], true, 'swapBars']);
+        animationsArr.push([mainArrStartInd + j, mainArrStartInd + j, 0, true, Action.compare]);
+        animationsArr.push([mainArrStartInd + j, mainArrStartInd + j, 0, false, Action.compare]);
+        animationsArr.push([mainArrStartInd + k, mainArrStartInd + j, helperArr[j], true, Action.swap]);
 
         array[k++] = helperArr[j++];
     }

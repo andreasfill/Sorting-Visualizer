@@ -1,5 +1,7 @@
 'use strict';
 
+import {Action} from '../animateAlgorithms.js';
+
 export default function getShellSortAnimations(array) {
     const animationsArr = [];
 
@@ -28,12 +30,12 @@ function shellSort(array, animationsArr) {
                 whose indices are indDiff apart. The left bar that's being compared
                 in the current iteration will the right bar of the next iteration */
             for (j = i; j >= indDiff; j -= indDiff) {
-                animationsArr.push([j - indDiff, j, true, 'compareBars']);
-                animationsArr.push([j - indDiff, j, false, 'compareBars']);
+                animationsArr.push([j - indDiff, j, true, Action.compare]);
+                animationsArr.push([j - indDiff, j, false, Action.compare]);
 
                 /* Swap the elements if the left one is larger */
                 if (array[j - indDiff] > array[j]) {
-                    animationsArr.push([j - indDiff, j, true, 'swapBars']);
+                    animationsArr.push([j - indDiff, j, true, Action.swap]);
 
                     const tempVal = array[j];
                     array[j] = array[j - indDiff];
