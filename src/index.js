@@ -6,7 +6,7 @@ import {ORIGINAL_COLOR, animateAlgorithm} from './animateAlgorithms.js';
 import {handleMinBarValue, handleMaxBarValue, handleNumOfBars,
         adjustLimitsAndLabels} from './inputFields.js';
 
-const MIN_BAR_WIDTH = 2;
+const MIN_BAR_WIDTH = 4;
 
 function enableUI() {
     const numFields = document.getElementsByClassName('numField');
@@ -116,30 +116,30 @@ document.addEventListener('DOMContentLoaded', function() {
         const radioButtonLabels = document.getElementsByClassName('radioButtonLabel');
         const buttons = document.getElementsByClassName('upperBarButtons');
         const bars = document.getElementsByClassName('bar');
-
+    
         for (const numField of numFields) {
             numField.disabled = true;
         }
-
+    
         for (const radioButton of radioButtons) {
             radioButton.disabled = true;
         }
-
+    
         /* Create a red line through the labels */
         for (const label of radioButtonLabels) {
             label.style.textDecoration = 'line-through red solid 3px';
         }
-
+    
         for (const button of buttons) {
             button.disabled = true;
         }
-
+    
         /* Color the bars of the mobile menu button red to signal that clicking
             the button has no effect */
         for (const bar of bars) {
             bar.style.backgroundColor = ORIGINAL_COLOR;
         }
-
+    
         /* Disable the div for the button and all contents inside it */
         mobileMenuButton.style.pointerEvents = 'none';
     }
@@ -156,8 +156,8 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let i = 0; i < barNum; i++) {
             /* Create a random number between the lower and upper bound set by
                 the two input fields */
-            barArray.push(Math.floor(((Math.random() * maxBarVal) - minBarVal + 1) + 
-                            minBarVal));
+            barArray.push(Math.floor(Math.random() * (maxBarVal - minBarVal + 1)) + 
+                            minBarVal);
         }
     }
 
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
         arrayBarDiv.style.width = `${Math.floor(((window.innerWidth - 100 - 
             (window.innerWidth % 100)) / numOfBars.value) / 2)}px`;
 
-        /* If the width of the bar is smaller than 2px then the left and right
+        /* If the width of the bar is smaller than 4px then the left and right
             margin would be 0px and all bars would be next to each other */
         if (parseInt(arrayBarDiv.style.width, 10) < MIN_BAR_WIDTH) {
             arrayBarDiv.style.width = `${MIN_BAR_WIDTH}px`;

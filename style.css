@@ -108,23 +108,22 @@ div.radioButtonWrapper label {
 }
 
 div.radioButtonWrapper label:hover {
-    font-weight: bold;
+    color: lightgrey;
 }
 
 div.radioButtonWrapper input:checked + label {
-    font-weight: bold;
-    text-transform: uppercase;
+    color: black;
 }
 
 button#sortArray {
     margin-right: 1vw;
-}
+} 
 
 div#mobileMenuButton {
     width: 33px;
     height: 33px;
     top: 8.5px;
-    right: 10px;
+    right: calc((20vw - 33px) / 4);
     /* Element always stays in the same place even if page is being scrolled */
     position: fixed;
     display: none;
@@ -132,7 +131,7 @@ div#mobileMenuButton {
 
 /* Style the three white bars for the menu button in the mobile version */
 div#mobileMenuButton .bar {
-    width: 25px;
+    width: 23px;
     height: 3px;
     margin: 5px auto;
     background-color: white;
@@ -156,6 +155,10 @@ div.arrayBar {
             and closed then menuStyle.style.display = 'none' would be set */
         display: flex !important;
         position: inline;
+    }
+
+    div.menuBar {
+        justify-content: center !important;
     }
 }
 
@@ -199,6 +202,7 @@ div.arrayBar {
 
     div.menuBar {
         height: 50px;
+        justify-content: left;
     }
 
     div.numFieldContainer {
