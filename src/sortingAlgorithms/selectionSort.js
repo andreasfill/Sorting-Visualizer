@@ -2,7 +2,8 @@
 
 import {Action} from '../animateAlgorithms.js';
 
-export default function getSelectionSortAnimations(array) {
+export default function getSelectionSortAnimations(array) 
+{
     const animationsArr = [];
 
     selectionSort(array, animationsArr);
@@ -10,18 +11,20 @@ export default function getSelectionSortAnimations(array) {
     return animationsArr;
 }
 
-function selectionSort(array, animationsArr) {
+function selectionSort(array, animationsArr) 
+{
     let i, j, minPos;
 
-    for (i = 0; i < array.length - 1; i++) {
+    for (i = 0; i < array.length - 1; i++) 
+    {
         minPos = i;
 
-        for (j = i + 1; j < array.length; j++) {
+        for (j = i + 1; j < array.length; j++) 
+        {
             /* Get the smallest value from the part of the array that
                 hasn't been sorted yet */
-            if (array[j] < array[minPos]) {
+            if (array[j] < array[minPos]) 
                 minPos = j;
-            }
 
             animationsArr.push([i, j, true, Action.compare]);
             animationsArr.push([i, j, false, Action.compare]);

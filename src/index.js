@@ -8,54 +8,51 @@ import {handleMinBarValue, handleMaxBarValue, handleNumOfBars,
 
 const MIN_BAR_WIDTH = 4;
 
-function enableUI() {
+function enableUI() 
+{
     const numFields = document.getElementsByClassName('numField');
     const radioButtons = document.getElementsByClassName('algorithmRadioButtons');
     const radioButtonLabels = document.getElementsByClassName('radioButtonLabel');
     const buttons = document.getElementsByClassName('upperBarButtons');
     const bars = document.getElementsByClassName('bar');
 
-    for (const numField of numFields) {
+    for (const numField of numFields) 
         numField.disabled = false;
-    }
 
-    for (const radioButton of radioButtons) {
+    for (const radioButton of radioButtons) 
         radioButton.disabled = false;
-    }
 
-    for (const label of radioButtonLabels) {
+    for (const label of radioButtonLabels) 
         label.style.textDecoration = '';
-    }
 
-    for (const button of buttons) {
+    for (const button of buttons) 
         button.disabled = false;
-    }
 
     /* Color the bars of the mobile menu button white again */
-    for (const bar of bars) {
+    for (const bar of bars) 
         bar.style.backgroundColor = 'white';
-    }
 
     mobileMenuButton.style.pointerEvents = 'auto';
 }
 
-function enableUpperBarButtons() {
+function enableUpperBarButtons() 
+{
     const buttons = document.getElementsByClassName('upperBarButtons');
 
-    for (const button of buttons) {
+    for (const button of buttons) 
         button.disabled = false;
-    }
 }
 
-function disableUpperBarButtons() {
+function disableUpperBarButtons() 
+{
     const buttons = document.getElementsByClassName('upperBarButtons');
 
-    for (const button of buttons) {
+    for (const button of buttons) 
         button.disabled = true;
-    }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() 
+{
     const barArray = [];
     const createArrayButton = document.getElementById('createArray');
     const sortArrayButton = document.getElementById('sortArray');
@@ -65,7 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const numOfBars = document.getElementById('numOfBars');
     let allBars = document.getElementsByClassName('arrayBar');
 
-    (function() {
+    (function() 
+    {
         setupMouseAndTouchInteractions();
         adjustLimitsAndLabels();
         createNewArray();
@@ -74,9 +72,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* Add an event listener for both mouse click and touch to both
         buttons */
-    function setupMouseAndTouchInteractions() {
-        ['touchstart', 'click'].forEach(function(userEvent) {
-            createArrayButton.addEventListener(userEvent, function(ev) {
+    function setupMouseAndTouchInteractions() 
+    {
+        ['touchstart', 'click'].forEach(function(userEvent) 
+        {
+            createArrayButton.addEventListener(userEvent, function(ev) 
+            {
                 /* Prevent mouse events from being triggered if the user
                     touches the button */
                 ev.preventDefault();
@@ -87,7 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 allBars = document.getElementsByClassName('arrayBar');
             });
         
-            sortArrayButton.addEventListener(userEvent, function(ev) {
+            sortArrayButton.addEventListener(userEvent, function(ev) 
+            {
                 ev.preventDefault();
 
                 /* Reset current array to how it looked before it was sorted if the
@@ -98,9 +100,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const selectedAlgorithm = 
                     document.querySelector('input[name="algorithmOption"]:checked');
         
-                if (selectedAlgorithm.value === null) {
+                if (selectedAlgorithm.value === null) 
                     return;
-                }
 
                 /* Disable the ui while the algorithm's running */
                 disableUI();
@@ -110,41 +111,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function disableUI() {
+    function disableUI() 
+    {
         const numFields = document.getElementsByClassName('numField');
         const radioButtons = document.getElementsByClassName('algorithmRadioButtons');
         const radioButtonLabels = document.getElementsByClassName('radioButtonLabel');
         const buttons = document.getElementsByClassName('upperBarButtons');
         const bars = document.getElementsByClassName('bar');
     
-        for (const numField of numFields) {
+        for (const numField of numFields) 
             numField.disabled = true;
-        }
     
-        for (const radioButton of radioButtons) {
+        for (const radioButton of radioButtons) 
             radioButton.disabled = true;
-        }
     
         /* Create a red line through the labels */
-        for (const label of radioButtonLabels) {
+        for (const label of radioButtonLabels) 
             label.style.textDecoration = 'line-through red solid 3px';
-        }
     
-        for (const button of buttons) {
+        for (const button of buttons) 
             button.disabled = true;
-        }
     
         /* Color the bars of the mobile menu button red to signal that clicking
             the button has no effect */
-        for (const bar of bars) {
+        for (const bar of bars) 
             bar.style.backgroundColor = ORIGINAL_COLOR;
-        }
     
         /* Disable the div for the button and all contents inside it */
         mobileMenuButton.style.pointerEvents = 'none';
     }
 
-    function createNewArray() {
+    function createNewArray() 
+    {
         barArray.length = 0;
 
         /* Store values in extra variables so the values don't need to be
@@ -153,15 +151,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const maxBarVal = parseInt(maxBarValue.value, 10);
         const minBarVal = parseInt(minBarValue.value, 10);
 
-        for (let i = 0; i < barNum; i++) {
+        for (let i = 0; i < barNum; i++) 
             /* Create a random number between the lower and upper bound set by
                 the two input fields */
-            barArray.push(Math.floor(Math.random() * (maxBarVal - minBarVal + 1)) + 
-                            minBarVal);
-        }
+            barArray.push(Math.floor(Math.random() * (maxBarVal - minBarVal + 1)) + minBarVal);
     }
 
-    function createBarDiv(val, ind) {
+    function createBarDiv(val, ind) 
+    {
         const arrayBarDiv = document.createElement('div');
         arrayBarDiv.setAttribute('id', `${ind}`);
         arrayBarDiv.setAttribute('class', 'arrayBar');
@@ -175,9 +172,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         /* If the width of the bar is smaller than 4px then the left and right
             margin would be 0px and all bars would be next to each other */
-        if (parseInt(arrayBarDiv.style.width, 10) < MIN_BAR_WIDTH) {
+        if (parseInt(arrayBarDiv.style.width, 10) < MIN_BAR_WIDTH)
             arrayBarDiv.style.width = `${MIN_BAR_WIDTH}px`;
-        }
 
         /* Using parseInt(..., 10) cuts off the 'px' at the end of 
             arrayBarDiv.style.width. The left and right margin of each bar's
@@ -187,13 +183,13 @@ document.addEventListener('DOMContentLoaded', function() {
         arrayContainer.append(arrayBarDiv);
     }
 
-    function displayBars() {
+    function displayBars() 
+    {
         /* Remove previous bars */
         arrayContainer.innerHTML = '';
 
-        for (let i = 0; i < barArray.length; i++) {
+        for (let i = 0; i < barArray.length; i++) 
             createBarDiv(barArray[i], i);
-        }
 
         /* The vertical margin can be calculated by first getting the width of all 
             bars and their margins (left and right are the same) and subtracting it from 
@@ -206,7 +202,8 @@ document.addEventListener('DOMContentLoaded', function() {
             numOfBars.value) / 2}px`;
     }
 
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function() 
+    {
         /* Enable the ui again if the user changed the screen size while
             an algorithm was running */
         enableUI();
@@ -223,30 +220,36 @@ document.addEventListener('DOMContentLoaded', function() {
     /* This function is called whenever the value in the input field changes, 
         but only if the element loses focus (i.e. the user clicks at another 
         element or another part of the screen) */
-    minBarValue.addEventListener('change', function() {
+    minBarValue.addEventListener('change', function() 
+    {
         handleMinBarValue.call(this);
     });
 
-    maxBarValue.addEventListener('change', function() {
+    maxBarValue.addEventListener('change', function() 
+    {
         handleMaxBarValue.call(this);
     });
 
-    numOfBars.addEventListener('change', function() {
+    numOfBars.addEventListener('change', function() 
+    {
         handleNumOfBars.call(this);
     });
 
     /* Display the mobile version of the menu if the user clicks on the button
         with the three white bars and hide it on the next click */
-    mobileMenuButton.addEventListener('click', function(ev) {
+    mobileMenuButton.addEventListener('click', function(ev) 
+    {
         /* Prevent mouse events from being triggered */
         ev.preventDefault();
 
-        if (menuStyle.style.display === 'block') {
+        if (menuStyle.style.display === 'block') 
+        {
             menuStyle.style.display = 'none';
             enableUpperBarButtons(); 
         }
         
-        else {
+        else 
+        {
             menuStyle.style.display = 'block';
             disableUpperBarButtons();
         }

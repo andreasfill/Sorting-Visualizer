@@ -2,7 +2,8 @@
 
 import {Action} from '../animateAlgorithms.js';
 
-export default function getInsertionSortAnimations(array) {
+export default function getInsertionSortAnimations(array) 
+{
     const animationsArr = [];
 
     insertionSort(array, animationsArr);
@@ -10,16 +11,19 @@ export default function getInsertionSortAnimations(array) {
     return animationsArr; 
 }
 
-function insertionSort(array, animationsArr) {
+function insertionSort(array, animationsArr) 
+{
     let i, j, elemToSort;
 
-    for (i = 1; i < array.length; i++) {
+    for (i = 1; i < array.length; i++) 
+    {
         elemToSort = array[i];
         j = i;
 
         /* Move to the left while the bar left of the one we currently want 
             to sort is larger */
-        while ((j - 1 >= 0) && array[j - 1] > elemToSort) {
+        while ((j - 1 >= 0) && array[j - 1] > elemToSort) 
+        {
             animationsArr.push([j - 1, j, elemToSort, Action.moveValueLeft]);
 
             array[j] = array[j - 1];

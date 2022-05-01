@@ -1,7 +1,8 @@
 @charset "utf-8";
 
 /* These settings apply to all elements */
-* {
+* 
+{
     /* Includes padding and border in an element's total width and height */
     box-sizing: border-box;
     margin: 0;
@@ -9,7 +10,8 @@
     font-family: 'Roboto', sans-serif;
 }
 
-div.menuBar {
+div.menuBar 
+{
     /* 1vw = 1% of the browsers current width */
     width: 100vw;
     height: 100px;
@@ -18,12 +20,14 @@ div.menuBar {
     justify-content: center;
 }
 
-div#menuStyle {
+div#menuStyle 
+{
     background-color: #ed7621;
     display: flex;
 }
 
-div.numFieldContainer {
+div.numFieldContainer 
+{
     width: 10vw;
     height: inherit;
     align-items: center;
@@ -33,12 +37,14 @@ div.numFieldContainer {
     text-align: center;
 }
 
-label.numFieldLabel {
+label.numFieldLabel 
+{
     margin-top: 5px;
     display: block;
 }
 
-input.numField {
+input.numField 
+{
     width: 5vw;
     height: 40px;
     background-color: #873305;
@@ -55,15 +61,18 @@ input.numField {
 }
 
 /* This indicates to the user that his input is incorrect */
-input.numField:invalid {
+input.numField:invalid 
+{
     background-color: red;
 }
 
-input.numField:disabled {
+input.numField:disabled 
+{
     background-color: red;
 }
 
-button.upperBarButtons {
+button.upperBarButtons 
+{
     width: 6vw;
     height: 50px;
     margin-left: 1vw;
@@ -77,17 +86,20 @@ button.upperBarButtons {
     cursor: pointer;
 }
 
-button.upperBarButtons:hover {
+button.upperBarButtons:hover 
+{
     background-color: white;
     color: #ad7047;
     border-color: #ad7047;
 }
 
-button.upperBarButtons:disabled {
+button.upperBarButtons:disabled 
+{
     background-color: red;
 }
 
-div.radioButtonContainer {
+div.radioButtonContainer 
+{
     /* Enables display: inline-flex in Safari */
     -webkit-display: inline-flex;
     display: inline-flex;
@@ -95,11 +107,13 @@ div.radioButtonContainer {
     margin-left: 1vw;
 }
 
-div.radioButtonWrapper input {
+div.radioButtonWrapper input 
+{
     display: none;
 }
 
-div.radioButtonWrapper label {
+div.radioButtonWrapper label 
+{
     color: white;
     font-size: 1.15rem;
     display: inline-block;
@@ -107,19 +121,23 @@ div.radioButtonWrapper label {
     cursor: pointer;
 }
 
-div.radioButtonWrapper label:hover {
+div.radioButtonWrapper label:hover 
+{
     color: lightgrey;
 }
 
-div.radioButtonWrapper input:checked + label {
+div.radioButtonWrapper input:checked + label 
+{
     color: black;
 }
 
-button#sortArray {
+button#sortArray 
+{
     margin-right: 1vw;
 } 
 
-div#mobileMenuButton {
+div#mobileMenuButton 
+{
     width: 33px;
     height: 33px;
     top: 8.5px;
@@ -130,7 +148,8 @@ div#mobileMenuButton {
 }
 
 /* Style the three white bars for the menu button in the mobile version */
-div#mobileMenuButton .bar {
+div#mobileMenuButton .bar 
+{
     width: 23px;
     height: 3px;
     margin: 5px auto;
@@ -140,15 +159,18 @@ div#mobileMenuButton .bar {
 }
 
 /* Places the red bars (visualization of the array values) next to each other */
-div.arrayBar {
+div.arrayBar 
+{
     float: left;
 }
 
-@media screen and (min-width: 951px) {
+@media screen and (min-width: 951px) 
+{
     /* This changes the display of the menu items from block to flex if the browser
         window's width is changed from less than 950px (mobile version) to something
         larger so that the elements are displayed correctly */
-    div#menuStyle {
+    div#menuStyle 
+    {
         height: 100px;
         /*  Overwrite the HTML style attribute of menuStyle with '!important' 
             if the screen was in mobile design before and the menu was open 
@@ -157,36 +179,44 @@ div.arrayBar {
         position: inline;
     }
 
-    div.menuBar {
+    div.menuBar 
+    {
         justify-content: center !important;
     }
 }
 
 /* Adjust font sizes and margins so that the design still looks good */
-@media screen and (min-width: 951px) and (max-width: 1200px) {
-    label.numFieldLabel {
+@media screen and (min-width: 951px) and (max-width: 1200px) 
+{
+    label.numFieldLabel 
+    {
         font-size: 0.8rem;
         margin-top: 5px;
     }
 
-    input.numField {
+    input.numField 
+    {
         height: 30px;
         font-size: 0.9rem;
         margin-top: 10px;
     }
 
-    button.upperBarButtons {
+    button.upperBarButtons 
+    {
         font-size: 0.8rem;
     }
 
-    div.radioButtonWrapper label {
+    div.radioButtonWrapper label 
+    {
         font-size: 1rem;
     }
 }
 
 /* Switch to mobile design */
-@media screen and (max-width: 950px) {
-    div#menuStyle {
+@media screen and (max-width: 950px) 
+{
+    div#menuStyle 
+    {
         width: 100vw;
         height: 75vh;
         margin-top: 50px;
@@ -196,27 +226,32 @@ div.arrayBar {
         z-index: 1;
     }
 
-    div#mobileMenuButton {
+    div#mobileMenuButton 
+    {
         display: block;
     }
 
-    div.menuBar {
+    div.menuBar 
+    {
         height: 50px;
         justify-content: left;
     }
 
-    div.numFieldContainer {
+    div.numFieldContainer 
+    {
         width: 100vw;
         height: 10vh;
     }
 
     /* Display the labels and the input field in a row instead of under each other */
-    label.numFieldLabel {
+    label.numFieldLabel 
+    {
         font-size: 1.1rem;
         display: inline;
     }
 
-    input.numField {
+    input.numField 
+    {
         width: 40vw;
         height: 8vh;
         font-size: 1.1rem;
@@ -225,7 +260,8 @@ div.arrayBar {
         display: inline;
     }
 
-    button.upperBarButtons {
+    button.upperBarButtons 
+    {
         width: 35vw;
         height: 40px;
         margin-top: 5px;
@@ -233,7 +269,8 @@ div.arrayBar {
         font-size: 1rem;
     }
 
-    div.radioButtonContainer {
+    div.radioButtonContainer 
+    {
         width: 100vw;
         margin-top: 2vh;
         display: flex;
@@ -242,35 +279,44 @@ div.arrayBar {
         flex-direction: column;
     }
 
-    div.radioButtonWrapper {
+    div.radioButtonWrapper 
+    {
         margin-top: 1vh;
     }
 
-    div.radioButtonWrapper label {
+    div.radioButtonWrapper label 
+    {
         font-size: 1.15rem;
     }
 }
 
-@media screen and (max-width: 310px) {
-    label.numFieldLabel {
+@media screen and (max-width: 310px) 
+{
+    label.numFieldLabel 
+    {
         font-size: 1rem;
     }
 
-    input.numField {
+    input.numField 
+    {
         font-size: 1rem;
     }
 }
 
-@media screen and (max-height: 500px) {
-    div.radioButtonContainer {
+@media screen and (max-height: 500px) 
+{
+    div.radioButtonContainer 
+    {
         margin-top: 2vh;
     }
 
-    div.radioButtonWrapper {
+    div.radioButtonWrapper 
+    {
         margin-top: 0.5vh;
     }
 
-    div.radioButtonWrapper label {
+    div.radioButtonWrapper label 
+    {
         font-size: 1rem;
     }
 }
