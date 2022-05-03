@@ -1,7 +1,5 @@
 'use strict';
 
-import {Action} from '../animateAlgorithms.js';
-
 export default function getRadixSortAnimations(array)
 {
     const animationsArr = [];
@@ -37,18 +35,13 @@ function radixSort(array, animationsArr)
 
         let counter = 0;
         let elemsInPrevBuckets = 0;
-        const helperArr = [...array];
 
         for (let i = 0; i < buckets.length; i++)
         {
             for (let j = 0; j < buckets[i].length; j++)
             {
-                const ind = helperArr.indexOf(buckets[i][j]);
-                // console.log(`${ind}, ${counter}, ${buckets[i][j]}`);
                 array[counter] = buckets[i][j];
-                animationsArr.push([counter, ind, true, Action.compare]);
-                animationsArr.push([counter, ind, false, Action.compare]);
-                animationsArr.push([counter, ind, true, Action.placeCurrentElement]);
+                animationsArr.push([counter, buckets[i][j]]);
                 counter++;
             }
 

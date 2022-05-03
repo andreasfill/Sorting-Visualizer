@@ -501,34 +501,13 @@ function animateRadixSort(allBars, valuesArr, ANIMATION_SPEED_MS)
 
     for (let i = 0; i < animationsArr.length; i++)
     {
-        const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
+        const [barOneInd, currElem] = animationsArr[i];
         const barOneStyle = allBars[barOneInd].style;
-        const barTwoStyle = allBars[barTwoInd].style;
 
-        if (action === Action.compare)
+        setTimeout(function()
         {
-            let color;
-
-            if (compareColor === true)
-                color = COMPARE_COLOR;
-
-            else
-                color = ORIGINAL_COLOR;
-
-            setTimeout(function()
-            {
-                barOneStyle.backgroundColor = color;
-                barTwoStyle.backgroundColor = color;
-            }, i * ANIMATION_SPEED_MS);
-        }
-
-        else if (action === Action.placeCurrentElement)
-        {
-            setTimeout(function()
-            {
-                barOneStyle.height = barTwoStyle.height;
-            }, i * ANIMATION_SPEED_MS);
-        }
+            barOneStyle.height = `${currElem}px`;
+        }, i * ANIMATION_SPEED_MS);
     }
 
     setTimeout(function()
