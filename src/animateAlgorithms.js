@@ -10,6 +10,7 @@ import getBucketSortAnimations from './sortingAlgorithms/bucketSort.js';
 import getMergeSortAnimations from './sortingAlgorithms/mergeSort.js';
 import getQuickSortAnimations from './sortingAlgorithms/quickSort.js';
 import getHeapSortAnimations from './sortingAlgorithms/heapSort.js';
+import getRadixSortAnimations from './sortingAlgorithms/radixSort.js';
 import {enableUI} from './index.js';
 
 const ORIGINAL_COLOR = 'red';
@@ -63,6 +64,9 @@ function animateAlgorithm(selectedAlgorithm, allBars)
             break;
         case 'heapSort':
             animateHeapSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            break;
+        case 'radixSort':
+            animateRadixSort(allBars, valuesArr, ANIMATION_SPEED_MS);
             break;
         default:
             break;
@@ -485,6 +489,51 @@ function animateHeapSort(allBars, valuesArr, ANIMATION_SPEED_MS)
     setTimeout(function() 
     {
         for (let i = 0; i < allBars.length; i++) 
+            allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
+
+        enableUI();
+    }, animationsArr.length * ANIMATION_SPEED_MS);
+}
+
+function animateRadixSort(allBars, valuesArr, ANIMATION_SPEED_MS)
+{
+    const animationsArr = getRadixSortAnimations(valuesArr);
+
+    for (let i = 0; i < animationsArr.length; i++)
+    {
+        const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
+        const barOneStyle = allBars[barOneInd].style;
+        const barTwoStyle = allBars[barTwoInd].style;
+
+        if (action === Action.compare)
+        {
+            let color;
+
+            if (compareColor === true)
+                color = COMPARE_COLOR;
+
+            else
+                color = ORIGINAL_COLOR;
+
+            setTimeout(function()
+            {
+                barOneStyle.backgroundColor = color;
+                barTwoStyle.backgroundColor = color;
+            }, i * ANIMATION_SPEED_MS);
+        }
+
+        else if (action === Action.placeCurrentElement)
+        {
+            setTimeout(function()
+            {
+                barOneStyle.height = barTwoStyle.height;
+            }, i * ANIMATION_SPEED_MS);
+        }
+    }
+
+    setTimeout(function()
+    {
+        for (let i = 0; i < allBars.length; i++)
             allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
 
         enableUI();
