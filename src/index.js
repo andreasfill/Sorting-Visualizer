@@ -226,14 +226,37 @@ document.addEventListener('DOMContentLoaded', function()
         handleMinBarValue.call(this);
     });
 
+    /* The buttons 'Create Array' and 'Sort' got enabled again
+        if the user clicked on a input field, so disable them again */
+    minBarValue.addEventListener('touchstart', function(ev)
+    {
+        ev.preventDefault();
+
+        disableUpperBarButtons();
+    });
+
     maxBarValue.addEventListener('change', function() 
     {
         handleMaxBarValue.call(this);
     });
 
+    maxBarValue.addEventListener('touchstart', function(ev)
+    {
+        ev.preventDefault();
+
+        disableUpperBarButtons();
+    });
+
     numOfBars.addEventListener('change', function() 
     {
         handleNumOfBars.call(this);
+    });
+
+    numOfBars.addEventListener('touchstart', function(ev)
+    {
+        ev.preventDefault();
+
+        disableUpperBarButtons();
     });
 
     /* Display the mobile version of the menu if the user clicks on the button
