@@ -1,6 +1,6 @@
 'use strict';
 
-import {MIN_BAR_WIDTH, enableUpperBarButtons, disableUpperBarButtons} 
+import {MIN_BAR_WIDTH, mobileMenuVisible, enableUpperBarButtons, disableUpperBarButtons} 
         from './index.js';
 
 const minBarValue = document.getElementById('minBarValue');
@@ -27,7 +27,10 @@ export function handleMinBarValue()
     }
 
     else 
-        enableUpperBarButtons();
+    {
+        if (mobileMenuVisible === false)
+            enableUpperBarButtons();
+    }
 
     /* Round the input to the nearest integer if it's a float number */
     this.value = `${Math.floor(minBarVal)}`;
@@ -55,7 +58,10 @@ export function handleMaxBarValue()
     }
 
     else 
-        enableUpperBarButtons();
+    {
+        if (mobileMenuVisible === false)
+            enableUpperBarButtons();
+    }
 
     this.value = `${Math.floor(maxBarVal)}`;
 
@@ -81,7 +87,10 @@ export function handleNumOfBars()
     }
 
     else 
-        enableUpperBarButtons();
+    {
+        if (mobileMenuVisible === false)
+            enableUpperBarButtons();
+    }
 
     this.value = `${Math.floor(numOfBars)}`;
 

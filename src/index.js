@@ -1,12 +1,13 @@
 'use strict';
 
-export {MIN_BAR_WIDTH, enableUI, enableUpperBarButtons, disableUpperBarButtons};
+export {MIN_BAR_WIDTH, mobileMenuVisible, enableUI, enableUpperBarButtons, disableUpperBarButtons};
 
 import {ORIGINAL_COLOR, animateAlgorithm} from './animateAlgorithms.js';
 import {handleMinBarValue, handleMaxBarValue, handleNumOfBars,
         adjustLimitsAndLabels} from './inputFields.js';
 
 const MIN_BAR_WIDTH = 4;
+let mobileMenuVisible = false;
 
 function enableUI() 
 {
@@ -246,12 +247,14 @@ document.addEventListener('DOMContentLoaded', function()
         {
             menuStyle.style.display = 'none';
             enableUpperBarButtons(); 
+            mobileMenuVisible = false;
         }
         
         else 
         {
             menuStyle.style.display = 'block';
             disableUpperBarButtons();
+            mobileMenuVisible = true;
         }
     });
 });

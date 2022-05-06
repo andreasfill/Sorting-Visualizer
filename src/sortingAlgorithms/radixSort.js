@@ -29,6 +29,8 @@ function radixSort(array, animationsArr)
 
         for (let i = 0; i < array.length; i++)
         {
+            /* Is 0 if the current element has less digits
+                than the maximum element */
             currLastDigit = Math.floor(array[i] / divisor) % 10;
             buckets[currLastDigit].push(array[i]);
         }
@@ -47,7 +49,5 @@ function radixSort(array, animationsArr)
 
             elemsInPrevBuckets += buckets[i].length;
         }
-
-        console.log(array);
     }
 }
