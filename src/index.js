@@ -9,9 +9,6 @@ import {handleMinBarValue, handleMaxBarValue, handleNumOfBars,
 const MIN_BAR_WIDTH = 4;
 let mobileMenuVisible = false;
 
-let windowWidth = window.innerWidth;
-let windowHeight = window.innerHeight;
-
 function enableUI() 
 {
     const numFields = document.getElementsByClassName('numField');
@@ -57,6 +54,9 @@ function disableUpperBarButtons()
 
 document.addEventListener('DOMContentLoaded', function() 
 {
+    const mobileVersionBreakPoint =
+        parseInt(getComputedStyle(document.documentElement)
+        .getPropertyValue('--mobile-version-breakpoint'), 10);
     const barArray = [];
     const createArrayButton = document.getElementById('createArray');
     const sortArrayButton = document.getElementById('sortArray');
@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function()
     {
         setupMouseAndTouchInteractions();
         adjustLimitsAndLabels();
+        lockScreen();
         createNewArray();
         displayBars();
     })();
@@ -145,6 +146,12 @@ document.addEventListener('DOMContentLoaded', function()
         mobileMenuButton.style.pointerEvents = 'none';
     }
 
+    function lockScreen()
+    {
+        if (window.innerWidth <= mobileVersionBreakPoint)
+            screen.orientation.lock('portrait');
+    }
+
     function createNewArray() 
     {
         barArray.length = 0;
@@ -208,24 +215,17 @@ document.addEventListener('DOMContentLoaded', function()
 
     window.addEventListener('resize', function() 
     {
-        /* This check is needed to prevent this event from firing everytime
-            that the menu is opened on the mobile version */
-        if (this.innerWidth !== windowWidth && this.innerHeight !== windowHeight)
-        {
-            windowWidth = this.innerWidth;
-            windowHeight = this.innerHeight;
-            /* Enable the ui again if the user changed the screen size while
-                an algorithm was running */
-            enableUI();
-            adjustLimitsAndLabels();
-            /* Create a new array so that if the user makes the screen smaller then
-                no bars will be placed under each other because there isn't enough
-                space to display them in one row */
-            createNewArray();
-            displayBars();
+        /* Enable the ui again if the user changed the screen size while
+            an algorithm was running */
+        enableUI();
+        adjustLimitsAndLabels();
+        /* Create a new array so that if the user makes the screen smaller then
+            no bars will be placed under each other because there isn't enough
+            space to display them in one row */
+        createNewArray();
+        displayBars();
 
-            allBars = document.getElementsByClassName('arrayBar');
-        }
+        allBars = document.getElementsByClassName('arrayBar');
     });
 
     /* This function is called whenever the value in the input field changes, 
