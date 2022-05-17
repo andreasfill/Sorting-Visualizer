@@ -7,7 +7,6 @@ import {handleMinBarValue, handleMaxBarValue, handleNumOfBars,
         adjustLimitsAndLabels} from './inputFields.js';
 
 const MIN_BAR_WIDTH = 4;
-const MOBILE_MAX_WIDTH = 950;
 let mobileMenuVisible = false;
 
 function enableUI() 
@@ -63,12 +62,13 @@ document.addEventListener('DOMContentLoaded', function()
     const maxBarValue = document.getElementById('maxBarValue');
     const numOfBars = document.getElementById('numOfBars');
     let allBars = document.getElementsByClassName('arrayBar');
+    const windowHeight = window.innerHeight;
+    const mobileKeyboardHeightPercentage = 35;
 
     (function() 
     {
         setupMouseAndTouchInteractions();
         adjustLimitsAndLabels();
-        lockMobileScreen();
         createNewArray();
         displayBars();
     })();
@@ -144,12 +144,6 @@ document.addEventListener('DOMContentLoaded', function()
         mobileMenuButton.style.pointerEvents = 'none';
     }
 
-    function lockMobileScreen()
-    {
-        if (window.innerWidth <= MOBILE_MAX_WIDTH)
-            window.screen.orientation.lock("portrait");
-    }
-
     function createNewArray() 
     {
         barArray.length = 0;
@@ -213,17 +207,21 @@ document.addEventListener('DOMContentLoaded', function()
 
     window.addEventListener('resize', function() 
     {
-        /* Enable the ui again if the user changed the screen size while
-            an algorithm was running */
-        enableUI();
-        adjustLimitsAndLabels();
-        /* Create a new array so that if the user makes the screen smaller then
-            no bars will be placed under each other because there isn't enough
-            space to display them in one row */
-        createNewArray();
-        displayBars();
+        if (((windowHeight - this.innerHeight) / windowHeight) * 100 < 
+            mobileKeyboardHeightPercentage)
+        {
+            /* Enable the ui again if the user changed the screen size while
+                an algorithm was running */
+            enableUI();
+            adjustLimitsAndLabels();
+            /* Create a new array so that if the user makes the screen smaller then
+                no bars will be placed under each other because there isn't enough
+                space to display them in one row */
+            createNewArray();
+            displayBars();
 
-        allBars = document.getElementsByClassName('arrayBar');
+            allBars = document.getElementsByClassName('arrayBar');
+        }
     });
 
     /* This function is called whenever the value in the input field changes, 
