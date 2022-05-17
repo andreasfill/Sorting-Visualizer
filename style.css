@@ -1,10 +1,5 @@
 @charset "utf-8";
 
-:root
-{
-    --mobile-version-breakpoint: 950px;
-}
-
 /* These settings apply to all elements */
 * 
 {

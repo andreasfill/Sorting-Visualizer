@@ -7,6 +7,7 @@ import {handleMinBarValue, handleMaxBarValue, handleNumOfBars,
         adjustLimitsAndLabels} from './inputFields.js';
 
 const MIN_BAR_WIDTH = 4;
+const MOBILE_MAX_WIDTH = 950;
 let mobileMenuVisible = false;
 
 function enableUI() 
@@ -54,9 +55,6 @@ function disableUpperBarButtons()
 
 document.addEventListener('DOMContentLoaded', function() 
 {
-    const mobileVersionBreakPoint =
-        parseInt(getComputedStyle(document.documentElement)
-        .getPropertyValue('--mobile-version-breakpoint'), 10);
     const barArray = [];
     const createArrayButton = document.getElementById('createArray');
     const sortArrayButton = document.getElementById('sortArray');
@@ -70,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function()
     {
         setupMouseAndTouchInteractions();
         adjustLimitsAndLabels();
-        lockScreen();
+        lockMobileScreen();
         createNewArray();
         displayBars();
     })();
@@ -146,9 +144,9 @@ document.addEventListener('DOMContentLoaded', function()
         mobileMenuButton.style.pointerEvents = 'none';
     }
 
-    function lockScreen()
+    function lockMobileScreen()
     {
-        if (window.innerWidth <= mobileVersionBreakPoint)
+        if (window.innerWidth <= MOBILE_MAX_WIDTH)
             screen.orientation.lock('portrait');
     }
 
