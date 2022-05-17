@@ -63,7 +63,8 @@ document.addEventListener('DOMContentLoaded', function()
     const numOfBars = document.getElementById('numOfBars');
     let allBars = document.getElementsByClassName('arrayBar');
     const windowHeight = window.innerHeight;
-    const mobileKeyboardHeightPercentage = 45;
+    const minMobileKeyboardHeightPercentage = 35;
+    const maxMobileKeyboardHeightPercentage = 45;
 
     (function() 
     {
@@ -207,8 +208,11 @@ document.addEventListener('DOMContentLoaded', function()
 
     window.addEventListener('resize', function() 
     {
-        if (((windowHeight - this.innerHeight) / windowHeight) * 100 < 
-            mobileKeyboardHeightPercentage)
+        const heightDiff = ((windowHeight - this.innerHeight) / windowHeight) * 100;
+
+        if (this.innerHeight > this.innerWidth &&
+            (heightDiff < minMobileKeyboardHeightPercentage || 
+            heightDiff > mobileKeyboardHeightPercentage))
         {
             /* Enable the ui again if the user changed the screen size while
                 an algorithm was running */
