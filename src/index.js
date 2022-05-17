@@ -9,6 +9,9 @@ import {handleMinBarValue, handleMaxBarValue, handleNumOfBars,
 const MIN_BAR_WIDTH = 4;
 let mobileMenuVisible = false;
 
+let windowWidth = window.innerWidth;
+let windowHeight = window.innerHeight;
+
 function enableUI() 
 {
     const numFields = document.getElementsByClassName('numField');
@@ -205,17 +208,20 @@ document.addEventListener('DOMContentLoaded', function()
 
     window.addEventListener('resize', function() 
     {
-        /* Enable the ui again if the user changed the screen size while
-            an algorithm was running */
-        enableUI();
-        adjustLimitsAndLabels();
-        /* Create a new array so that if the user makes the screen smaller then
-            no bars will be placed under each other because there isn't enough
-            space to display them in one row */
-        createNewArray();
-        displayBars();
+        if (this.innerWidth !== windowWidth && this.innerHeight !== windowHeight)
+        {
+            /* Enable the ui again if the user changed the screen size while
+                an algorithm was running */
+            enableUI();
+            adjustLimitsAndLabels();
+            /* Create a new array so that if the user makes the screen smaller then
+                no bars will be placed under each other because there isn't enough
+                space to display them in one row */
+            createNewArray();
+            displayBars();
 
-        allBars = document.getElementsByClassName('arrayBar');
+            allBars = document.getElementsByClassName('arrayBar');
+        }
     });
 
     /* This function is called whenever the value in the input field changes, 

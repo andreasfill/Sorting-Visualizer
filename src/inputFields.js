@@ -94,11 +94,11 @@ export function handleNumOfBars()
 
     this.value = `${Math.floor(numOfBars)}`;
 
-    if (numOfBars > parseInt(this.max, 10)) 
-        this.value = this.max;
-
-    else if (numOfBars < parseInt(this.min, 10)) 
+    if (numOfBars < parseInt(this.min, 10)) 
         this.value = this.min;
+
+    else if (numOfBars > parseInt(this.max, 10)) 
+        this.value = this.max;
 }
 
 export function adjustLimitsAndLabels() 
