@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function()
     function lockMobileScreen()
     {
         if (window.innerWidth <= MOBILE_MAX_WIDTH)
-            screen.orientation.lock('portrait');
+            window.screen.orientation.lock("portrait");
     }
 
     function createNewArray() 
