@@ -119,6 +119,7 @@ export function adjustLimitsAndLabels()
         that each are half the size of the bar */
     numOfBars.value = numOfBars.max = `${Math.floor((newWidth - spaceAtSides - (newWidth % 100)) / 
         (2 * MIN_BAR_WIDTH))}`;
+    console.log(numOfBars.value);
 
     numOfBarLimitsLabel.innerHTML = `${numOfBars.min} ... ${numOfBars.max}`;
 
