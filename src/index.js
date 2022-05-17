@@ -208,8 +208,12 @@ document.addEventListener('DOMContentLoaded', function()
 
     window.addEventListener('resize', function() 
     {
+        /* This check is needed to prevent this event from firing everytime
+            that the menu is opened on the mobile version */
         if (this.innerWidth !== windowWidth && this.innerHeight !== windowHeight)
         {
+            windowWidth = this.innerWidth;
+            windowHeight = this.innerHeight;
             /* Enable the ui again if the user changed the screen size while
                 an algorithm was running */
             enableUI();
