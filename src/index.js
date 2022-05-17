@@ -228,10 +228,8 @@ document.addEventListener('DOMContentLoaded', function()
 
     /* The buttons 'Create Array' and 'Sort' got enabled again
         if the user clicked on a input field, so disable them again */
-    minBarValue.addEventListener('touchstart', function(ev)
+    minBarValue.addEventListener('touchstart', function()
     {
-        ev.preventDefault();
-
         disableUpperBarButtons();
     });
 
@@ -240,10 +238,8 @@ document.addEventListener('DOMContentLoaded', function()
         handleMaxBarValue.call(this);
     });
 
-    maxBarValue.addEventListener('touchstart', function(ev)
+    maxBarValue.addEventListener('touchstart', function()
     {
-        ev.preventDefault();
-
         disableUpperBarButtons();
     });
 
@@ -252,10 +248,8 @@ document.addEventListener('DOMContentLoaded', function()
         handleNumOfBars.call(this);
     });
 
-    numOfBars.addEventListener('touchstart', function(ev)
+    numOfBars.addEventListener('touchstart', function()
     {
-        ev.preventDefault();
-
         disableUpperBarButtons();
     });
 
