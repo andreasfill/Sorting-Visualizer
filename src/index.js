@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function()
     const numOfBars = document.getElementById('numOfBars');
     let allBars = document.getElementsByClassName('arrayBar');
     const windowHeight = window.innerHeight;
-    const mobileKeyboardHeightPercentage = 35;
+    const mobileKeyboardHeightPercentage = 45;
 
     (function() 
     {
