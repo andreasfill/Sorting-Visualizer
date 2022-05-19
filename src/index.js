@@ -239,16 +239,22 @@ document.addEventListener('DOMContentLoaded', function()
     minBarValue.addEventListener('change', function() 
     {
         handleMinBarValue.call(this);
+        /* UI gets enabled again after focus switches to the input field
+            so disable the buttons 'Create Array' and 'Sort' again otherwise 
+            the user could create or sort an array while the menu is still up */
+        disableUpperBarButtons();
     });
 
     maxBarValue.addEventListener('change', function() 
     {
         handleMaxBarValue.call(this);
+        disableUpperBarButtons();
     });
 
     numOfBars.addEventListener('change', function() 
     {
         handleNumOfBars.call(this);
+        disableUpperBarButtons();
     });
 
     /* The buttons 'Create Array' and 'Sort' got enabled again
@@ -265,10 +271,6 @@ document.addEventListener('DOMContentLoaded', function()
     {
         element.addEventListener('focusin', function()
         {
-            /* UI gets enabled again after focus switches to the input field
-            so disable it again otherwise the user could sort an array
-            while the ui is still up */
-            disableUI();
             numFieldInFocus = true;
             numFieldLostFocus = false;
         });
