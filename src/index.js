@@ -62,9 +62,8 @@ document.addEventListener('DOMContentLoaded', function()
     const maxBarValue = document.getElementById('maxBarValue');
     const numOfBars = document.getElementById('numOfBars');
     let allBars = document.getElementsByClassName('arrayBar');
-    const windowHeight = window.innerHeight;
-    const minMobileKeyboardHeightPercentage = 35;
-    const maxMobileKeyboardHeightPercentage = 45;
+    let numFieldInFocus = false;
+    let numFieldLostFocus = false;
 
     (function() 
     {
@@ -208,24 +207,30 @@ document.addEventListener('DOMContentLoaded', function()
 
     window.addEventListener('resize', function() 
     {
-        const heightDiff = ((windowHeight - this.innerHeight) / windowHeight) * 100;
+        /* On mobile the input fields open up a keyboard to let the user input digits, 
+            which causes the window to be resized. This check prevents this from
+            happening */
+        if (numFieldInFocus === true || numFieldLostFocus === true)
+            return;
 
-        if (this.innerHeight > this.innerWidth &&
-            (heightDiff < minMobileKeyboardHeightPercentage || 
-            heightDiff > mobileKeyboardHeightPercentage))
+        /* If an input field didn't lose focus because the user clicked on
+            another input field then allow window resizing again */
+        if (numFieldLostFocus === true && numFieldInFocus === false)
         {
-            /* Enable the ui again if the user changed the screen size while
-                an algorithm was running */
-            enableUI();
-            adjustLimitsAndLabels();
-            /* Create a new array so that if the user makes the screen smaller then
-                no bars will be placed under each other because there isn't enough
-                space to display them in one row */
-            createNewArray();
-            displayBars();
-
-            allBars = document.getElementsByClassName('arrayBar');
+            numFieldLostFocus = false;
         }
+
+        /* Enable the ui again if the user changed the screen size while
+            an algorithm was running */
+        enableUI();
+        adjustLimitsAndLabels();
+        /* Create a new array so that if the user makes the screen smaller then
+            no bars will be placed under each other because there isn't enough
+            space to display them in one row */
+        createNewArray();
+        displayBars();
+
+        allBars = document.getElementsByClassName('arrayBar');
     });
 
     /* This function is called whenever the value in the input field changes, 
@@ -234,33 +239,50 @@ document.addEventListener('DOMContentLoaded', function()
     minBarValue.addEventListener('change', function() 
     {
         handleMinBarValue.call(this);
-    });
-
-    /* The buttons 'Create Array' and 'Sort' got enabled again
-        if the user clicked on a input field, so disable them again */
-    minBarValue.addEventListener('touchstart', function()
-    {
-        disableUpperBarButtons();
+        /* UI gets enabled again after focus switches to the input field
+            so disable it again otherwise the user could sort an array
+            while the ui is still up */
+        disableUI();
     });
 
     maxBarValue.addEventListener('change', function() 
     {
         handleMaxBarValue.call(this);
-    });
-
-    maxBarValue.addEventListener('touchstart', function()
-    {
-        disableUpperBarButtons();
+        disableUI();
     });
 
     numOfBars.addEventListener('change', function() 
     {
         handleNumOfBars.call(this);
+        disableUI();
     });
 
-    numOfBars.addEventListener('touchstart', function()
+    /* The buttons 'Create Array' and 'Sort' got enabled again
+        if the user clicked on a input field, so disable them again */
+    [minBarValue, maxBarValue, numOfBars].forEach(function(element)
     {
-        disableUpperBarButtons();
+        element.addEventListener('touchstart', function()
+        {
+            disableUpperBarButtons();
+        });
+    });
+
+    [minBarValue, maxBarValue, numOfBars].forEach(function(element)
+    {
+        element.addEventListener('focusin', function()
+        {
+            numFieldInFocus = true;
+            numFieldLostFocus = false;
+        });
+    });
+
+    [minBarValue, maxBarValue, numOfBars].forEach(function(element)
+    {
+        element.addEventListener('focusout', function()
+        {
+            numFieldLostFocus = true;
+            numFieldInFocus = false;
+        });
     });
 
     /* Display the mobile version of the menu if the user clicks on the button
