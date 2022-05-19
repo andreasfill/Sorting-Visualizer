@@ -207,17 +207,21 @@ document.addEventListener('DOMContentLoaded', function()
 
     window.addEventListener('resize', function() 
     {
-        /* On mobile the input fields open up a keyboard to let the user input digits, 
-            which causes the window to be resized. This check prevents this from
-            happening */
-        if (numFieldInFocus === true || numFieldLostFocus === true)
-            return;
-
-        /* If an input field didn't lose focus because the user clicked on
-            another input field then allow window resizing again */
-        if (numFieldLostFocus === true && numFieldInFocus === false)
+        /* Check isn't need for the desktop version */
+        if (mobileMenuVisible === true)
         {
-            numFieldLostFocus = false;
+            /* On mobile the input fields open up a keyboard to let the user input digits, 
+                which causes the window to be resized. This check prevents this from
+                happening */
+            if (numFieldInFocus === true || numFieldLostFocus === true)
+                return;
+
+            /* If an input field didn't lose focus because the user clicked on
+                another input field then allow window resizing again */
+            if (numFieldLostFocus === true && numFieldInFocus === false)
+            {
+                numFieldLostFocus = false;
+            }
         }
 
         /* Enable the ui again if the user changed the screen size while
@@ -242,19 +246,24 @@ document.addEventListener('DOMContentLoaded', function()
         /* UI gets enabled again after focus switches to the input field
             so disable the buttons 'Create Array' and 'Sort' again otherwise 
             the user could create or sort an array while the menu is still up */
-        disableUpperBarButtons();
+        if (mobileMenuVisible === true)
+            disableUpperBarButtons();
     });
 
     maxBarValue.addEventListener('change', function() 
     {
         handleMaxBarValue.call(this);
-        disableUpperBarButtons();
+
+        if (mobileMenuVisible === true)
+            disableUpperBarButtons();
     });
 
     numOfBars.addEventListener('change', function() 
     {
         handleNumOfBars.call(this);
-        disableUpperBarButtons();
+
+        if (mobileMenuVisible === true)
+            disableUpperBarButtons();
     });
 
     /* The buttons 'Create Array' and 'Sort' got enabled again
