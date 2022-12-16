@@ -15,15 +15,15 @@ import {enableUI} from './index.js';
 
 const ORIGINAL_COLOR = 'red';
 const COMPARE_COLOR = 'blue';
-const FINAL_POS_COLOR = 'green';
-const ALL_BARS_SORTED_COLOR = 'purple';
+const FINAL_POSITION_COLOR = 'green';
 
 const Action = 
 {
     compare: 'compare',
     swap: 'swap',
-    moveValueLeft: 'moveValueLeft',
-    placeCurrentElement: 'placeCurrentElement',
+    replace: 'replace',
+    moveValueRight: 'moveValueRight',
+    placeElemToSort: 'placeElemToSort',
     finalSwap: 'finalSwap'
 };
 
@@ -33,78 +33,74 @@ Object.freeze(Action);
 function animateAlgorithm(selectedAlgorithm, allBars) 
 {
     const ANIMATION_SPEED_MS = Math.floor(1000 / allBars.length);
-    const valuesArr = [];
+    const barValues = [];
 
     /* Get all the values from the Node-list */
     for (const bar of allBars) 
-        valuesArr.push(parseInt(bar.getAttribute('value'), 10));
+        barValues.push(parseInt(bar.getAttribute('value'), 10));
 
     switch (selectedAlgorithm) 
     {
         case 'selectionSort':
-            animateSelectionSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            animateSelectionSort(allBars, barValues, ANIMATION_SPEED_MS);
             break;
         case 'insertionSort':
-            animateInsertionSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            animateInsertionSort(allBars, barValues, ANIMATION_SPEED_MS);
             break;
         case 'bubbleSort':
-            animateBubbleSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            animateBubbleSort(allBars, barValues, ANIMATION_SPEED_MS);
             break;
         case 'shellSort':
-            animateShellSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            animateShellSort(allBars, barValues, ANIMATION_SPEED_MS);
             break;
         case 'bucketSort':
-            animateBucketSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            animateBucketSort(allBars, barValues, ANIMATION_SPEED_MS);
             break;
         case 'mergeSort':
-            animateMergeSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            animateMergeSort(allBars, barValues, ANIMATION_SPEED_MS);
             break;
         case 'quickSort':
-            animateQuickSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            animateQuickSort(allBars, barValues, ANIMATION_SPEED_MS);
             break;
         case 'heapSort':
-            animateHeapSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            animateHeapSort(allBars, barValues, ANIMATION_SPEED_MS);
             break;
         case 'radixSort':
-            animateRadixSort(allBars, valuesArr, ANIMATION_SPEED_MS);
+            animateRadixSort(allBars, barValues, ANIMATION_SPEED_MS);
             break;
         default:
             break;
     }
 }
 
-function animateSelectionSort(allBars, valuesArr, ANIMATION_SPEED_MS) 
+function animateSelectionSort(allBars, barValues, ANIMATION_SPEED_MS) 
 {
-    const animationsArr = getSelectionSortAnimations(valuesArr);
+    const animationsArr = getSelectionSortAnimations(barValues);
 
     allBars[0].style.backgroundColor = COMPARE_COLOR;
 
     for (let i = 0; i < animationsArr.length; i++) 
     {
-        const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
-        const barOneStyle = allBars[barOneInd].style;
-        const barTwoStyle = allBars[barTwoInd].style;
+        const [barOneIndex, barTwoIndex, action] = animationsArr[i];
+        const barOneStyle = allBars[barOneIndex].style;
+        const barTwoStyle = allBars[barTwoIndex].style;
 
         if (action === Action.compare) 
         {
-            let color;
-
-            /* The same bars are always pushed twice, once with compareColor set
-                to true and once set to false so that they can be reset to original
-                color once they have been compared */
-            if (compareColor === true) 
-                color = COMPARE_COLOR;
-
-            else 
-                color = ORIGINAL_COLOR;
-
             setTimeout(function() 
             {
                 /* Only bar two is styled here because it would otherwise cause 
                     an annoying flashing effect with bar one because it wouldn't 
                     change and therefore switch between red and blue repeatedly */
-                barTwoStyle.backgroundColor = color;
+                barTwoStyle.backgroundColor = COMPARE_COLOR;
             }, i * ANIMATION_SPEED_MS);
+
+            /* Reset the color change of the right bar in the next iteration, because
+                it isn't compared anymore */
+            setTimeout(function()
+            {
+                barTwoStyle.backgroundColor = ORIGINAL_COLOR;
+            }, (i + 1) * ANIMATION_SPEED_MS);
         }
 
         else if (action === Action.swap) 
@@ -113,15 +109,15 @@ function animateSelectionSort(allBars, valuesArr, ANIMATION_SPEED_MS)
             {
                 /* Go through the array and swap the first bar's height with the
                     currently smallest one */
-                const barOneHeight = parseInt(barOneStyle.height, 10);
+                const barOneHeight = barOneStyle.height;
                 barOneStyle.height = barTwoStyle.height;
-                barTwoStyle.height = `${barOneHeight}px`;
+                barTwoStyle.height = barOneHeight;
                 /* Change the color of the first bar, which is now the smallest,
                     and turn it green because it's at its final position */
-                barOneStyle.backgroundColor = FINAL_POS_COLOR;
+                barOneStyle.backgroundColor = FINAL_POSITION_COLOR;
                 /* Change the color of the next bar to blue because it will
                     now be compared to all the remaining bars that aren't green */
-                allBars[barOneInd + 1].style.backgroundColor = COMPARE_COLOR;
+                allBars[barOneIndex + 1].style.backgroundColor = COMPARE_COLOR;
             }, i * ANIMATION_SPEED_MS);
         }
     }
@@ -129,25 +125,25 @@ function animateSelectionSort(allBars, valuesArr, ANIMATION_SPEED_MS)
     /* Change the color of all bars to purple once they are all sorted */
     setTimeout(function() 
     {
-        for (let i = 0; i < allBars.length; i++) 
-            allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
+        for (const bar of allBars) 
+            bar.style.backgroundColor = FINAL_POSITION_COLOR;
 
         /* Enable the ui again after the algorithm is done */
         enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateInsertionSort(allBars, valuesArr, ANIMATION_SPEED_MS) 
+function animateInsertionSort(allBars, barValues, ANIMATION_SPEED_MS) 
 {
-    const animationsArr = getInsertionSortAnimations(valuesArr);
-
+    const animationsArr = getInsertionSortAnimations(barValues);
+    
     for (let i = 0; i < animationsArr.length; i++) 
     {
-        const [barOneInd, barTwoInd, currElem, action] = animationsArr[i];
-        const barOneStyle = allBars[barOneInd].style;
-        const barTwoStyle = allBars[barTwoInd].style;
+        const [barOneIndex, barTwoIndex, elemToSort, action] = animationsArr[i];
+        const barOneStyle = allBars[barOneIndex].style;
+        const barTwoStyle = allBars[barTwoIndex].style;
 
-        if (action === Action.moveValueLeft) 
+        if (action === Action.moveValueRight) 
         {
             setTimeout(function() 
             {
@@ -164,158 +160,150 @@ function animateInsertionSort(allBars, valuesArr, ANIMATION_SPEED_MS)
             }, (i + 1) * ANIMATION_SPEED_MS);
         }
 
-        else if (action === action.placeCurrentElement) 
+        else if (action === Action.placeElemToSort) 
         {
             setTimeout(function()
             {
-                barOneStyle.height = `${currElem}px`;
+                barOneStyle.height = `${elemToSort}px`;
             }, i * ANIMATION_SPEED_MS);
         }
     }
 
     setTimeout(function() 
     {
-        for (let i = 0; i < allBars.length; i++) 
-            allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
+        for (const bar of allBars)
+            bar.style.backgroundColor = FINAL_POSITION_COLOR;
 
         enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateBubbleSort(allBars, valuesArr, ANIMATION_SPEED_MS) 
+function animateBubbleSort(allBars, barValues, ANIMATION_SPEED_MS) 
 {
-
-    const animationsArr = getBubbleSortAnimations(valuesArr);
-    let lastIndToCheckFromRight = 0;
+    const animationsArr = getBubbleSortAnimations(barValues);
+    let leftMostFinalPosIndex = allBars.length - 1;
 
     for (let i = 0; i < animationsArr.length; i++) 
     {
-        const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
-        const barOneStyle = allBars[barOneInd].style;
-        const barTwoStyle = allBars[barTwoInd].style;
+        const [barOneIndex, barTwoIndex, action] = animationsArr[i];
+        const barOneStyle = allBars[barOneIndex].style;
+        const barTwoStyle = allBars[barTwoIndex].style;
 
         if (action === Action.compare) 
         {
-            let color;
-
-            if (compareColor === true) 
-                color = COMPARE_COLOR;
-
-            else 
-                color = ORIGINAL_COLOR;
+            setTimeout(function() 
+            {
+                barOneStyle.backgroundColor = COMPARE_COLOR;
+                barTwoStyle.backgroundColor = COMPARE_COLOR;
+            }, i * ANIMATION_SPEED_MS);
 
             setTimeout(function() 
             {
-                barOneStyle.backgroundColor = color;
-                barTwoStyle.backgroundColor = color;
+                /* Resets the color change of the previous iteration */
+                barOneStyle.backgroundColor = ORIGINAL_COLOR;
+                barTwoStyle.backgroundColor = ORIGINAL_COLOR;
 
-                /* If the bar's at the current right most spot before the already
-                    sorted bars begin then it's the final position */
-                if (compareColor === false && 
-                    barTwoInd === (allBars.length - 1 - lastIndToCheckFromRight)) 
+                if (barTwoIndex === leftMostFinalPosIndex)
                 {
-                    barTwoStyle.backgroundColor = FINAL_POS_COLOR;
-                    lastIndToCheckFromRight++;
+                    barTwoStyle.backgroundColor = FINAL_POSITION_COLOR
+                    leftMostFinalPosIndex--;
                 }
-            }, i * ANIMATION_SPEED_MS);
+            }, (i + 1) * ANIMATION_SPEED_MS);
         }
 
         else if (action === Action.swap)
         {
             setTimeout(function() 
             {
-                const barOneHeight = parseInt(barOneStyle.height, 10);
+                const barOneHeight = barOneStyle.height;
                 barOneStyle.height = barTwoStyle.height;
-                barTwoStyle.height = `${barOneHeight}px`;
+                barTwoStyle.height = barOneHeight;
             }, i * ANIMATION_SPEED_MS);
         }
     }
 
     setTimeout(function() 
     {
-        for (let i = 0; i < allBars.length; i++) 
-            allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
+        for (const bar of allBars) 
+            bar.style.backgroundColor = FINAL_POSITION_COLOR;
 
         enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateShellSort(allBars, valuesArr, ANIMATION_SPEED_MS) 
+function animateShellSort(allBars, barValues, ANIMATION_SPEED_MS) 
 {
-    const animationsArr = getShellSortAnimations(valuesArr);
+    const animationsArr = getShellSortAnimations(barValues);
 
     for (let i = 0; i < animationsArr.length; i++) 
     {
-        const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
-        const barOneStyle = allBars[barOneInd].style;
-        const barTwoStyle = allBars[barTwoInd].style;
+        const [barOneIndex, barTwoIndex, action] = animationsArr[i];
+        const barOneStyle = allBars[barOneIndex].style;
+        const barTwoStyle = allBars[barTwoIndex].style;
 
         if (action === Action.compare) 
         {
-            let color;
-
-            if (compareColor === true) 
-                color = COMPARE_COLOR;
-
-            else 
-                color = ORIGINAL_COLOR;
+            setTimeout(function() 
+            {
+                barOneStyle.backgroundColor = COMPARE_COLOR;
+                barTwoStyle.backgroundColor = COMPARE_COLOR;
+            }, i * ANIMATION_SPEED_MS);
 
             setTimeout(function() 
             {
-                barOneStyle.backgroundColor = color;
-                barTwoStyle.backgroundColor = color;
-            }, i * ANIMATION_SPEED_MS);
+                /* Resets the color change of the previous iteration */
+                barOneStyle.backgroundColor = ORIGINAL_COLOR;
+                barTwoStyle.backgroundColor = ORIGINAL_COLOR;
+            }, (i + 1) * ANIMATION_SPEED_MS);
         }
 
         else if (action === Action.swap) 
         {
             setTimeout(function() 
             {
-                const barOneHeight = parseInt(barOneStyle.height, 10);
+                const barOneHeight = barOneStyle.height;
                 barOneStyle.height = barTwoStyle.height;
-                barTwoStyle.height = `${barOneHeight}px`;
+                barTwoStyle.height = barOneHeight;
             }, i * ANIMATION_SPEED_MS);
         }
     }
 
     setTimeout(function() 
     {
-        for (let i = 0; i < allBars.length; i++) 
-            allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
+        for (const bar of allBars) 
+            bar.style.backgroundColor = FINAL_POSITION_COLOR;
 
         enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateBucketSort(allBars, valuesArr, ANIMATION_SPEED_MS) 
+function animateBucketSort(allBars, barValues, ANIMATION_SPEED_MS) 
 {
-    const animationsArr = getBucketSortAnimations(valuesArr);
+    const animationsArr = getBucketSortAnimations(barValues);
 
     for (let i = 0; i < animationsArr.length; i++) 
     {
-        const [barOneInd, barTwoInd, newBarOneHeight, compareColor, action] = 
-            animationsArr[i];
-        const barOneStyle = allBars[barOneInd].style;
-        const barTwoStyle = allBars[barTwoInd].style;
+        const [barOneIndex, barTwoIndex, newBarOneHeight, action] = animationsArr[i];
+        const barOneStyle = allBars[barOneIndex].style;
+        const barTwoStyle = allBars[barTwoIndex].style;
 
         if (action === Action.compare) 
         {
-            let color;
-
-            if (compareColor === true) 
-                color = COMPARE_COLOR;
-
-            else 
-                color = ORIGINAL_COLOR;
+            setTimeout(function() 
+            {
+                barOneStyle.backgroundColor = COMPARE_COLOR;
+                barTwoStyle.backgroundColor = COMPARE_COLOR;
+            }, i * ANIMATION_SPEED_MS);
 
             setTimeout(function() 
             {
-                barOneStyle.backgroundColor = color;
-                barTwoStyle.backgroundColor = color;
-            }, i * ANIMATION_SPEED_MS);
+                /* Resets the color change of the previous iteration */
+                barOneStyle.backgroundColor = ORIGINAL_COLOR;
+                barTwoStyle.backgroundColor = ORIGINAL_COLOR;
+            }, (i + 1) * ANIMATION_SPEED_MS);
         }
 
-        else if (action === Action.swap) 
+        else if (action === Action.replace) 
         {
             setTimeout(function() 
             {
@@ -326,42 +314,40 @@ function animateBucketSort(allBars, valuesArr, ANIMATION_SPEED_MS)
 
     setTimeout(function() 
     {
-        for (let i = 0; i < allBars.length; i++) 
-            allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
+        for (const bar of allBars) 
+            bar.style.backgroundColor = FINAL_POSITION_COLOR;
 
         enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateMergeSort(allBars, valuesArr, ANIMATION_SPEED_MS) 
+function animateMergeSort(allBars, barValues, ANIMATION_SPEED_MS) 
 {
-    const animationsArr = getMergeSortAnimations(valuesArr);
+    const animationsArr = getMergeSortAnimations(barValues);
 
     for (let i = 0; i < animationsArr.length; i++) 
     {
-        const [barOneInd, barTwoInd, newBarOneHeight, compareColor, action] = 
-            animationsArr[i];
-        const barOneStyle = allBars[barOneInd].style;
-        const barTwoStyle = allBars[barTwoInd].style;
+        const [barOneIndex, barTwoIndex, newBarOneHeight, action] = animationsArr[i];
+        const barOneStyle = allBars[barOneIndex].style;
+        const barTwoStyle = allBars[barTwoIndex].style;
 
         if (action === Action.compare) 
         {
-            let color;
-
-            if (compareColor === true) 
-                color = COMPARE_COLOR;
-
-            else 
-                color = ORIGINAL_COLOR;
+            setTimeout(function() 
+            {
+                barOneStyle.backgroundColor = COMPARE_COLOR;
+                barTwoStyle.backgroundColor = COMPARE_COLOR;
+            }, i * ANIMATION_SPEED_MS);
 
             setTimeout(function() 
             {
-                barOneStyle.backgroundColor = color;
-                barTwoStyle.backgroundColor = color;
-            }, i * ANIMATION_SPEED_MS);
+                /* Resets the color change of the previous iteration */
+                barOneStyle.backgroundColor = ORIGINAL_COLOR;
+                barTwoStyle.backgroundColor = ORIGINAL_COLOR;
+            }, (i + 1) * ANIMATION_SPEED_MS);
         }
 
-        else if (action === Action.swap) 
+        else if (action === Action.replace) 
         {
             setTimeout(function() 
             {
@@ -372,137 +358,116 @@ function animateMergeSort(allBars, valuesArr, ANIMATION_SPEED_MS)
 
     setTimeout(function() 
     {
-        for (let i = 0; i < allBars.length; i++) 
-            allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
+        for (const bar of allBars) 
+            bar.style.backgroundColor = FINAL_POSITION_COLOR;
 
         enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateQuickSort(allBars, valuesArr, ANIMATION_SPEED_MS) 
+function animateQuickSort(allBars, barValues, ANIMATION_SPEED_MS) 
 {
-    const animationsArr = getQuickSortAnimations(valuesArr);
+    const animationsArr = getQuickSortAnimations(barValues);
 
     for (let i = 0; i < animationsArr.length; i++) 
     {
-        const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
-        const barOneStyle = allBars[barOneInd].style;
-        const barTwoStyle = allBars[barTwoInd].style;
+        const [barOneIndex, barTwoIndex, action] = animationsArr[i];
+        const barOneStyle = allBars[barOneIndex].style;
+        const barTwoStyle = allBars[barTwoIndex].style;
 
         if (action === Action.compare) 
         {
-            let color;
-
-            if (compareColor === true) 
-                color = COMPARE_COLOR;
-
-            else 
-                color = ORIGINAL_COLOR;
+            setTimeout(function() 
+            {
+                barOneStyle.backgroundColor = COMPARE_COLOR;
+                barTwoStyle.backgroundColor = COMPARE_COLOR;
+            }, i * ANIMATION_SPEED_MS);
 
             setTimeout(function() 
             {
-                barOneStyle.backgroundColor = color;
-                barTwoStyle.backgroundColor = color;
-            }, i * ANIMATION_SPEED_MS);
+                /* Resets the color change of the previous iteration */
+                barOneStyle.backgroundColor = ORIGINAL_COLOR;
+                barTwoStyle.backgroundColor = ORIGINAL_COLOR;
+            }, (i + 1) * ANIMATION_SPEED_MS);
         }
 
-        else if (action === Action.swap) 
+        else if (action === Action.swap || action === Action.finalSwap) 
         {
             setTimeout(function() 
             {
-                const barOneHeight = parseInt(barOneStyle.height, 10);
+                const barOneHeight = barOneStyle.height;
                 barOneStyle.height = barTwoStyle.height;
-                barTwoStyle.height = `${barOneHeight}px`;
-            }, i * ANIMATION_SPEED_MS);
-        }
+                barTwoStyle.height = barOneHeight;
 
-        else if (action === Action.finalSwap) 
-        {
-            setTimeout(function() 
-            {
-                const barOneHeight = parseInt(barOneStyle.height, 10);
-                barOneStyle.height = barTwoStyle.height;
-                barOneStyle.backgroundColor = FINAL_POS_COLOR;
-                barTwoStyle.height = `${barOneHeight}px`;
+                if (action === Action.finalSwap)
+                    barOneStyle.backgroundColor = FINAL_POSITION_COLOR;
             }, i * ANIMATION_SPEED_MS);
         }
     }
 
     setTimeout(function() 
     {
-        for (let i = 0; i < allBars.length; i++) 
-            allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
+        for (const bar of allBars) 
+            bar.style.backgroundColor = FINAL_POSITION_COLOR;
 
         enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateHeapSort(allBars, valuesArr, ANIMATION_SPEED_MS) 
+function animateHeapSort(allBars, barValues, ANIMATION_SPEED_MS) 
 {
-    const animationsArr = getHeapSortAnimations(valuesArr);
+    const animationsArr = getHeapSortAnimations(barValues);
 
     for (let i = 0; i < animationsArr.length; i++) 
     {
-        const [barOneInd, barTwoInd, compareColor, action] = animationsArr[i];
-        const barOneStyle = allBars[barOneInd].style;
-        const barTwoStyle = allBars[barTwoInd].style;
+        const [barOneIndex, barTwoIndex, action] = animationsArr[i];
+        const barOneStyle = allBars[barOneIndex].style;
+        const barTwoStyle = allBars[barTwoIndex].style;
 
         if (action === Action.compare) 
         {
-            let color;
-
-            if (compareColor === true) 
-                color = COMPARE_COLOR;
-
-            else 
-                color = ORIGINAL_COLOR;
+            setTimeout(function() 
+            {
+                barOneStyle.backgroundColor = COMPARE_COLOR;
+                barTwoStyle.backgroundColor = COMPARE_COLOR;
+            }, i * ANIMATION_SPEED_MS);
 
             setTimeout(function() 
             {
-                barOneStyle.backgroundColor = color;
-                barTwoStyle.backgroundColor = color;
-            }, i * ANIMATION_SPEED_MS);
+                /* Resets the color change of the previous iteration */
+                barOneStyle.backgroundColor = ORIGINAL_COLOR;
+                barTwoStyle.backgroundColor = ORIGINAL_COLOR;
+            }, (i + 1) * ANIMATION_SPEED_MS);
         }
 
-        else if (action === Action.swap) 
+        else if (action === Action.swap || action === Action.finalSwap) 
         {
             setTimeout(function() 
             {
-                const barOneHeight = parseInt(barOneStyle.height, 10);
+                const barOneHeight = barOneStyle.height;
                 barOneStyle.height = barTwoStyle.height;
-                barTwoStyle.height = `${barOneHeight}px`;
-            }, i * ANIMATION_SPEED_MS);
-        }
+                barTwoStyle.height = barOneHeight;
 
-        else if (action === Action.finalSwap) 
-        {
-            setTimeout(function() 
-            {
-                const barOneHeight = parseInt(barOneStyle.height, 10);
-                barOneStyle.height = barTwoStyle.height;
-                barTwoStyle.height = `${barOneHeight}px`;
-                barTwoStyle.backgroundColor = FINAL_POS_COLOR;
+                if (action === Action.finalSwap)
+                    barTwoStyle.backgroundColor = FINAL_POSITION_COLOR;
             }, i * ANIMATION_SPEED_MS);
         }
     }
 
     setTimeout(function() 
     {
-        for (let i = 0; i < allBars.length; i++) 
-            allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
-
         enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
 }
 
-function animateRadixSort(allBars, valuesArr, ANIMATION_SPEED_MS)
+function animateRadixSort(allBars, barValues, ANIMATION_SPEED_MS)
 {
-    const animationsArr = getRadixSortAnimations(valuesArr);
+    const animationsArr = getRadixSortAnimations(barValues);
 
     for (let i = 0; i < animationsArr.length; i++)
     {
-        const [barOneInd, currElem] = animationsArr[i];
-        const barOneStyle = allBars[barOneInd].style;
+        const [barOneIndex, currElem] = animationsArr[i];
+        const barOneStyle = allBars[barOneIndex].style;
 
         setTimeout(function()
         {
@@ -512,8 +477,8 @@ function animateRadixSort(allBars, valuesArr, ANIMATION_SPEED_MS)
 
     setTimeout(function()
     {
-        for (let i = 0; i < allBars.length; i++)
-            allBars[i].style.backgroundColor = ALL_BARS_SORTED_COLOR;
+        for (const bar of allBars)
+           bar.style.backgroundColor = FINAL_POSITION_COLOR;
 
         enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);

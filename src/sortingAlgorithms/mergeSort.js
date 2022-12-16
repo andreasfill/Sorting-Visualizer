@@ -2,89 +2,74 @@
 
 import {Action} from '../animateAlgorithms.js';
 
-export default function getMergeSortAnimations(array) 
+export default function getMergeSortAnimations(values) 
 {
 
     const animationsArr = [];
 
-    mergeSort(0, array.length - 1, array, animationsArr);
+    mergeSort(0, values.length - 1, values, animationsArr);
 
     return animationsArr;
 }
 
-function mergeSort(startInd, endInd, array, animationsArr) 
+function mergeSort(startIndex, endIndex, values, animationsArr) 
 {
-    if (array.length <= 1) 
+    if (startIndex < endIndex) 
     {
-        return array;
-    }
-
-    if (startInd < endInd) 
-    {
-        let midInd = Math.floor((startInd + endInd) / 2);
+        const midIndex = Math.floor((startIndex + endIndex) / 2);
 
         /* Split the array in a left and right half and sort them individually.
             Continue splitting them up until start- and endindex are the same
             (i.e. only one element to sort) */
-        mergeSort(startInd, midInd, array, animationsArr);
-        mergeSort(midInd + 1, endInd, array, animationsArr);
+        mergeSort(startIndex, midIndex, values, animationsArr);
+        mergeSort(midIndex + 1, endIndex, values, animationsArr);
 
-        merge(startInd, midInd, endInd, array, animationsArr);
+        merge(startIndex, midIndex, endIndex, values, animationsArr);
     }
 }
 
-function merge(startInd, midInd, endInd, array, animationsArr) 
+function merge(startIndex, midIndex, endIndex, values, animationsArr) 
 {
     /* Create a deep copy of the original array, which is independent
         so that changes in one array don't affect the other one */
-    const helperArr = array.slice();
-    let i = startInd, j = midInd + 1, k = startInd;
+    const helperArr = values.slice();
+    let i = startIndex;
+    let k = startIndex;
+    let j = midIndex + 1;
 
     /* Array is separated into a left and right half */
-    while (i <= midInd && j <= endInd) 
+    while (i <= midIndex && j <= endIndex) 
     {
-        animationsArr.push([i, j, 0, true, Action.compare]);
-        animationsArr.push([i, j, 0, false, Action.compare]);
+        animationsArr.push([i, j, 0, Action.compare]);
 
-        /* If the current first element is smaller than the current last element 
-            in the array then push the current first element into the main array 
-            and compare the next first element to the current last one */
         if (helperArr[i] <= helperArr[j]) 
         {
-            animationsArr.push([k, i, helperArr[i], true, Action.swap]);
+            animationsArr.push([k, i, helperArr[i], Action.replace]);
 
-            array[k++] = helperArr[i++];
+            values[k++] = helperArr[i++];
         }
 
-        /* If the current last element is smaller than the current first element 
-            the push the current last element into the main array and go the the
-            next element left of the current last one and compare it to the 
-            current first one */
         else 
         {
-            animationsArr.push([k, j, helperArr[j], true, Action.swap]);
+            animationsArr.push([k, j, helperArr[j], Action.replace]);
 
-            array[k++] = helperArr[j++];
+            values[k++] = helperArr[j++];
         }
     }
 
-    /* Left array stil has elements in them which are all larger than the
-        max value in the right array */
-    while (i <= midInd) 
+    /* Left part of the array stil has elements in them which are all larger 
+        than the max value in the right part */
+    while (i <= midIndex) 
     {
-        animationsArr.push([i, i, 0, true, Action.compare]);
-        animationsArr.push([i, i, 0, false, Action.compare]);
-        animationsArr.push([k, i, helperArr[i], true, Action.swap]);
+        animationsArr.push([k, i, helperArr[i], Action.replace]);
 
-        array[k++] = helperArr[i++];
+        values[k++] = helperArr[i++];
     }
 
-    while (j <= endInd) 
+    while (j <= endIndex) 
     {
-        animationsArr.push([j, j, 0, true, Action.compare]);
-        animationsArr.push([j, j, 0, false, Action.compare]);
-        animationsArr.push([k, j, helperArr[j], true, Action.swap]);
+        animationsArr.push([k, j, helperArr[j], Action.replace]);
 
-        array[k++] = helperArr[j++];
+        values[k++] = helperArr[j++];
     }
 }

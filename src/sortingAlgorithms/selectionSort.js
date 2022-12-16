@@ -2,40 +2,38 @@
 
 import {Action} from '../animateAlgorithms.js';
 
-export default function getSelectionSortAnimations(array) 
+export default function getSelectionSortAnimations(values) 
 {
     const animationsArr = [];
 
-    selectionSort(array, animationsArr);
+    selectionSort(values, animationsArr);
 
     return animationsArr;
 }
 
-function selectionSort(array, animationsArr) 
+function selectionSort(values, animationsArr) 
 {
-    let i, j, minPos;
-
-    for (i = 0; i < array.length - 1; i++) 
+    for (let i = 0; i < values.length - 1; i++) 
     {
-        minPos = i;
+        let minPos = i;
 
-        for (j = i + 1; j < array.length; j++) 
+        for (let j = i + 1; j < values.length; j++) 
         {
-            /* Get the smallest value from the part of the array that
+            /* Get the smallest value from the part of the values that
                 hasn't been sorted yet */
-            if (array[j] < array[minPos]) 
+            if (values[j] < values[minPos]) 
                 minPos = j;
 
-            animationsArr.push([i, j, true, Action.compare]);
-            animationsArr.push([i, j, false, Action.compare]);
+            animationsArr.push([i, j, Action.compare]);
+            // animationsArr.push([i, j, false, Action.compare]);
         }
 
-        animationsArr.push([i, minPos, true, Action.swap]);
+        animationsArr.push([i, minPos, Action.swap]);
 
-        /* Swap the first element in the unordered part of the array 
+        /* Swap the first element in the unordered part of the values 
             with the smallest one */
-        const tempVal = array[i];
-        array[i] = array[minPos];
-        array[minPos] = tempVal;
+        const tempVal = values[i];
+        values[i] = values[minPos];
+        values[minPos] = tempVal;
     }
 }

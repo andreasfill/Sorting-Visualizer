@@ -87,8 +87,6 @@ document.addEventListener('DOMContentLoaded', function()
 
                 createNewArray();
                 displayBars();
-        
-                allBars = document.getElementsByClassName('arrayBar');
             });
         
             sortArrayButton.addEventListener(userEvent, function(ev) 
@@ -160,54 +158,48 @@ document.addEventListener('DOMContentLoaded', function()
             barArray.push(Math.floor(Math.random() * (maxBarVal - minBarVal + 1)) + minBarVal);
     }
 
-    function createBarDiv(val, ind) 
+    function displayBars()
+    {
+        /* Remove previous bars */
+        arrayContainer.innerHTML = '';
+        
+        for (let i = 0; i < barArray.length; i++) 
+            createBarDiv(barArray[i], i);
+
+        /* The vertical margin can be calculated by first getting the width of all 
+            bars and subtracting it from the total width of the screen and then 
+            dividing it by 2 so that the left and right margin of the container have 
+            the same value */
+        arrayContainer.style.marginLeft = `${(parseInt(window.innerWidth, 10) - 
+            (parseInt(allBars[0].style.width, 10)) * numOfBars.value) / 2}px`;
+        
+        allBars = document.getElementsByClassName('arrayBar');
+    }
+
+    function createBarDiv(value, index) 
     {
         const arrayBarDiv = document.createElement('div');
-        arrayBarDiv.setAttribute('id', `${ind}`);
+        arrayBarDiv.setAttribute('id', `${index}`);
         arrayBarDiv.setAttribute('class', 'arrayBar');
-        arrayBarDiv.setAttribute('value', `${val}`);
+        arrayBarDiv.setAttribute('value', `${value}`);
         arrayBarDiv.style.backgroundColor = ORIGINAL_COLOR;
-        arrayBarDiv.style.height = `${val}px`;
+        arrayBarDiv.style.height = `${value}px`;
         /* Every bar's width is half of the width of the entire array container
             divided by the number of bars */
         arrayBarDiv.style.width = `${Math.floor(((window.innerWidth - 100 - 
-            (window.innerWidth % 100)) / numOfBars.value) / 2)}px`;
+            (window.innerWidth % 100)) / numOfBars.value))}px`;
 
         /* If the width of the bar is smaller than 4px then the left and right
             margin would be 0px and all bars would be next to each other */
         if (parseInt(arrayBarDiv.style.width, 10) < MIN_BAR_WIDTH)
             arrayBarDiv.style.width = `${MIN_BAR_WIDTH}px`;
 
-        /* Using parseInt(..., 10) cuts off the 'px' at the end of 
-            arrayBarDiv.style.width. The left and right margin of each bar's
-            50% of the width of the bar */
-        arrayBarDiv.style.marginLeft = arrayBarDiv.style.marginRight = 
-            `${Math.floor(parseInt(arrayBarDiv.style.width, 10) / 2)}px`;
         arrayContainer.append(arrayBarDiv);
-    }
-
-    function displayBars() 
-    {
-        /* Remove previous bars */
-        arrayContainer.innerHTML = '';
-
-        for (let i = 0; i < barArray.length; i++) 
-            createBarDiv(barArray[i], i);
-
-        /* The vertical margin can be calculated by first getting the width of all 
-            bars and their margins (left and right are the same) and subtracting it from 
-            the total width of the screen and then dividing it by 2 so that the left and 
-            right margin of the container have the same value */
-        arrayContainer.style.marginLeft = 
-            `${(parseInt(window.innerWidth, 10) - 
-            ((parseInt(allBars[0].style.width, 10) + 
-            (parseInt(allBars[0].style.marginLeft, 10) * 2))) * 
-            numOfBars.value) / 2}px`;
     }
 
     window.addEventListener('resize', function() 
     {
-        /* Check isn't need for the desktop version */
+        /* Check isn't needed for the desktop version */
         if (mobileMenuVisible === true)
         {
             /* On mobile the input fields open up a keyboard to let the user input digits, 
@@ -228,13 +220,8 @@ document.addEventListener('DOMContentLoaded', function()
             an algorithm was running */
         enableUI();
         adjustLimitsAndLabels();
-        /* Create a new array so that if the user makes the screen smaller then
-            no bars will be placed under each other because there isn't enough
-            space to display them in one row */
         createNewArray();
         displayBars();
-
-        allBars = document.getElementsByClassName('arrayBar');
     });
 
     /* This function is called whenever the value in the input field changes, 
@@ -243,6 +230,12 @@ document.addEventListener('DOMContentLoaded', function()
     minBarValue.addEventListener('change', function() 
     {
         handleMinBarValue.call(this);
+
+        /* Create a new array with the current values of the input fields
+            so that the ui is always in sync */
+            createNewArray();
+            displayBars();
+
         /* UI gets enabled again after focus switches to the input field
             so disable the buttons 'Create Array' and 'Sort' again otherwise 
             the user could create or sort an array while the menu is still up */
@@ -254,6 +247,9 @@ document.addEventListener('DOMContentLoaded', function()
     {
         handleMaxBarValue.call(this);
 
+        createNewArray();
+        displayBars();
+
         if (mobileMenuVisible === true)
             disableUpperBarButtons();
     });
@@ -261,6 +257,9 @@ document.addEventListener('DOMContentLoaded', function()
     numOfBars.addEventListener('change', function() 
     {
         handleNumOfBars.call(this);
+
+        createNewArray();
+        displayBars();
 
         if (mobileMenuVisible === true)
             disableUpperBarButtons();

@@ -2,34 +2,31 @@
 
 import {Action} from '../animateAlgorithms.js';
 
-export default function getBubbleSortAnimations(array) 
+export default function getBubbleSortAnimations(values) 
 {
     const animationsArr = [];
 
-    bubbleSort(array, animationsArr);
+    bubbleSort(values, animationsArr);
 
     return animationsArr;
 }
 
-function bubbleSort(array, animationsArr) 
+function bubbleSort(values, animationsArr) 
 {
-    let i, j;
-
-    for (i = (array.length - 1); i > 0; i--) 
+    for (let i = (values.length - 1); i > 0; i--) 
     {
-        for (j = 1; j <= i; j++) 
+        for (let j = 1; j <= i; j++) 
         {
-            animationsArr.push([j - 1, j, true, Action.compare]);
-            animationsArr.push([j - 1, j, false, Action.compare]);
+            animationsArr.push([j - 1, j, Action.compare]);
 
             /* Swap two bars if the left one is larger than the right one */
-            if (array[j - 1] > array[j]) 
+            if (values[j - 1] > values[j]) 
             {
-                animationsArr.push([j - 1, j, true, Action.swap]);
+                animationsArr.push([j - 1, j, Action.swap]);
 
-                const tempVal = array[j - 1];
-                array[j - 1] = array[j];
-                array[j] = tempVal;
+                const tempVal = values[j - 1];
+                values[j - 1] = values[j];
+                values[j] = tempVal;
             }
         }
     }

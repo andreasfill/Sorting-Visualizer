@@ -1,53 +1,51 @@
 'use strict';
 
-export default function getRadixSortAnimations(array)
+export default function getRadixSortAnimations(values)
 {
     const animationsArr = [];
     
-    radixSort(array, animationsArr)
+    radixSort(values, animationsArr)
 
     return animationsArr;
 }
 
-function radixSort(array, animationsArr)
+function radixSort(values, animationsArr)
 {
-    const maxElem = Math.max(array);
+    const maxElem = Math.max(...values);
     const maxNumOfDigits = maxElem.toString().length;
-    let currLastDigit;
+    let divisor = 1;
+    const buckets = [];
 
-    for (let currDigit = 0; currDigit < maxNumOfDigits; currDigit++)
-    {
-        let divisor = 1;
+    /* Add a bucket for each last digit 0-9 */
+    for (let i = 0; i < 10; i++)
+        buckets.push([]);
 
-        for (let i = 0; i < currDigit; i++)
-            divisor *= 10;
-        
-        const buckets = [];
-        /* Add 10 buckets for the digits 0 - 9 */
-        for (let i = 0; i < 10; i++)
-            buckets.push([]);
+    for (let digitIndexFromRight = 0; digitIndexFromRight < maxNumOfDigits; 
+        digitIndexFromRight++)
+    {   
+        /* Clear the buckets to remove values from last loop iteration */
+        for (const bucket of buckets)
+            bucket.length = 0;
 
-        for (let i = 0; i < array.length; i++)
+        for (const value of values)
         {
             /* Is 0 if the current element has less digits
                 than the maximum element */
-            currLastDigit = Math.floor(array[i] / divisor) % 10;
-            buckets[currLastDigit].push(array[i]);
+            const currLastDigit = Math.floor(value / divisor) % 10;
+            buckets[currLastDigit].push(value);
         }
 
         let counter = 0;
-        let elemsInPrevBuckets = 0;
 
-        for (let i = 0; i < buckets.length; i++)
+        for (const bucket of buckets)
         {
-            for (let j = 0; j < buckets[i].length; j++)
+            for (const bucketElem of bucket)
             {
-                array[counter] = buckets[i][j];
-                animationsArr.push([counter, buckets[i][j]]);
-                counter++;
+                animationsArr.push([counter, bucketElem]);
+                values[counter++] = bucketElem;
             }
-
-            elemsInPrevBuckets += buckets[i].length;
         }
+
+        divisor *= 10;
     }
 }

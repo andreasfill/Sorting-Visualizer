@@ -10,7 +10,7 @@ const minBarLimitsLabel = document.getElementById('minBarLimitsLabel');
 const maxBarLimitsLabel = document.getElementById('maxBarLimitsLabel');
 const numOfBarLimitsLabel = document.getElementById('numOfBarLimitsLabel');
 
-const minGap = 5;
+const MIN_GAP = 5;
 
 export function handleMinBarValue() 
 {
@@ -35,8 +35,8 @@ export function handleMinBarValue()
     /* Round the input to the nearest integer if it's a float number */
     this.value = `${Math.floor(minBarVal)}`;
 
-    if (maxBarVal - minBarVal < minGap) 
-        this.value = `${maxBarVal - minGap}`;
+    if (maxBarVal - minBarVal < MIN_GAP) 
+        this.value = `${maxBarVal - MIN_GAP}`;
 
     if (minBarVal < parseInt(this.min, 10)) 
         this.value = this.min;
@@ -65,8 +65,8 @@ export function handleMaxBarValue()
 
     this.value = `${Math.floor(maxBarVal)}`;
 
-    if (maxBarVal - minBarVal < minGap) 
-        this.value = `${minBarVal + minGap}`;
+    if (maxBarVal - minBarVal < MIN_GAP) 
+        this.value = `${minBarVal + MIN_GAP}`;
 
     if (maxBarVal < parseInt(this.min, 10)) 
         this.value = this.min;
@@ -117,8 +117,8 @@ export function adjustLimitsAndLabels()
 
     /* Each bar needs twice its width as space because of its left and right margin
         that each are half the size of the bar */
-    numOfBars.value = numOfBars.max = `${Math.floor((newWidth - spaceAtSides - (newWidth % 100)) / 
-        (2 * MIN_BAR_WIDTH))}`;
+    numOfBars.value = numOfBars.max = 
+        `${Math.floor((newWidth - spaceAtSides - (newWidth % 100)) / MIN_BAR_WIDTH)}`;
 
     numOfBarLimitsLabel.innerHTML = `${numOfBars.min} ... ${numOfBars.max}`;
 
@@ -135,7 +135,7 @@ export function adjustLimitsAndLabels()
     if (parseInt(maxBarValue.max, 10) < parseInt(maxBarValue.value, 10)) 
         maxBarValue.value = maxBarValue.max;
 
-    minBarValue.max = `${parseInt(maxBarValue.max, 10) - minGap}`;
+    minBarValue.max = `${parseInt(maxBarValue.max, 10) - MIN_GAP}`;
 
     if (parseInt(minBarValue.max, 10) < parseInt(minBarValue.value, 10)) 
         minBarValue.value = minBarValue.max;

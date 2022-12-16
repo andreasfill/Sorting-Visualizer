@@ -2,80 +2,81 @@
 
 import {Action} from '../animateAlgorithms.js';
 
-export default function getQuickSortAnimations(array) 
+export default function getQuickSortAnimations(values) 
 {
     const animationsArr = [];
 
-    quickSort(array, 0, array.length - 1, animationsArr);
+    quickSort(values, 0, values.length - 1, animationsArr);
 
     return animationsArr;
 }
 
-function quickSort(array, startInd, endInd, animationsArr) 
+function quickSort(values, startIndex, endIndex, animationsArr) 
 {
-    if (startInd < endInd) 
+    if (startIndex < endIndex) 
     {
-        let i = partition(array, startInd, endInd, animationsArr);
+        const finalIndexOfPivot = partition(values, startIndex, endIndex, animationsArr);
 
-        /* i is already in it's final position so we can skip it */
-        quickSort(array, startInd, i - 1, animationsArr);
-        quickSort(array, i + 1, endInd, animationsArr);
+        /* The pivot element is already at it's final position so only the parts left
+            and right of it need to be sorted now. Continue dividing the newly
+            created parts with pivot elements until the part only contains one
+            element which is always sorted  */
+        quickSort(values, startIndex, finalIndexOfPivot - 1, animationsArr);
+        quickSort(values, finalIndexOfPivot + 1, endIndex, animationsArr);
     }
 }
 
-function partition(array, startInd, endInd, animationsArr) 
+function partition(values, startIndex, endIndex, animationsArr) 
 {
-    let i = startInd, j = (endInd - 1);
+    let finalIndexOfPivot = startIndex;
+    let j = endIndex - 1;
     /* The pivot element is the first element that the quicksort algorithm puts 
         in its final position */
-    const pivot = array[endInd];
+    const pivot = values[endIndex];
 
-    while (i < j) 
+    /* Go through the array until both indices have crossed each other */
+    while (finalIndexOfPivot < j) 
     {
         /* Search an element beginning from the left that's larger than the 
             pivot element */
-        while (i < endInd && array[i] < pivot) 
+        while (finalIndexOfPivot < endIndex && values[finalIndexOfPivot] < pivot) 
         {
-            animationsArr.push([i, endInd, true, Action.compare]);
-            animationsArr.push([i, endInd, false, Action.compare]);
+            animationsArr.push([finalIndexOfPivot, endIndex, Action.compare]);
 
-            i++;
+            finalIndexOfPivot++;
         }
 
         /* Search an element beginning from the right that's smaller 
             than or equal to the pivot element */
-        while (j > startInd && array[j] >= pivot) 
+        while (j > startIndex && values[j] >= pivot) 
         {
-            animationsArr.push([j, endInd, true, Action.compare]);
-            animationsArr.push([j, endInd, false, Action.compare]);
+            animationsArr.push([j, endIndex, Action.compare]);
 
             j--;
         }
 
         /* If both indices haven't crossed each other (i.e. the element larger 
-            than the pivot element is to the left of the smaller element) then 
-            swap their position */
-        if (i < j) 
+            than the pivot element is to the left of the element smaller than
+            the pivot) then swap their position */
+        if (finalIndexOfPivot < j) 
         {
-            animationsArr.push([i, j, true, Action.swap]);
+            animationsArr.push([finalIndexOfPivot, j, Action.swap]);
 
-            let tempVal = array[i];
-            array[i] = array[j];
-            array[j] = tempVal;
+            const tempVal = values[finalIndexOfPivot];
+            values[finalIndexOfPivot] = values[j];
+            values[j] = tempVal;
         }
     }
 
-    /* If the indices i and j are equal then all elements left of index i are 
-        smaller than the pivot element and all elements right of index i are 
-        larger or equal so the final position of the pivot element is index i */
-    if (array[i] > pivot) 
-    {
-        animationsArr.push([i, endInd, true, Action.swap]);
+    /* If the indices finalIndOfPivot and j are equal then all elements left of index 
+        finalIndOfPivot are smaller than the pivot element and all elements right of index 
+        finalIndOfPivot are larger or equal. So finalIndOfPivot has to be the final position 
+        of the pivot element */
+    animationsArr.push([finalIndexOfPivot, endIndex, Action.finalSwap]);
 
-        let tempVal = array[i];
-        array[i] = array[endInd];
-        array[endInd] = tempVal;
-    }
+    const tempVal = values[finalIndexOfPivot];
+    values[finalIndexOfPivot] = values[endIndex];
+    values[endIndex] = tempVal;
 
-    return i;
+    return finalIndexOfPivot;
 }
