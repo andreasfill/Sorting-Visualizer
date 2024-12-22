@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ..:/usr/share/nginx/
+      - ..:/usr/share/nginx/hmtl/
     networks:
       - internal
     ports:
