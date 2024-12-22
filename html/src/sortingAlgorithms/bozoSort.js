@@ -1,27 +1,31 @@
 'use strict'
 
-import {Action} from '../animateAlgorithms.js';
+import {animationCallback, setBarColorToFinal} from '../animateAlgorithms.js';
 
-export default function getBozoSortAnimations(values)
+export default function getBozoSortAnimations(allBars, values, speed)
 {
-    const animationsArr = [];
-
-    bozoSort(values, animationsArr);
-
-    return animationsArr;
+    bozoSort(allBars, values, speed);
 }
 
-function bozoSort(values, animationsArr)
+function bozoSort(allBars, values, speed)
 {
-    while (!isSorted(values))
+    if (isSorted(values))
     {
+        setBarColorToFinal(allBars);
+        return;
+    }
+    else{
         const i = Math.floor(Math.random() * values.length);
         const j = Math.floor(Math.random() * values.length);
-        animationsArr.push([i, j, Action.swap]);
-        const tempVal = values[i];
+        const temp = values[i];
         values[i] = values[j];
-        values[j] = tempVal;
-        
+        values[j] = temp;
+        animationCallback(allBars, values);
+        function continueSorting()
+        {
+            bozoSort(allBars, values, speed);
+        }
+        setTimeout(continueSorting, speed);
     }
 }
 

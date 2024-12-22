@@ -1,6 +1,6 @@
  'use strict';
 
-export {ORIGINAL_COLOR, Action, animateAlgorithm};
+export {ORIGINAL_COLOR, Action, animateAlgorithm, animationCallback, setBarColorToFinal};
     
 import getSelectionSortAnimations from './sortingAlgorithms/selectionSort.js';
 import getInsertionSortAnimations from './sortingAlgorithms/insertionSort.js';
@@ -31,6 +31,27 @@ const Action =
 
 /* Make Action attributes immutable */
 Object.freeze(Action);
+
+
+function animationCallback(allBars, newBarHeights)
+{
+    for (let i = 0; i < allBars.length; i++)
+    {
+        const barStyle = allBars[i].style;
+        barStyle.height = `${newBarHeights[i]}px`;
+    }
+}
+
+
+function setBarColorToFinal(allBars)
+{
+    for (const bar of allBars)
+    {
+        bar.style.backgroundColor = FINAL_POSITION_COLOR;
+    }
+    enableUI();
+}
+
 
 function animateAlgorithm(selectedAlgorithm, allBars) 
 {
@@ -490,30 +511,5 @@ function animateRadixSort(allBars, barValues, ANIMATION_SPEED_MS)
 
 function animateBozoSort(allBars, barValues, ANIMATION_SPEED_MS)
 {
-    const animationsArr = getBozoSortAnimations(barValues);
-
-    for (let i = 0; i < animationsArr.length; i++)
-    {
-        const [barOneIndex, barTwoIndex, action] = animationsArr[i];
-        const barOneStyle = allBars[barOneIndex].style;
-        const barTwoStyle = allBars[barTwoIndex].style;
-
-        if (action === Action.swap)
-        {
-            setTimeout(function()
-            {
-                const barOneHeight = barOneStyle.height;
-                barOneStyle.height = barTwoStyle.height;
-                barTwoStyle.height = barOneHeight;
-            }, i * ANIMATION_SPEED_MS);
-        }
-    }
-
-    setTimeout(function()
-    {
-        for (const bar of allBars)
-            bar.style.backgroundColor = FINAL_POSITION_COLOR;
-
-        enableUI();
-    }, animationsArr.length * ANIMATION_SPEED_MS);
+    getBozoSortAnimations(allBars, barValues, ANIMATION_SPEED_MS);
 }
