@@ -11,6 +11,7 @@ import getMergeSortAnimations from './sortingAlgorithms/mergeSort.js';
 import getQuickSortAnimations from './sortingAlgorithms/quickSort.js';
 import getHeapSortAnimations from './sortingAlgorithms/heapSort.js';
 import getRadixSortAnimations from './sortingAlgorithms/radixSort.js';
+import getBozoSortAnimations from './sortingAlgorithms/bozoSort.js';
 import {enableUI} from './index.js';
 
 const ORIGINAL_COLOR = 'red';
@@ -24,7 +25,8 @@ const Action =
     replace: 'replace',
     moveValueRight: 'moveValueRight',
     placeElemToSort: 'placeElemToSort',
-    finalSwap: 'finalSwap'
+    finalSwap: 'finalSwap',
+    shuffle: 'shuffle',
 };
 
 /* Make Action attributes immutable */
@@ -68,6 +70,8 @@ function animateAlgorithm(selectedAlgorithm, allBars)
         case 'radixSort':
             animateRadixSort(allBars, barValues, ANIMATION_SPEED_MS);
             break;
+        case 'bozoSort':
+            animateBozoSort(allBars, barValues, ANIMATION_SPEED_MS);
         default:
             break;
     }
@@ -479,6 +483,36 @@ function animateRadixSort(allBars, barValues, ANIMATION_SPEED_MS)
     {
         for (const bar of allBars)
            bar.style.backgroundColor = FINAL_POSITION_COLOR;
+
+        enableUI();
+    }, animationsArr.length * ANIMATION_SPEED_MS);
+}
+
+function animateBozoSort(allBars, barValues, ANIMATION_SPEED_MS)
+{
+    const animationsArr = getBozoSortAnimations(barValues);
+
+    for (let i = 0; i < animationsArr.length; i++)
+    {
+        const [barOneIndex, barTwoIndex, action] = animationsArr[i];
+        const barOneStyle = allBars[barOneIndex].style;
+        const barTwoStyle = allBars[barTwoIndex].style;
+
+        if (action === Action.swap)
+        {
+            setTimeout(function()
+            {
+                const barOneHeight = barOneStyle.height;
+                barOneStyle.height = barTwoStyle.height;
+                barTwoStyle.height = barOneHeight;
+            }, i * ANIMATION_SPEED_MS);
+        }
+    }
+
+    setTimeout(function()
+    {
+        for (const bar of allBars)
+            bar.style.backgroundColor = FINAL_POSITION_COLOR;
 
         enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);

@@ -1,0 +1,18 @@
+name: nginx-playground-dc
+
+services:
+  dev-machine:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/usr/share/nginx/
+    networks:
+      - internal
+    ports:
+      - "8080:80"
+    command: ["sleep", "infinity"]
+
+networks:
+  internal:
+    driver: bridge
