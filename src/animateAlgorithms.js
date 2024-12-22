@@ -27,7 +27,6 @@ const Action =
     moveValueRight: 'moveValueRight',
     placeElemToSort: 'placeElemToSort',
     finalSwap: 'finalSwap',
-    shuffle: 'shuffle',
 };
 
 /* Make Action attributes immutable */
