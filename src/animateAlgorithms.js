@@ -1,6 +1,6 @@
  'use strict';
 
-export {ORIGINAL_COLOR, Action, animateAlgorithm};
+export {ORIGINAL_COLOR, Action, animateAlgorithm, animationCallback, setBarColorToFinal};
     
 import getSelectionSortAnimations from './sortingAlgorithms/selectionSort.js';
 import getInsertionSortAnimations from './sortingAlgorithms/insertionSort.js';
@@ -11,6 +11,8 @@ import getMergeSortAnimations from './sortingAlgorithms/mergeSort.js';
 import getQuickSortAnimations from './sortingAlgorithms/quickSort.js';
 import getHeapSortAnimations from './sortingAlgorithms/heapSort.js';
 import getRadixSortAnimations from './sortingAlgorithms/radixSort.js';
+import getBozoSortAnimations from './sortingAlgorithms/bozoSort.js';
+import getBogoSortAnimations from './sortingAlgorithms/bogoSort.js';
 import {enableUI} from './index.js';
 
 const ORIGINAL_COLOR = 'red';
@@ -24,11 +26,32 @@ const Action =
     replace: 'replace',
     moveValueRight: 'moveValueRight',
     placeElemToSort: 'placeElemToSort',
-    finalSwap: 'finalSwap'
+    finalSwap: 'finalSwap',
 };
 
 /* Make Action attributes immutable */
 Object.freeze(Action);
+
+
+function animationCallback(allBars, newBarHeights)
+{
+    for (let i = 0; i < allBars.length; i++)
+    {
+        const barStyle = allBars[i].style;
+        barStyle.height = `${newBarHeights[i]}px`;
+    }
+}
+
+
+function setBarColorToFinal(allBars)
+{
+    for (const bar of allBars)
+    {
+        bar.style.backgroundColor = FINAL_POSITION_COLOR;
+    }
+    enableUI();
+}
+
 
 function animateAlgorithm(selectedAlgorithm, allBars) 
 {
@@ -67,6 +90,12 @@ function animateAlgorithm(selectedAlgorithm, allBars)
             break;
         case 'radixSort':
             animateRadixSort(allBars, barValues, ANIMATION_SPEED_MS);
+            break;
+        case 'bozoSort':
+            animateBozoSort(allBars, barValues, ANIMATION_SPEED_MS);
+            break;
+        case 'bogoSort':
+            animateBogoSort(allBars, barValues, ANIMATION_SPEED_MS);
             break;
         default:
             break;
@@ -482,4 +511,14 @@ function animateRadixSort(allBars, barValues, ANIMATION_SPEED_MS)
 
         enableUI();
     }, animationsArr.length * ANIMATION_SPEED_MS);
+}
+
+function animateBozoSort(allBars, barValues, ANIMATION_SPEED_MS)
+{
+    getBozoSortAnimations(allBars, barValues, ANIMATION_SPEED_MS);
+}
+
+function animateBogoSort(allBars, barValues, ANIMATION_SPEED_MS)
+{
+    getBogoSortAnimations(allBars, barValues, ANIMATION_SPEED_MS);
 }
