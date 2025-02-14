@@ -13,6 +13,7 @@ import getHeapSortAnimations from './sortingAlgorithms/heapSort.js';
 import getRadixSortAnimations from './sortingAlgorithms/radixSort.js';
 import getBozoSortAnimations from './sortingAlgorithms/bozoSort.js';
 import getBogoSortAnimations from './sortingAlgorithms/bogoSort.js';
+import getStalinSortAnimations from './sortingAlgorithms/stalinSort.js';
 import {enableUI} from './index.js';
 
 const ORIGINAL_COLOR = 'red';
@@ -27,6 +28,7 @@ const Action =
     moveValueRight: 'moveValueRight',
     placeElemToSort: 'placeElemToSort',
     finalSwap: 'finalSwap',
+    delete: 'delete',
 };
 
 /* Make Action attributes immutable */
@@ -97,6 +99,8 @@ function animateAlgorithm(selectedAlgorithm, allBars)
         case 'bogoSort':
             animateBogoSort(allBars, barValues, ANIMATION_SPEED_MS);
             break;
+        case 'stalinSort':
+            animateStalinSort(allBars, barValues, ANIMATION_SPEED_MS);
         default:
             break;
     }
@@ -105,7 +109,7 @@ function animateAlgorithm(selectedAlgorithm, allBars)
 function animateSelectionSort(allBars, barValues, ANIMATION_SPEED_MS) 
 {
     const animationsArr = getSelectionSortAnimations(barValues);
-
+    console.log(animationsArr);
     allBars[0].style.backgroundColor = COMPARE_COLOR;
 
     for (let i = 0; i < animationsArr.length; i++) 
@@ -521,4 +525,46 @@ function animateBozoSort(allBars, barValues, ANIMATION_SPEED_MS)
 function animateBogoSort(allBars, barValues, ANIMATION_SPEED_MS)
 {
     getBogoSortAnimations(allBars, barValues, ANIMATION_SPEED_MS);
+}
+
+function animateStalinSort(allBars, barValues, ANIMATION_SPEED_MS) 
+{
+    const animationsArr = getStalinSortAnimations(barValues);
+
+    for (let i = 0; i < animationsArr.length; i++) 
+    {
+        const [barOneIndex, barTwoIndex, action] = animationsArr[i];
+        const barOneStyle = allBars[barOneIndex].style;
+        const barTwoStyle = allBars[barTwoIndex].style;
+
+        if (action === Action.compare) 
+        {
+            setTimeout(function() 
+            {
+                barOneStyle.backgroundColor = COMPARE_COLOR;
+                barTwoStyle.backgroundColor = COMPARE_COLOR;
+            }, i * ANIMATION_SPEED_MS);
+
+            setTimeout(function() 
+            {
+                /* Set bar one to final color */
+                barOneStyle.backgroundColor = FINAL_POSITION_COLOR;
+                barTwoStyle.backgroundColor = ORIGINAL_COLOR;
+            }, (i + 1) * ANIMATION_SPEED_MS);
+        }
+
+        else if (action === Action.delete) 
+        {
+            setTimeout(function() 
+            {
+                barOneStyle.backgroundColor = FINAL_POSITION_COLOR;
+                barOneStyle.height = '0px';
+            }, i * ANIMATION_SPEED_MS);
+        }
+    }
+
+    setTimeout(function() 
+    {
+        enableUI();
+    }, animationsArr.length * ANIMATION_SPEED_MS);
 }
