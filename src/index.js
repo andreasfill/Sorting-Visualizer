@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function()
         adjustLimitsAndLabels();
         createNewArray();
         displayBars();
+        console.log($(document.documentElement).attr("data-bs-theme"));
     })();
 
     /* Add an event listener for both mouse click and touch to both

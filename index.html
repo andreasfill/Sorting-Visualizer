@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sorting Algorithms</title>
         <link rel="icon" type="image/x-icon" href="images/favicon.ico">
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="libs/bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="libs/bootstrap/icons/font/bootstrap-icons.min.css">
     </head>
 
     <body>
@@ -14,7 +16,68 @@
         </header>
 
         <main>
-            <div class="menuBar">
+            <div class="d-flex flex-wrap align-items-center justify-content-center">
+                <div class="d-flex flex-column mx-3 align-items-center">
+                    <label for="minBarValue" class="form-label">
+                        Lower Limit
+                    </label>
+                    <input type="number" id="minBarValue" class="form-control" 
+                        name="minBarValue" min="10" max="795" value="150" required="required">
+                    <label for="minBarValue" id="minBarLimitsLabel" class="form-label">
+                        10 ... 795
+                    </label>
+                </div>
+                <div class="d-flex flex-column mx-3 align-items-center">
+                    <label for="maxBarValue" class="form-label">
+                        Upper Limit
+                    </label>
+                    <input type="number" id="maxBarValue" class="form-control" 
+                        name="maxBarValue" min="15" max="800" value="650" required="required">
+                    <label for="maxBarValue" id="maxBarLimitsLabel" class="form-label">
+                        15 ... 800
+                    </label>
+                </div>
+                <div class="d-flex flex-column mx-3 align-items-center">
+                    <label for="numOfBars" class="form-label">
+                        Number Of Bars
+                    </label>
+                    <input type="number" id="numOfBars" class="form-control" 
+                        name="numOfBars" min="5" max="450" value="450" required="required">
+                    <label for="numOfBars" id="numOfBarLimitsLabel" class="form-label">
+                        5 ... 450
+                    </label>
+                </div>
+                <div class="dropdown mx-3">
+                    <button class="btn dropdown-toggle center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Algorithms
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><button class="dropdown-item algorithm-option" type="button">Selection Sort</button></li>
+                        <li><button class="dropdown-item algorithm-option" type="button">Insertion Sort</button></li>
+                        <li><button class="dropdown-item algorithm-option" type="button">Bubble Sort</button></li>
+                        <li><button class="dropdown-item algorithm-option" type="button">Shell Sort</button></li>
+                        <li><button class="dropdown-item algorithm-option" type="button">Bucket Sort</button></li>
+                        <li><button class="dropdown-item algorithm-option" type="button">Merge Sort</button></li>
+                        <li><button class="dropdown-item algorithm-option" type="button">Quick Sort</button></li>
+                        <li><button class="dropdown-item algorithm-option" type="button">Heap Sort</button></li>
+                        <li><button class="dropdown-item algorithm-option" type="button">Radix Sort</button></li>
+                        <li><button class="dropdown-item algorithm-option" type="button">Bozo Sort</button></li>
+                        <li><button class="dropdown-item algorithm-option" type="button">Bogo Sort</button></li>
+                        <li><button class="dropdown-item algorithm-option" type="button">Stalin Sort</button></li>
+                    </ul>
+                </div>
+                <button id="createArray" class="btn center h-50 mx-3" type="button" aria-expanded="false">
+                    Create Bars
+                </button>
+                <button id="sortArray" class="btn center h-50 mx-3" type="button" aria-expanded="false">
+                    Sort
+                </button>
+                <button id="toggleColorTheme" class="btn center h-50 mx-3" type="button" aria-expanded="false">
+                    <i class="bi-sun-fill"></i>
+                </button>
+            </div>
+
+            <!-- <div class="menuBar">
                 <div id="menuStyle">
                     <div class="numFieldContainer">
                         <label for="minBarValue" class="numFieldLabel">
@@ -131,8 +194,8 @@
                                 Stalin Sort
                             </label>
                         </div>
-                    </div> <!-- End of "radioButtonContainer" -->
-                </div> <!-- End of "menuStyle" -->
+                    </div>
+                </div>
                 <button id="createArray" name="createArray" class="upperBarButtons">
                     Create Array
                 </button>
@@ -144,7 +207,7 @@
                     <span class="bar"></span>
                     <span class="bar"></span>
                 </div>
-            </div> <!-- End of "menuBar" -->
+            </div> -->
             <div id="arrayContainer"></div>
         </main>
 
@@ -152,6 +215,8 @@
 
         </footer>
 
+        <script src="libs/bootstrap/bootstrap.bundle.min.js"></script>
+        <script src="libs/jquery/jquery.js"></script>
         <script type="module" src="src/index.js"></script>
     </body>
 </html>
